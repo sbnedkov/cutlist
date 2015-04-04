@@ -2,15 +2,18 @@
   "name": "cutlist",
   "version": "0.0.1",
   "description": "Web application for generating cutting plans.",
-  "main": "mains.js",
   "dependencies": {
+    "babel": "^5.0.8",
+    "express": "^4.12.3",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.0.0",
-    "babel": "^5.0.8"
+    "jade": "^1.9.2"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/babel-node main.js",
+    "dev": "gulp dev"
   },
   "repository": {
     "type": "git",
