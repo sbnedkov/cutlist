@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
     });
 });
 
-var port = process.argv[2] || 31314;
+var port = process.env.PORT || 31314;
 
 console.log('Server listening on ' + port + '.');
 app.listen(port);
