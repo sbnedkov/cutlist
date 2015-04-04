@@ -5,13 +5,15 @@ var jade = require('jade');
 var i18n = require('i18n');
 var bodyParser = require('body-parser');
 
+var middleware = require('./src/middleware');
+
 i18n.configure({
     locales: ['en', 'bg'],
     directory: __dirname + '/locales'
 });
 
 var app = express();
-var lang = 'en';
+global.lang = 'en';
 
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'jade');
@@ -21,13 +23,12 @@ app.use('/dist', express.static(`${__dirname}/dist`));
 
 app.use(i18n.init);
 
-app.get('/', (req, res) => {
-    res.setLocale(lang);
+app.get('/', middleware.setLanguage, (req, res) => {
     res.render('main.jade');
 });
 
 app.post('/lang', (req, res) => {
-    lang = req.body.lang;
+    global.lang = req.body.lang;
     res.status(200).end();
 });
 
