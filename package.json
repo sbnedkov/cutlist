@@ -18,8 +18,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp prod",
-    "dev": "gulp dev"
+    "start": "./node_modules/.bin/gulp prod",
+    "dev": "./node_modules/.bin/gulp dev"
   },
   "repository": {
     "type": "git",
