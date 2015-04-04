@@ -1,1 +1,17 @@
-span #{val}
+doctype html
+html(ng-app="cutlist")
+  head
+  body(ng-cloak, ng-controller="CutListCtrl")
+    div
+      a(ng-click="changeLang('en')", href="#")
+        span Еnglish
+      span &nbsp;
+      a(ng-click="changeLang('bg')", href="#")
+        span Български
+    span #{__("Parts")}
+    form(action="/plans", method="POST")
+      input(type="text", name="part[0].x")
+      input(type="text", name="part[0].y")
+
+
+    script(type="application/javascript", src="dist/public/cutlist.js")
