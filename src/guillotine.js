@@ -51,14 +51,8 @@ var Part = function (w, h) {
     this.h = h;
 };
 
-var Result = function () {
-};
-
-Result.prototype = Object.create(Array.prototype);
-Result.prototype.constructor = Result;
-
 function apply (slate, parts) {
-    var result = new Result();
+    var result = [];
     var slates = new Slates(slate);
     var res = solution(slates, parts.sort((part1, part2) => {
         // TODO: different sorting depending on cut direction

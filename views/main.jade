@@ -8,10 +8,33 @@ html(ng-app="cutlist")
       span &nbsp;
       a(ng-click="changeLang('bg')", href="#")
         span Български
+    span #{__("Slate")}
+      br
+      input(type="text", ng-model="slate.w")
+      input(type="text", ng-model="slate.h")
+      br
     span #{__("Parts")}
-    form(action="/plans", method="POST")
-      input(type="text", name="part[0].x")
-      input(type="text", name="part[0].y")
-
+      br
+      input(type="text", ng-model="parts[0].w")
+      input(type="text", ng-model="parts[0].h")
+      br
+      input(type="text", ng-model="parts[1].w")
+      input(type="text", ng-model="parts[1].h")
+      br
+      input(type="text", ng-model="parts[2].w")
+      input(type="text", ng-model="parts[2].h")
+      br
+      input(type="text", ng-model="parts[3].w")
+      input(type="text", ng-model="parts[3].h")
+      br
+      input(type="text", ng-model="parts[4].w")
+      input(type="text", ng-model="parts[4].h")
+      br
+      input(type="text", ng-model="parts[5].w")
+      input(type="text", ng-model="parts[5].h")
+    br
+    button(ng-click="submit()") #{__("Calculate")}
+    br
+    span {{cutlist}}
 
     script(type="application/javascript", src="dist/public/cutlist.js")

@@ -6,6 +6,10 @@ var i18n = require('i18n');
 var bodyParser = require('body-parser');
 
 var middleware = require('./src/middleware');
+var guillotine = require('./src/guillotine');
+var Rectangle = guillotine.Rectangle;
+var Slate = guillotine.Slate;
+var Part = guillotine.Part;
 
 i18n.configure({
     locales: ['en', 'bg'],
@@ -30,6 +34,18 @@ app.get('/', middleware.setLanguage, (req, res) => {
 app.post('/lang', (req, res) => {
     global.lang = req.body.lang;
     res.status(200).end();
+});
+
+app.post('/cutlist', (req, res) => {
+    var slate = new Slate(new Rectangle(0, 0, req.body.slate.w, req.body.slate.h));
+    var parts = [];
+    req.body.parts.forEach((part) => {
+        if (part.w && part.h) {
+            parts.push(new Part(part.w, part.h));
+        }
+    });
+
+    res.json(guillotine.apply(slate, parts));
 });
 
 var port = process.env.PORT || 31314;
