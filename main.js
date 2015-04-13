@@ -37,11 +37,11 @@ app.post('/lang', (req, res) => {
 });
 
 app.post('/cutlist', (req, res) => {
-    var slate = new Slate(new Rectangle(0, 0, req.body.slate.w, req.body.slate.h));
+    var slate = new Slate(new Rectangle(0, 0, parseInt(req.body.slate.w), parseInt(req.body.slate.h)));
     var parts = [];
     req.body.parts.forEach((part) => {
         if (part.w && part.h) {
-            parts.push(new Part(part.w, part.h));
+            parts.push(new Part(parseInt(part.w), parseInt(part.h)));
         }
     });
 
