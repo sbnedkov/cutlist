@@ -43,7 +43,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         w: 500,
         h: 500
     }, {
-        w: 600,
-        h: 600
+        w: 500,
+        h: 500
     }];
 }]);
