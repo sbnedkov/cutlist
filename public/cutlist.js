@@ -57,6 +57,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 }
 
                 var ctx = element[0].getContext('2d');
+                ctx.strokeRect(0, 0, scope.slate.w, scope.slate.h);
                 cutlist.forEach(function (part) {
                     ctx.strokeRect(part.x, part.y, part.w, part.h);
                 });
