@@ -74,34 +74,30 @@ function apply (slate, parts) {
     return res && result;
 }
 
-function solution (s, parts, result) {
-    console.log(s, parts, result);
-    var slates = new Slates(s);
+function solution (ss, parts, result) {
+    console.log(ss, parts, result);
+    var slates = new Slates(ss);
     var gen = slates.generator();
 
     while (slates.hasMore()) {
+        // End condition
         if (parts.length === 0) {
             return true;
         }
 
-        var slate = gen.next();
-        if (slate.done) {
-            return false;
-        } else {
-            slate.value.marked = true;
-        }
-
         var part = parts[0];
 
-        console.log('Consider', slate);
-        while (!slate.done && !(part.w <= slate.value.rect.w && part.h <= slate.value.rect.h)) {
+        var slate;
+        do {
             slate = gen.next();
-            console.log('Consider', slate);
+            console.log('Consider', slate, 'for', part);
             if (slate.value) {
                 slate.value.marked = true;
             }
-        }
+        } while (!slate.done && !(part.w <= slate.value.rect.w && part.h <= slate.value.rect.h));
+
         if (slate.done) {
+            slates.markUnused();
             return false;
         }
 
@@ -123,21 +119,21 @@ function solution (s, parts, result) {
         if (solution(slates.slates, parts, result)) {
             return true;
         }
+        parts.unshift(part);
 
         // Reverse everything
-        if (newWidth) {
-            slates.shift();
-        }
         if (newHeight) {
             slates.shift();
         }
-        parts.unshift(part);
+        if (newWidth) {
+            slates.shift();
+        }
         slates.push(slate); // Put slate at end so another one is picked
         result.pop();
     }
+    console.log('Backtracking');
 
-    console.log('Backtracking...');
-
+    slates.markUnused();
     return false;
 }
 
