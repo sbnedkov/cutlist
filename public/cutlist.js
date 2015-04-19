@@ -46,4 +46,22 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         w: 500,
         h: 500
     }];
-}]);
+}]).directive('cutlistCanvas', function () {
+    return {
+        restrict: 'E',
+        replace: true,
+        link: function (scope, element, attributes) {
+            scope.$watch('cutlist', function (cutlist) {
+                if (!cutlist) {
+                    return;
+                }
+
+                var ctx = element[0].getContext('2d');
+                cutlist.forEach(function (part) {
+                    ctx.strokeRect(part.x, part.y, part.w, part.h);
+                });
+            });
+        },
+        template: '<canvas width="1000px" height="1000px"></canvas>'
+    };
+});

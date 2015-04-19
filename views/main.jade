@@ -36,5 +36,6 @@ html(ng-app="cutlist")
     button(ng-click="submit()") #{__("Calculate")}
     br
     span {{cutlist}}
+    x-cutlist-canvas#cutlist-canvas
 
     script(type="application/javascript", src="dist/public/cutlist.js")
