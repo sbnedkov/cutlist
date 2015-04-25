@@ -1,15 +1,17 @@
 var spawn = require('child_process').spawn;
 
-var gulp = require("gulp");
+var gulp = require('gulp');
 var source = require('vinyl-source-stream');
-var browserify = require("browserify");
+var browserify = require('browserify');
 var nodemon = require('gulp-nodemon');
+var babelify = require('babelify');
 
 gulp.task('browserify', function () {
     return browserify({
         entries: './public/cutlist.js',
         debug: true
-    }).bundle()
+    }).transform(babelify)
+        .bundle()
         .pipe(source('./public/cutlist.js'))
         .pipe(gulp.dest('dist/'));
 });
