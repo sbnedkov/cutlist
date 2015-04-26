@@ -79,12 +79,21 @@ function apply (slate, parts) {
     var res = solution([slate], parts.sort((part1, part2) => {
         // TODO: different sorting depending on cut direction
         return part1.w === part2.w ? part2.h - part1.h : part2.w - part1.w;
-    }), result);
+    }), result, 0);
 
     return res && result;
 }
 
-function solution (ss, parts, result) {
+var fitPartPredicates = [
+    function partFitsDirectly (slate, part) {
+        return part.w <= slate.rect.w && part.h <= slate.rect.h;
+    },
+    function partFitsRotated (slate, part) {
+        return part.canRotate && part.h <= slate.rect.w && part.w <= slate.rect.h;
+    }
+];
+
+function solution (ss, parts, result, fitPartPredicateIdx) {
     console.log(ss, parts, result);
     var slates = new Slates(ss);
     var gen = slates.generator();
@@ -104,7 +113,7 @@ function solution (ss, parts, result) {
             if (slate.value) {
                 slate.value.marked = true;
             }
-        } while (!slate.done && !partFits(slate.value, part));
+        } while (!slate.done && !fitPartPredicates[fitPartPredicateIdx](slate.value, part));
 
         if (slate.done) {
             slates.markUnused();
@@ -113,11 +122,6 @@ function solution (ss, parts, result) {
 
         slates.pop();
         slate = slate.value;
-
-        // TODO: a whole new tree of possibilities, not only rotate the current part
-        if (!partFitsDirectly(slate, part)) {
-            rotatePart(part);
-        }
 
         result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
 
@@ -132,7 +136,7 @@ function solution (ss, parts, result) {
         }
 
         parts.shift();
-        if (solution(slates.slates, parts, result)) {
+        if (solution(slates.slates, parts, result, 0)) {
             return true;
         }
         parts.unshift(part);
@@ -147,26 +151,17 @@ function solution (ss, parts, result) {
         slates.push(slate); // Put slate at end so another one is picked
         result.pop();
 
-        if (!partFitsDirectly(slate, part)) {
-            rotatePart(part);
+        // Try with rotation
+        if (fitPartPredicateIdx === 0) {
+            return solution(slates.slates, parts, result, 1);
         }
+
+        return false;
     }
     console.log('Backtracking');
 
     slates.markUnused();
     return false;
-}
-
-function partFits (slate, part) {
-    return partFitsDirectly(slate, part) || partFitsRotated(slate, part);
-}
-
-function partFitsDirectly (slate, part) {
-    return part.w <= slate.rect.w && part.h <= slate.rect.h;
-}
-
-function partFitsRotated (slate, part) {
-    return part.canRotate && part.h <= slate.rect.w && part.w <= slate.rect.h;
 }
 
 function rotatePart (part) {
