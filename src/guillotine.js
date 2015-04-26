@@ -59,9 +59,11 @@ var Slate = function (rect) {
     this.rect = rect;
 };
 
-var Part = function (w, h) {
+var Part = function (name, w, h, canRotate) {
+    this.name = name;
     this.w = w;
     this.h = h;
+    this.canRotate = canRotate;
 };
 
 function apply (slate, parts) {
@@ -94,7 +96,7 @@ function solution (ss, parts, result) {
             if (slate.value) {
                 slate.value.marked = true;
             }
-        } while (!slate.done && !(part.w <= slate.value.rect.w && part.h <= slate.value.rect.h));
+        } while (!slate.done && !partFits(slate.value, part));
 
         if (slate.done) {
             slates.markUnused();
@@ -103,6 +105,12 @@ function solution (ss, parts, result) {
 
         slates.pop();
         slate = slate.value;
+
+        // TODO: a whole new tree of possibilities, not only rotate the current part
+        if (!partFitsDirectly(slate, part)) {
+            rotatePart(part);
+        }
+
         result.push(new Rectangle(slate.rect.x, slate.rect.y, part.w, part.h));
 
         // TODO: use vertical cuts too
@@ -130,11 +138,33 @@ function solution (ss, parts, result) {
         }
         slates.push(slate); // Put slate at end so another one is picked
         result.pop();
+
+        if (!partFitsDirectly(slate, part)) {
+            rotatePart(part);
+        }
     }
     console.log('Backtracking');
 
     slates.markUnused();
     return false;
+}
+
+function partFits (slate, part) {
+    return partFitsDirectly(slate, part) || partFitsRotated(slate, part);
+}
+
+function partFitsDirectly (slate, part) {
+    return part.w <= slate.rect.w && part.h <= slate.rect.h;
+}
+
+function partFitsRotated (slate, part) {
+    return part.canRotate && part.h <= slate.rect.w && part.w <= slate.rect.h;
+}
+
+function rotatePart (part) {
+    var tmp = part.w;
+    part.w = part.h;
+    part.h = tmp;
 }
 
 module.exports = {

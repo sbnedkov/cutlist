@@ -28,21 +28,28 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
     };
 
     $scope.parts = [{
-        w: 100,
-        h: 100
+        name: 'a',
+        w: 600,
+        h: 100,
+        canRotate: true
     }, {
-        w: 200,
+        name: 'b',
+        w: 300,
         h: 200
     }, {
         w: 300,
+        name: 'c',
+        h: 200
+    }, {
+        name: 'd',
+        w: 400,
         h: 300
     }, {
-        w: 400,
-        h: 400
-    }, {
+        name: 'e',
         w: 500,
         h: 500
     }, {
+        name: 'f',
         w: 500,
         h: 500
     }];
@@ -52,11 +59,13 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         replace: true,
         link: function (scope, element, attributes) {
             scope.$watch('cutlist', function (cutlist) {
+                var ctx = element[0].getContext('2d');
+
                 if (!cutlist) {
+                    ctx.clearRect(0, 0, scope.slate.w, scope.slate.h);
                     return;
                 }
 
-                var ctx = element[0].getContext('2d');
                 ctx.clearRect(0, 0, scope.slate.w, scope.slate.h);
                 ctx.strokeRect(0, 0, scope.slate.w, scope.slate.h);
                 cutlist.forEach(function (part) {

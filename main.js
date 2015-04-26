@@ -41,7 +41,7 @@ app.post('/cutlist', (req, res) => {
     var parts = [];
     req.body.parts.forEach((part) => {
         if (part.w && part.h) {
-            parts.push(new Part(parseInt(part.w), parseInt(part.h)));
+            parts.push(new Part(part.name, parseInt(part.w), parseInt(part.h), Boolean(part.canRotate)));
         }
     });
 
