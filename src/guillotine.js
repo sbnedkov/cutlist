@@ -7,6 +7,14 @@ var Rectangle = function (x, y, w, h) {
     this.h = h;
 };
 
+var NamedRectangle = function (name, x, y, w, h) {
+    this.name = name;
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+};
+
 var Slates = function (slates) {
     this.slates = _.cloneDeep(slates);
     this.markUnused();
@@ -111,7 +119,7 @@ function solution (ss, parts, result) {
             rotatePart(part);
         }
 
-        result.push(new Rectangle(slate.rect.x, slate.rect.y, part.w, part.h));
+        result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
 
         // TODO: use vertical cuts too
         var newWidth = slate.rect.w - part.w;

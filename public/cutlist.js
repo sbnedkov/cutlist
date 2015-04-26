@@ -60,6 +60,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         link: function (scope, element, attributes) {
             scope.$watch('cutlist', function (cutlist) {
                 var ctx = element[0].getContext('2d');
+                ctx.font = '20px Verdana';
 
                 if (!cutlist) {
                     ctx.clearRect(0, 0, scope.slate.w, scope.slate.h);
@@ -70,6 +71,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 ctx.strokeRect(0, 0, scope.slate.w, scope.slate.h);
                 cutlist.forEach(function (part) {
                     ctx.strokeRect(part.x, part.y, part.w, part.h);
+                    ctx.fillText(part.name, part.x + part.w / 2, part.y + part.h / 2);
                 });
             });
         },
