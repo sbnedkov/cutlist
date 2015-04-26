@@ -93,7 +93,17 @@ var fitPartPredicates = [
     }
 ];
 
-function solution (ss, parts, result, fitPartPredicateIdx) {
+var rotateFns = [
+    function rotateNoop (part) {
+    },
+    function rotate (part) {
+        part.w = part.w ^ part.h;
+        part.h = part.w ^ part.h;
+        part.w = part.w ^ part.h;
+    }
+];
+
+function solution (ss, parts, result, fnIdx) {
     console.log(ss, parts, result);
     var slates = new Slates(ss);
     var gen = slates.generator();
@@ -113,7 +123,7 @@ function solution (ss, parts, result, fitPartPredicateIdx) {
             if (slate.value) {
                 slate.value.marked = true;
             }
-        } while (!slate.done && !fitPartPredicates[fitPartPredicateIdx](slate.value, part));
+        } while (!slate.done && !fitPartPredicates[fnIdx](slate.value, part));
 
         if (slate.done) {
             slates.markUnused();
@@ -122,6 +132,9 @@ function solution (ss, parts, result, fitPartPredicateIdx) {
 
         slates.pop();
         slate = slate.value;
+
+        parts.shift();
+        rotateFns[fnIdx](part);
 
         result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
 
@@ -135,11 +148,9 @@ function solution (ss, parts, result, fitPartPredicateIdx) {
             slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, part.w, newHeight)));
         }
 
-        parts.shift();
         if (solution(slates.slates, parts, result, 0)) {
             return true;
         }
-        parts.unshift(part);
 
         // Reverse everything
         if (newHeight) {
@@ -151,8 +162,11 @@ function solution (ss, parts, result, fitPartPredicateIdx) {
         slates.push(slate); // Put slate at end so another one is picked
         result.pop();
 
+        rotateFns[fnIdx](part);
+        parts.unshift(part);
+
         // Try with rotation
-        if (fitPartPredicateIdx === 0) {
+        if (fnIdx === 0) {
             return solution(slates.slates, parts, result, 1);
         }
 

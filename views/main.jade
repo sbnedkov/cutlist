@@ -14,24 +14,11 @@ html(ng-app="cutlist")
       input(type="text", ng-model="slate.h")
       br
     span #{__("Parts")}
-      br
-      input(type="text", ng-model="parts[0].w")
-      input(type="text", ng-model="parts[0].h")
-      br
-      input(type="text", ng-model="parts[1].w")
-      input(type="text", ng-model="parts[1].h")
-      br
-      input(type="text", ng-model="parts[2].w")
-      input(type="text", ng-model="parts[2].h")
-      br
-      input(type="text", ng-model="parts[3].w")
-      input(type="text", ng-model="parts[3].h")
-      br
-      input(type="text", ng-model="parts[4].w")
-      input(type="text", ng-model="parts[4].h")
-      br
-      input(type="text", ng-model="parts[5].w")
-      input(type="text", ng-model="parts[5].h")
+      div(ng-repeat="part in parts")
+        input(type="text", ng-model="part.name")
+        input(type="text", ng-model="part.w")
+        input(type="text", ng-model="part.h")
+        input(type="checkbox", ng-model="part.canRotate")
     br
     button(ng-click="submit()") #{__("Calculate")}
     br
