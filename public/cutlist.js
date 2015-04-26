@@ -60,14 +60,20 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         link: function (scope, element, attributes) {
             scope.$watch('cutlist', function (cutlist) {
                 var ctx = element[0].getContext('2d');
+
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.font = '20px Verdana';
 
                 if (!cutlist) {
-                    ctx.clearRect(0, 0, scope.slate.w, scope.slate.h);
+                    ctx.clearRect(0, 0, element[0].width, element[0].height);
                     return;
                 }
 
-                ctx.clearRect(0, 0, scope.slate.w, scope.slate.h);
+                ctx.clearRect(0, 0, element[0].width, element[0].height);
+
+                var ratio = element[0].width / scope.slate.w;
+                ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
                 ctx.strokeRect(0, 0, scope.slate.w, scope.slate.h);
                 cutlist.forEach(function (part) {
                     ctx.strokeRect(part.x, part.y, part.w, part.h);
