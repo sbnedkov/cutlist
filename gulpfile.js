@@ -17,7 +17,7 @@ gulp.task('browserify', function () {
 });
 
 gulp.task('dev', function () {
-    nodemon({exec: 'babel-node', ext: 'js json', ignore: ['dist/'], env: {'NODE_ENV': 'development'}}).on('restart', function () {
+    nodemon({tasks: ['babel-node'], ext: 'js json', ignore: ['dist/'], env: {'NODE_ENV': 'development'}}).on('restart', function () {
         // nothing for now
     });
 });

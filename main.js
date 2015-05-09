@@ -34,6 +34,7 @@ app.get('/', middleware.setLanguage, (req, res) => {
 });
 
 app.post('/lang', (req, res) => {
+    // TODO: use session instead of global
     global.lang = req.body.lang;
     res.status(200).end();
 });
