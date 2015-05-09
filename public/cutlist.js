@@ -23,6 +23,8 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         });
     };
 
+    $scope.cutType = 'v';
+
     $scope.slate = {
         w: 1000,
         h: 1000
