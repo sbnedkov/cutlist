@@ -17,8 +17,8 @@ gulp.task('browserify', function () {
 });
 
 gulp.task('dev', function () {
-    nodemon({tasks: ['browserify'], exec: './node_modules/.bin/babel-node main.js', ext: 'js json', ignore: ['dist/'], env: {'NODE_ENV': 'development'}}).on('restart', function () {
-        // nothing for now
+    return nodemon({tasks: ['browserify'], exec: './node_modules/.bin/babel-node main.js', ext: 'js json', ignore: ['dist/'], env: {'NODE_ENV': 'development'}}).on('restart', function () {
+        console.log('restart');
     });
 });
 

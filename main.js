@@ -2,8 +2,9 @@ var path = require('path');
 
 var express = require('express');
 var jade = require('jade');
-var i18n = require('i18n');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var I18n = require('i18n-2');
 
 var middleware = require('./src/middleware');
 var Guillotine = require('./src/guillotine');
@@ -13,29 +14,26 @@ var Rectangle = common.Rectangle;
 var Slate = common.Slate;
 var Part = common.Part;
 
-i18n.configure({
-    locales: ['en', 'bg'],
-    directory: __dirname + '/locales'
-});
-
 var app = express();
-global.lang = 'en';
 
-app.set('views', `${__dirname}/views`);
-app.set('view engine', 'jade');
-
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use('/dist', express.static(`${__dirname}/dist`));
 
-app.use(i18n.init);
+I18n.expressBind(app, {
+    locales: ['en', 'bg'],
+    cookieName: 'cutlistlang'
+});
+
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'jade');
 
 app.get('/', middleware.setLanguage, (req, res) => {
     res.render('main.jade');
 });
 
 app.post('/lang', (req, res) => {
-    // TODO: use session instead of global
-    global.lang = req.body.lang;
+    res.cookie('cutlistlang', req.body.lang);
     res.status(200).end();
 });
 

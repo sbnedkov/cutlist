@@ -3,6 +3,6 @@ module.exports = {
 };
 
 function setLanguage (req, res, next) {
-    res.setLocale(global.lang);
+    req.i18n.setLocaleFromCookie(req);
     next();
 }

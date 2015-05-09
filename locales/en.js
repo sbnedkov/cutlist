@@ -1,7 +1,7 @@
 {
-	"Slate": "Slate",
-	"Parts": "Parts",
-	"Vertical": "Vertical",
-	"Horizontal": "Horizontal",
-	"Calculate": "Calculate"
+    "Parts": "Parts",
+    "Slate": "Slate",
+    "Calculate": "Calculate",
+    "Vertical": "Vertical cut",
+    "Horizontal": "Horizontal cut"
 }

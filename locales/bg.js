@@ -1,7 +1,7 @@
 {
-	"Slate": "Slate",
-	"Parts": "Parts",
-	"Vertical": "Vertical",
-	"Horizontal": "Horizontal",
-	"Calculate": "Calculate"
+    "Parts": "Части",
+    "Slate": "Плоча",
+    "Calculate": "Изчисли",
+    "Vertical": "Вертикален срез",
+    "Horizontal": "Хоризонтален срез"
 }
