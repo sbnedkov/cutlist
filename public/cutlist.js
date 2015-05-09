@@ -14,7 +14,8 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
     $scope.submit = () => {
         $http.post('/cutlist', {
             slate: $scope.slate,
-            parts: $scope.parts
+            parts: $scope.parts,
+            cutType: $scope.cutType
         }).success((res) => {
             $scope.cutlist = res;
         }).error((err) => {

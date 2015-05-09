@@ -1,5 +1,7 @@
 {
     "Parts": "Parts",
     "Slate": "Slate",
-    "Calculate": "Calculate"
+    "Calculate": "Calculate",
+    "Vertical": "Vertical cut",
+    "Horizontal": "Horizontal cut"
 }

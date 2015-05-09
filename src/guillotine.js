@@ -1,101 +1,36 @@
 var _ = require('lodash');
 
-var Rectangle = function (x, y, w, h) {
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-};
+var common = require('./common');
+var Rectangle = common.Rectangle;
+var NamedRectangle = common.NamedRectangle;
+var Cut = common.Cut;
+var Slate = common.Slate;
+var Slates = common.Slates;
 
-
-var Cut = function (name, x1, y1, x2, y2) {
-    this.name = name;
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
-    this.y2 = y2;
-};
-
-var NamedRectangle = function (name, x, y, w, h) {
-    this.name = name;
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-};
-
-var Slates = function (slates) {
-    this.slates = _.cloneDeep(slates);
-    this.markUnused();
-};
-
-Slates.prototype.generator = function* () {
-    var current = this.slates.shift();
-    this.slates.push(current);
-
-    while (current) {
-        yield current;
-        if (!this.hasMore()) {
-            break;
-        }
-        do {
-            current = this.slates.shift();
-            this.slates.push(current);
-        } while (current.marked);
+var Guillotine = module.exports = function (cutType) {
+    if (cutType !== 'v' && cutType !== 'h') {
+        throw new Error('Unknown cut type: ' + cutType);
     }
+
+    this.cutType = cutType;
 };
 
-Slates.prototype.pop = function () {
-    return this.slates.pop();
-};
-
-Slates.prototype.push = function (slate) {
-    return this.slates.push(slate);
-};
-
-Slates.prototype.shift = function () {
-    return this.slates.shift();
-};
-
-Slates.prototype.unshift = function (slate) {
-    return this.slates.unshift(slate);
-};
-
-Slates.prototype.markUnused = function () {
-    _.each(this.slates, (slate) => {
-        delete slate.marked;
-    });
-    return this.slates;
-};
-
-Slates.prototype.hasMore = function () {
-    return !_.all(this.slates, 'marked');
-};
-
-var Slate = function (rect) {
-    this.rect = rect;
-};
-
-var Part = function (name, w, h, canRotate) {
-    this.name = name;
-    this.w = w;
-    this.h = h;
-    this.canRotate = canRotate;
-};
-
-function apply (slate, parts) {
+Guillotine.prototype.apply = function (slate, parts) {
     var result = [];
     var cuts = [];
-    var res = solution([slate], parts.sort((part1, part2) => {
-        // TODO: different sorting depending on cut direction
-        return part1.w === part2.w ? part2.h - part1.h : part2.w - part1.w;
+    var res = this.solution([slate], parts.sort((part1, part2) => {
+        if (this.cutType === 'v') {
+            return part1.w === part2.w ? part2.h - part1.h : part2.w - part1.w;
+        } else if (this.cutType === 'h') {
+            return part1.h === part2.h ? part2.w - part1.w : part2.h - part1.h;
+        }
     }), result, cuts, 0);
 
     return res && {
         result: result,
         cuts: cuts
     };
-}
+};
 
 var fitPartPredicates = [
     function partFitsDirectly (slate, part) {
@@ -116,7 +51,7 @@ var rotateFns = [
     }
 ];
 
-function solution (ss, parts, result, cuts, fnIdx) {
+Guillotine.prototype.solution = function (ss, parts, result, cuts, fnIdx) {
     console.log(ss, parts, result);
     var slates = new Slates(ss);
     var gen = slates.generator();
@@ -151,19 +86,29 @@ function solution (ss, parts, result, cuts, fnIdx) {
 
         result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
 
-        // TODO: use vertical cuts too
         var newWidth = slate.rect.w - part.w;
         var newHeight = slate.rect.h - part.h;
-        if (newWidth) {
-            slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, slate.rect.h)));
-            cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + slate.rect.h));
-        }
-        if (newHeight) {
-            slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, part.w, newHeight)));
-            cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + part.w, slate.rect.y + part.h));
+        if (this.cutType === 'v') {
+            if (newWidth) {
+                slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, slate.rect.h)));
+                cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + slate.rect.h));
+            }
+            if (newHeight) {
+                slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, part.w, newHeight)));
+                cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + part.w, slate.rect.y + part.h));
+            }
+        } else {
+            if (newWidth) {
+                slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, part.h)));
+                cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + part.h));
+            }
+            if (newHeight) {
+                slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + slate.rect.h, part.w, newHeight)));
+                cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + part.w, slate.rect.y + slate.rect.h));
+            }
         }
 
-        if (solution(slates.slates, parts, result, cuts, 0)) {
+        if (this.solution(slates.slates, parts, result, cuts, 0)) {
             return true;
         }
 
@@ -184,7 +129,7 @@ function solution (ss, parts, result, cuts, fnIdx) {
 
         // Try with rotation
         if (fnIdx === 0) {
-            return solution(slates.slates, parts, result, cuts, 1);
+            return this.solution(slates.slates, parts, result, cuts, 1);
         }
 
         return false;
@@ -193,17 +138,4 @@ function solution (ss, parts, result, cuts, fnIdx) {
 
     slates.markUnused();
     return false;
-}
-
-function rotatePart (part) {
-    var tmp = part.w;
-    part.w = part.h;
-    part.h = tmp;
-}
-
-module.exports = {
-    apply: apply,
-    Rectangle: Rectangle,
-    Slate: Slate,
-    Part: Part
 };

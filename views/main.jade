@@ -20,6 +20,9 @@ html(ng-app="cutlist")
         input(type="text", ng-model="part.h")
         input(type="checkbox", ng-model="part.canRotate")
     br
+    select(ng-model="cutType")
+      option(value="v", selected) #{__("Vertical")}
+      option(value="h") #{__("Horizontal")}
     button(ng-click="submit()") #{__("Calculate")}
     br
     div {{cutlist}}

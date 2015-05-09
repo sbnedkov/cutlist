@@ -6,10 +6,12 @@ var i18n = require('i18n');
 var bodyParser = require('body-parser');
 
 var middleware = require('./src/middleware');
-var guillotine = require('./src/guillotine');
-var Rectangle = guillotine.Rectangle;
-var Slate = guillotine.Slate;
-var Part = guillotine.Part;
+var Guillotine = require('./src/guillotine');
+var common = require('./src/common');
+
+var Rectangle = common.Rectangle;
+var Slate = common.Slate;
+var Part = common.Part;
 
 i18n.configure({
     locales: ['en', 'bg'],
@@ -45,6 +47,7 @@ app.post('/cutlist', (req, res) => {
         }
     });
 
+    var guillotine = new Guillotine(req.body.cutType);
     res.json(guillotine.apply(slate, parts));
 });
 
