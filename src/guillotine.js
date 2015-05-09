@@ -97,14 +97,14 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, fnIdx) {
                 slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, part.w, newHeight)));
                 cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + part.w, slate.rect.y + part.h));
             }
-        } else {
+        } else if (this.cutType === 'h') {
             if (newWidth) {
                 slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, part.h)));
                 cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + part.h));
             }
             if (newHeight) {
-                slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + slate.rect.h, part.w, newHeight)));
-                cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + part.w, slate.rect.y + slate.rect.h));
+                slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, slate.rect.w, newHeight)));
+                cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + slate.rect.w, slate.rect.y + part.h));
             }
         }
 

@@ -39,7 +39,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         name: 'b',
         w: 300,
         h: 200,
-        canRotate: false
+        canRotate: true
     }, {
         name: 'c',
         w: 800,
@@ -49,17 +49,17 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         name: 'd',
         w: 400,
         h: 300,
-        canRotate: false
+        canRotate: true
     }, {
         name: 'e',
         w: 400,
         h: 500,
-        canRotate: false
+        canRotate: true
     }, {
         name: 'f',
         w: 400,
         h: 500,
-        canRotate: false
+        canRotate: true
     }];
 }]).directive('cutlistCanvas', function () {
     return {
