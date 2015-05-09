@@ -80,9 +80,16 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
                 ctx.strokeRect(0, 0, scope.slate.w, scope.slate.h);
-                cutlist.forEach(function (part) {
+                cutlist.result.forEach(function (part) {
                     ctx.strokeRect(part.x, part.y, part.w, part.h);
                     ctx.fillText(part.name, part.x + part.w / 2, part.y + part.h / 2);
+                });
+                cutlist.cuts.forEach(function (cut) {
+                    ctx.beginPath();
+                    ctx.moveTo(cut.x1, cut.y1);
+                    ctx.lineTo(cut.x2, cut.y2);
+                    ctx.strokeStyle = 'red';
+                    ctx.stroke();
                 });
             });
         },

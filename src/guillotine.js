@@ -7,6 +7,15 @@ var Rectangle = function (x, y, w, h) {
     this.h = h;
 };
 
+
+var Cut = function (name, x1, y1, x2, y2) {
+    this.name = name;
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
+};
+
 var NamedRectangle = function (name, x, y, w, h) {
     this.name = name;
     this.x = x;
@@ -76,12 +85,16 @@ var Part = function (name, w, h, canRotate) {
 
 function apply (slate, parts) {
     var result = [];
+    var cuts = [];
     var res = solution([slate], parts.sort((part1, part2) => {
         // TODO: different sorting depending on cut direction
         return part1.w === part2.w ? part2.h - part1.h : part2.w - part1.w;
-    }), result, 0);
+    }), result, cuts, 0);
 
-    return res && result;
+    return res && {
+        result: result,
+        cuts: cuts
+    };
 }
 
 var fitPartPredicates = [
@@ -103,7 +116,7 @@ var rotateFns = [
     }
 ];
 
-function solution (ss, parts, result, fnIdx) {
+function solution (ss, parts, result, cuts, fnIdx) {
     console.log(ss, parts, result);
     var slates = new Slates(ss);
     var gen = slates.generator();
@@ -143,21 +156,25 @@ function solution (ss, parts, result, fnIdx) {
         var newHeight = slate.rect.h - part.h;
         if (newWidth) {
             slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, slate.rect.h)));
+            cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + slate.rect.h));
         }
         if (newHeight) {
             slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, part.w, newHeight)));
+            cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + part.w, slate.rect.y + part.h));
         }
 
-        if (solution(slates.slates, parts, result, 0)) {
+        if (solution(slates.slates, parts, result, cuts, 0)) {
             return true;
         }
 
         // Reverse everything
         if (newHeight) {
             slates.shift();
+            cuts.pop();
         }
         if (newWidth) {
             slates.shift();
+            cuts.pop();
         }
         slates.push(slate); // Put slate at end so another one is picked
         result.pop();
@@ -167,7 +184,7 @@ function solution (ss, parts, result, fnIdx) {
 
         // Try with rotation
         if (fnIdx === 0) {
-            return solution(slates.slates, parts, result, 1);
+            return solution(slates.slates, parts, result, cuts, 1);
         }
 
         return false;
