@@ -1,10 +1,10 @@
 var assert = require('assert');
 
-var common = require('../src/common');
+var common = require('./common');
 var Slate = common.Slate;
 var Rectangle = common.Rectangle;
 var Part = common.Part;
-var Guillotine = require('../src/guillotine');
+var Guillotine = require('./guillotine');
 
 describe('Guillotine', () => {
     var guillotine = new Guillotine('v');
