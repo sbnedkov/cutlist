@@ -82,6 +82,8 @@
         "angular": true,
         "__dirname": true,
         "process": true,
-        "Buffer": true
+        "Buffer": true,
+        "describe": true,
+        "it": true
     }        // additional predefined global variables
 }

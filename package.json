@@ -21,7 +21,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --harmony_arrow_functions --harmony",
     "start": "./node_modules/.bin/gulp prod",
     "dev": "./node_modules/.bin/gulp dev"
   },
