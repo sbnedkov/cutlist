@@ -22,7 +22,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "mocha --harmony_arrow_functions",
+    "test": "gulp test",
     "start": "./node_modules/.bin/gulp prod",
     "cover": "istanbul cover --dir reports/coverage . tests/*.js",
     "dev": "./node_modules/.bin/gulp dev"
@@ -32,7 +32,7 @@
     "url": "https://github.com/sbnedkov/cutlist.git"
   },
   "author": "Svetoslav Nedkov <sveto.n@gmail.com> (https://github.com/sbnedkov)",
-  "license": "MIT",
+  "license": "GPL2",
   "bugs": {
     "url": "https://github.com/sbnedkov/cutlist/issues"
   },

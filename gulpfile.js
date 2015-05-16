@@ -6,7 +6,7 @@ var browserify = require('browserify');
 var nodemon = require('gulp-nodemon');
 var babelify = require('babelify');
 var babel = require('gulp-babel');
-require("babel/polyfill");
+require("babel/polyfill"); // for ES6
 var mocha = require('gulp-mocha');
 
 gulp.task('babelify-test', function () {
