@@ -31,7 +31,7 @@ gulp.task('browserify', function () {
 });
 
 gulp.task('dev', ['browserify', 'test'], function () {
-    return nodemon({exec: './node_modules/.bin/babel-node main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'development'}, verbose: true}).on('restart', function () {
+    return nodemon({exec: './node_modules/.bin/babel-node main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'development'}/*, verbose: true*/}).on('restart', function () {
         console.log('restart');
         gulp.run('browserify');
         gulp.run('test');
