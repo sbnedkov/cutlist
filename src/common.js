@@ -7,6 +7,9 @@ var Rectangle = function (x, y, w, h) {
     this.h = h;
 };
 
+Rectangle.prototype.markUsed = function () {
+    this.used = true;
+};
 
 var Cut = function (name, x1, y1, x2, y2) {
     this.name = name;

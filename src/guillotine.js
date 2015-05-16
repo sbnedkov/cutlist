@@ -1,5 +1,6 @@
 var _ = require('lodash');
 
+var utils = require('./utils');
 var common = require('./common');
 var Rectangle = common.Rectangle;
 var NamedRectangle = common.NamedRectangle;
@@ -16,21 +17,46 @@ var Guillotine = module.exports = function (cutType) {
 };
 
 Guillotine.prototype.apply = function (slate, parts) {
-    var result = [];
-    var cuts = [];
-    var res = this.solution([slate], parts.sort((part1, part2) => {
+    var ps = parts.sort((part1, part2) => {
         if (this.cutType === 'v') {
             return part1.w === part2.w ? part2.h - part1.h : part2.w - part1.w;
         } else if (this.cutType === 'h') {
             return part1.h === part2.h ? part2.w - part1.w : part2.h - part1.h;
         }
-    }), result, cuts, 0);
+    });
 
-    return res && {
-        result: result,
-        cuts: cuts
-    };
+    var results = [];
+    utils.permute(ps, (permutation) => {
+        var result = [];
+        var cuts = [];
+        var res = this.solution([slate], permutation, result, cuts, 0);
+        if (res.success) {
+            results.push({
+                rating: rate(res.spares),
+                result: result,
+                cuts: cuts
+            });
+        }
+    });
+
+    return _.max(results, (result) => {
+        return result.rating;
+    });
 };
+
+function rate (spares) {
+    var sorted = _.sortBy(spares.slates, (spare) => {
+        return spare.rect.w * spare.rect.h;
+    });
+
+    var coeff = 1;
+
+    return _.foldl(sorted, (accum, el) => {
+        var res = accum + coeff * (el.rect.w * el.rect.h);
+        coeff *= 0.95;
+        return res;
+    }, 0);
+}
 
 var fitPartPredicates = [
     function partFitsDirectly (slate, part) {
@@ -52,14 +78,17 @@ var rotateFns = [
 ];
 
 Guillotine.prototype.solution = function (ss, parts, result, cuts, fnIdx) {
-    console.log(ss, parts, result);
+//    console.log(ss, parts, result);
     var slates = new Slates(ss);
     var gen = slates.generator();
 
     while (slates.hasMore()) {
         // End condition
         if (parts.length === 0) {
-            return true;
+            return {
+                success: true,
+                spares: new Slates(ss)
+            };
         }
 
         var part = parts[0];
@@ -67,7 +96,7 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, fnIdx) {
         var slate;
         do {
             slate = gen.next();
-            console.log('Consider', slate, 'for', part);
+//            console.log('Consider', slate, 'for', part);
             if (slate.value) {
                 slate.value.marked = true;
             }
@@ -108,8 +137,12 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, fnIdx) {
             }
         }
 
-        if (this.solution(slates.slates, parts, result, cuts, 0)) {
-            return true;
+        var res = this.solution(slates.slates, parts, result, cuts, 0);
+        if (res.success) {
+            return {
+                success: true,
+                spares: res.spares
+            };
         }
 
         // Reverse everything
@@ -132,9 +165,11 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, fnIdx) {
             return this.solution(slates.slates, parts, result, cuts, 1);
         }
 
-        return false;
+        return {
+            success: false
+        };
     }
-    console.log('Backtracking');
+//    console.log('Backtracking');
 
     slates.markUnused();
     return false;
