@@ -17,7 +17,7 @@ var Guillotine = module.exports = function (cutType) {
     this.cutType = cutType;
 };
 
-var TRESHOLD = 10000;
+var THRESHOLD = 100000;
 Guillotine.prototype.apply = function (slate, parts) {
     var copy = parts.slice(0);
     var ps = copy.sort((part1, part2) => {
@@ -34,7 +34,7 @@ Guillotine.prototype.apply = function (slate, parts) {
     });
 
     var results = [];
-    utils.permute(ps, {treshold: TRESHOLD}, (permutation) => {
+    utils.permute(ps, {threshold: THRESHOLD}, (permutation) => {
         if (permutation) { // if false - cut by treshold
             var result = [];
             var cuts = [];

@@ -2,8 +2,8 @@ var _ = require('lodash');
 
 module.exports = {
     permute: function (arr, t, callback) {
-        if (t.treshold) {
-            t.treshold -= 1;
+        if (t.threshold) {
+            t.threshold -= 1;
 
             if (arr.length <= 1) {
                 return callback(arr);
