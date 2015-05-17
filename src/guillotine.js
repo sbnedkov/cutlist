@@ -35,7 +35,7 @@ Guillotine.prototype.apply = function (slate, parts) {
 
     var results = [];
     utils.permute(ps, {threshold: THRESHOLD}, (permutation) => {
-        if (permutation) { // if false - cut by treshold
+        if (permutation) { // if false - cut by threshold
             var result = [];
             var cuts = [];
             var res = this.solution([slate], permutation, result, cuts, 0);

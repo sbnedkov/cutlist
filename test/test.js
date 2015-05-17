@@ -110,13 +110,13 @@ describe('Guillotine', () => {
 describe('Utils', () => {
     describe('#permute()', () => {
         it('should return empty result for empty', () => {
-            utils.permute([], {treshold: 1000}, (permutation) => {
+            utils.permute([], {threshold: 1000}, (permutation) => {
                 assert.deepEqual(permutation, []);
             });
         });
 
         it('should return same result for 1-element array', () => {
-            utils.permute([1], {treshold: 1000}, (permutation) => {
+            utils.permute([1], {threshold: 1000}, (permutation) => {
                 assert.deepEqual(permutation, [1]);
             });
         });
@@ -130,7 +130,7 @@ describe('Utils', () => {
                 [2, 3, 1],
                 [3, 2, 1]
             ];
-            utils.permute([1, 2, 3], {treshold: 1000}, (permutation) => {
+            utils.permute([1, 2, 3], {threshold: 1000}, (permutation) => {
                 assert.deepEqual(permutation, permutations.shift());
             });
         });
