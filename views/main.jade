@@ -30,7 +30,7 @@ html(ng-app="cutlist")
     select(ng-model="cutType")
       option(value="v") #{__("Vertical cut")}
       option(value="h") #{__("Horizontal cut")}
-      option(value="o") #{__("Optimal cut")}
+      // option(value="o") #{__("Optimal cut")}
     button(ng-click="submit()") #{__("Calculate")}
     br
     div {{cutlist}}

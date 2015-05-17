@@ -20,16 +20,7 @@ var Guillotine = module.exports = function (cutType) {
 var TRESHOLD = 10000;
 Guillotine.prototype.apply = function (slate, parts) {
     var copy = parts.slice(0);
-    var rotated = [];
-    _.each(copy, (part) => {
-        if (part.canRotate) {
-            rotated.push(rotate(part));
-        }
-    });
-
-    var all = copy.concat(rotated);
-
-    var ps = all.sort((part1, part2) => {
+    var ps = copy.sort((part1, part2) => {
         var primary = part2.w * part2.h - part1.w * part1.h;
         return primary ? primary : (part1, part2) => {
             if (this.cutType === 'v') {
@@ -47,7 +38,7 @@ Guillotine.prototype.apply = function (slate, parts) {
         if (permutation) { // if false - cut by treshold
             var result = [];
             var cuts = [];
-            var res = this.solution([slate], clear(permutation), result, cuts, 0);
+            var res = this.solution([slate], permutation, result, cuts, 0);
             if (res.success) {
                 results.push({
                     rating: utils.rate(res.spares),
@@ -63,26 +54,21 @@ Guillotine.prototype.apply = function (slate, parts) {
     });
 };
 
-function clear (parts) { // very ugly, purpose is to avoid double parts that are rotated; TODO: generate non-duplicate permutations
-    var dict = {};
-    return _.filter(parts, (part) => {
-        if (dict[part.name]) {
-            return false;
-        }
-        dict[part.name] = true;
-        return true;
-    });
-}
-
 function fitPart (slate, part) {
     return part.w <= slate.rect.w && part.h <= slate.rect.h;
 }
 
-function rotate (part) {
-    return new Part(part.name, part.h, part.w, part.canRotate);
-}
+var rotateFn = [
+    function rotateNoop (part) {
+    },
+    function rotate (part) {
+        part.w = part.w ^ part.h;
+        part.h = part.w ^ part.h;
+        part.w = part.w ^ part.h;
+    }
+];
 
-Guillotine.prototype.solution = function (ss, parts, result, cuts, fnIdx) {
+Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) {
 //    console.log(ss, parts, result);
     var slates = new Slates(ss);
     var gen = slates.generator();
@@ -116,6 +102,7 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, fnIdx) {
         slate = slate.value;
 
         parts.shift();
+        rotateFn[rotationIdx](part);
 
         result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
 
@@ -126,14 +113,11 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, fnIdx) {
         } else if (this.cutType === 'h') {
             splitH();
         } else if (this.cutType === 'o') {
-            if (fnIdx === 0) {
-                splitV();
-            } else {
-                splitH();
-            }
+            // TODO: optimal
+            splitV();
         }
 
-        var res = this.solution(slates.slates, parts, result, cuts, fnIdx);
+        var res = this.solution(slates.slates, parts, result, cuts, 0);
         if (res.success) {
             return {
                 success: true,
@@ -153,9 +137,10 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, fnIdx) {
         slates.push(slate); // Put slate at end so another one is picked
         result.pop();
 
+        rotateFn[rotationIdx](part);
         parts.unshift(part);
 
-        if (fnIdx === 0) {
+        if (rotationIdx === 0) {
             return this.solution(slates.slates, parts, result, cuts, 1);
         }
         return {
