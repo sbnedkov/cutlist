@@ -9,6 +9,12 @@ html(ng-app="cutlist")
       span &nbsp;
       a(ng-click="changeLang('bg')", href="#")
         span Български
+    br
+    span #{__("Configuration")} &nbsp;
+    select(ng-model="testsIdx")
+      option(value="0") #{__("Test 1")}
+      option(value="1") #{__("Test 2")}
+    br
     span #{__("Slate")}
       br
       input(type="text", ng-model="slate.w")
@@ -22,8 +28,9 @@ html(ng-app="cutlist")
         input(type="checkbox", ng-model="part.canRotate")
     br
     select(ng-model="cutType")
-      option(value="v") #{__("Vertical")}
-      option(value="h") #{__("Horizontal")}
+      option(value="v") #{__("Vertical cut")}
+      option(value="h") #{__("Horizontal cut")}
+      option(value="o") #{__("Optimal cut")}
     button(ng-click="submit()") #{__("Calculate")}
     br
     div {{cutlist}}

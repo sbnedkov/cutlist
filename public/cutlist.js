@@ -25,42 +25,87 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
 
     $scope.cutType = 'v';
 
-    $scope.slate = {
-        w: 1000,
-        h: 1000
-    };
+    $scope.testsIdx = 1;
+    $scope.tests = [{
+            slate: {
+                w: 1000,
+                h: 1000
+            },
+            parts: [{
+                name: 'a',
+                w: 600,
+                h: 200,
+                canRotate: true
+            }, {
+                name: 'b',
+                w: 300,
+                h: 200,
+                canRotate: true
+            }, {
+                name: 'c',
+                w: 800,
+                h: 200,
+                canRotate: true
+            }, {
+                name: 'd',
+                w: 400,
+                h: 300,
+                canRotate: true
+            }, {
+                name: 'e',
+                w: 400,
+                h: 500,
+                canRotate: true
+            }, {
+                name: 'f',
+                w: 400,
+                h: 500,
+                canRotate: true
+            }]
+        }, {
+            slate: {
+                w: 1500,
+                h: 1000
+            },
+            parts: [{
+                name: 'a',
+                w: 300,
+                h: 200,
+                canRotate: true
+            }, {
+                name: 'b',
+                w: 300,
+                h: 200,
+                canRotate: true
+            }, {
+                name: 'c',
+                w: 100,
+                h: 200,
+                canRotate: true
+            }, {
+                name: 'd',
+                w: 400,
+                h: 220,
+                canRotate: true
+            }, {
+                name: 'e',
+                w: 200,
+                h: 500,
+                canRotate: true
+            }, {
+                name: 'f',
+                w: 400,
+                h: 250,
+                canRotate: true
+            }]
+        }];
 
-    $scope.parts = [{
-        name: 'a',
-        w: 600,
-        h: 200,
-        canRotate: true
-    }, {
-        name: 'b',
-        w: 300,
-        h: 200,
-        canRotate: true
-    }, {
-        name: 'c',
-        w: 800,
-        h: 200,
-        canRotate: true
-    }, {
-        name: 'd',
-        w: 400,
-        h: 300,
-        canRotate: true
-    }, {
-        name: 'e',
-        w: 400,
-        h: 500,
-        canRotate: true
-    }, {
-        name: 'f',
-        w: 400,
-        h: 500,
-        canRotate: true
-    }];
+    $scope.$watch('testsIdx', (idx) => {
+        if (idx >= 0) {
+            $scope.slate = $scope.tests[idx].slate;
+            $scope.parts = $scope.tests[idx].parts;
+        }
+    });
 }]).directive('cutlistCanvas', function () {
     return {
         restrict: 'E',
