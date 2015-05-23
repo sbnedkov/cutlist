@@ -23,7 +23,7 @@ Guillotine.prototype.apply = function (slate, parts) {
     // TODO: Parts that can be rotated should be sorted further down the list
     var ps = copy.sort((part1, part2) => {
         var primary = part2.w * part2.h - part1.w * part1.h;
-        return primary ? primary : (part1, part2) => {
+        return primary ? primary : ((part1, part2) => {
             if (this.cutType === 'v') {
                 return part1.w === part2.w ? part2.h - part1.h : part2.w - part1.w;
             } else if (this.cutType === 'h') {
@@ -31,12 +31,12 @@ Guillotine.prototype.apply = function (slate, parts) {
             } else if (this.cutType === 'o') {
                 return 0;
             }
-        };
+        })(part1, part2);
     });
 
     var results = [];
     utils.permute(ps, {threshold: THRESHOLD}, (permutation) => {
-        if (permutation) { // if false - cut by threshold
+        if (permutation) { // if false - skip by threshold
             var result = [];
             var cuts = [];
             var res = this.solution([slate], permutation, result, cuts, 0);
@@ -54,10 +54,6 @@ Guillotine.prototype.apply = function (slate, parts) {
         return result.rating;
     });
 };
-
-function fitPart (slate, part) {
-    return part.w <= slate.rect.w && part.h <= slate.rect.h;
-}
 
 function rotateNoop (part) {
 }
@@ -78,7 +74,6 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
     var slates = new Slates(ss);
     var gen = slates.generator();
 
-    var partRotated = false;
     while (slates.hasMore()) {
         // End condition
         if (parts.length === 0) {
@@ -89,6 +84,8 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         }
 
         var part = parts[0];
+        parts.shift();
+        rotateFn[rotationIdx](part);
 
         var slate;
         do {
@@ -97,58 +94,53 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
             if (slate.value) {
                 slate.value.marked = true;
             }
-        } while (!slate.done && !fitPart(slate.value, part));
+        } while (!slate.done && !fitPart(slate.value, part) && !fitPartRotated(slate.value, part));
 
+        // TODO: revisit the next condition, what about slate.done && !slate.value?
         if (slate.done) {
+            parts.unshift(part);
             slates.markUnused();
-            return false;
+            return {
+                success: false
+            };
         }
 
         slates.pop();
         slate = slate.value;
 
-        parts.shift();
-        rotateFn[rotationIdx](part);
+        if (!fitPart(slate, part)) {
+            smallerReverse();
+            return this.solution(slates.slates, parts, result, cuts, 1);
+        }
 
+        var shouldKeep;
         var newWidth = slate.rect.w - part.w;
         var newHeight = slate.rect.h - part.h;
         if (this.cutType === 'v') {
-            splitV();
+            shouldKeep = splitV();
         } else if (this.cutType === 'h') {
-            splitH();
+            shouldKeep = splitH();
         } else if (this.cutType === 'o') {
             // TODO: optimal
-            splitV();
+            shouldKeep = splitV();
         }
 
         result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
 
-        var res = this.solution(slates.slates, parts, result, cuts, 0);
-        if (res.success) {
-            return {
-                success: true,
-                spares: res.spares
-            };
+        if (shouldKeep) {
+            var res = this.solution(slates.slates, parts, result, cuts, 0);
+            if (res.success) {
+                return {
+                    success: true,
+                    spares: res.spares
+                };
+            }
+        } else {
+            smallReverse();
+            return this.solution(slates.slates, parts, result, cuts, 1);
         }
 
-        // Reverse everything
-        if (newHeight) {
-            slates.shift();
-            cuts.pop();
-        }
-        if (newWidth) {
-            slates.shift();
-            cuts.pop();
-        }
-        slates.push(slate); // Put slate at end so another one is picked
-        result.pop();
-
-        rotateFn[rotationIdx](part);
-        if (partRotated) {
-            partRotated = false;
-            rotate(part);
-        }
-        parts.unshift(part);
+        reverse();
 
         if (rotationIdx === 0) {
             return this.solution(slates.slates, parts, result, cuts, 1);
@@ -164,41 +156,52 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         success: false
     };
 
+    function smallerReverse () {
+        slates.push(slate); // Put slate at end so another one is picked
+        rotateFn[rotationIdx](part);
+        parts.unshift(part);
+    }
+
+    function smallReverse () {
+        result.pop();
+        smallerReverse();
+    }
+
+    function reverse () {
+        // Reverse everything
+        if (newHeight) {
+            slates.shift();
+            cuts.pop();
+        }
+        if (newWidth) {
+            slates.shift();
+            cuts.pop();
+        }
+        smallReverse();
+    }
+
     function splitH () {
         var area1 = newWidth * part.h;
         var area2 = slate.rect.w * newHeight;
         var rotatedNewWidth, rotatedNewHeight, rotatedArea1, rotatedArea2;
 
-        if (part.canRotate && !partRotated && rotationIdx === 0) {
-            partRotated = true;
+        if (part.canRotate && rotationIdx === 0) {
+            // TODO: estimate without modifying part
             rotate(part);
             rotatedNewWidth = slate.rect.w - part.w;
             rotatedNewHeight = slate.rect.h - part.h;
             rotatedArea1 = rotatedNewWidth * part.h;
             rotatedArea2 = slate.rect.w * rotatedNewHeight;
+            rotate(part);
 
             if (area1 >= area2 && rotatedArea1 > area1 ||
                     area2 >= area1 && rotatedArea2 > area2) {
-                newWidth = rotatedNewWidth;
-                newHeight = rotatedNewHeight;
-                area1 = rotatedArea1;
-                area2 = rotatedArea2;
-
-                if (area1 > area2) {
-                    splitVV();
-                    splitVH();
-                } else {
-                    splitVH();
-                    splitVV();
-                }
+                return false;
             } else {
-                partRotated = false;
-                rotate(part);
-
-                splitNormalH();
+                return splitNormalH();
             }
         } else {
-            splitNormalH();
+            return splitNormalH();
         }
 
         function splitNormalH () {
@@ -209,6 +212,8 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
                 splitHV();
                 splitHH();
             }
+
+            return true;
         }
     }
 
@@ -217,36 +222,23 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         var area2 = part.w * newHeight;
         var rotatedNewWidth, rotatedNewHeight, rotatedArea1, rotatedArea2;
 
-        if (part.canRotate && !partRotated && rotationIdx === 0) {
-            partRotated = true;
+        if (part.canRotate && rotationIdx === 0) {
+            // TODO: estimate without modifying part
             rotate(part);
             rotatedNewWidth = slate.rect.w - part.w;
             rotatedNewHeight = slate.rect.h - part.h;
             rotatedArea1 = newWidth * slate.rect.h;
             rotatedArea2 = part.w * newHeight;
+            rotate(part);
 
             if (area1 >= area2 && rotatedArea1 > area1 ||
                     area2 >= area1 && rotatedArea2 > area2) {
-                newWidth = rotatedNewWidth;
-                newHeight = rotatedNewHeight;
-                area1 = rotatedArea1;
-                area2 = rotatedArea2;
-
-                if (area1 > area2) {
-                    splitHV();
-                    splitHH();
-                } else {
-                    splitHH();
-                    splitHV();
-                }
+                return false;
             } else {
-                partRotated = false;
-                rotate(part);
-
-                splitNormalV();
+                return splitNormalV();
             }
         } else {
-            splitNormalV();
+            return splitNormalV();
         }
 
 
@@ -258,6 +250,8 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
                 splitVV();
                 splitVH();
             }
+
+            return true;
         }
     }
 
@@ -287,5 +281,13 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
             slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, slate.rect.w, newHeight)));
             cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + slate.rect.w, slate.rect.y + part.h));
         }
+    }
+
+    function fitPart (slate, part) {
+        return part.w <= slate.rect.w && part.h <= slate.rect.h;
+    }
+
+    function fitPartRotated (slate, part) {
+        return part.canRotate && rotationIdx === 0 && part.w <= slate.rect.h && part.h <= slate.rect.w;
     }
 };
