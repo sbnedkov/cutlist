@@ -98,6 +98,42 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 h: 250,
                 canRotate: true
             }]
+        }, {
+            slate: {
+                w: 1500,
+                h: 1000
+            },
+            parts: [{
+                name: 'a',
+                w: 100,
+                h: 325,
+                canRotate: true
+            }, {
+                name: 'b',
+                w: 320,
+                h: 100,
+                canRotate: true
+            }, {
+                name: 'c',
+                w: 155,
+                h: 280,
+                canRotate: true
+            }, {
+                name: 'd',
+                w: 120,
+                h: 800,
+                canRotate: true
+            }, {
+                name: 'e',
+                w: 222,
+                h: 325,
+                canRotate: true
+            }, {
+                name: 'f',
+                w: 128,
+                h: 250,
+                canRotate: true
+            }]
         }];
 
     $scope.$watch('testsIdx', (idx) => {

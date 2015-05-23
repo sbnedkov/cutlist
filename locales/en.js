@@ -6,7 +6,6 @@
 	"Horizontal cut": "Horizontal cut",
 	"Cutlist": "Cutlist",
 	"Configuration": "Configuration",
-	"Test 1": "Test 1",
-	"Test 2": "Test 2",
+	"Test": "Test",
 	"Optimal cut": "Optimal cut"
 }

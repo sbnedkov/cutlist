@@ -20,6 +20,7 @@ var Guillotine = module.exports = function (cutType) {
 var THRESHOLD = 100000;
 Guillotine.prototype.apply = function (slate, parts) {
     var copy = parts.slice(0);
+    // TODO: Parts that can be rotated should be sorted further down the list
     var ps = copy.sort((part1, part2) => {
         var primary = part2.w * part2.h - part1.w * part1.h;
         return primary ? primary : (part1, part2) => {
@@ -58,14 +59,18 @@ function fitPart (slate, part) {
     return part.w <= slate.rect.w && part.h <= slate.rect.h;
 }
 
+function rotateNoop (part) {
+}
+
+function rotate (part) {
+    part.w = part.w ^ part.h;
+    part.h = part.w ^ part.h;
+    part.w = part.w ^ part.h;
+}
+
 var rotateFn = [
-    function rotateNoop (part) {
-    },
-    function rotate (part) {
-        part.w = part.w ^ part.h;
-        part.h = part.w ^ part.h;
-        part.w = part.w ^ part.h;
-    }
+    rotateNoop,
+    rotate
 ];
 
 Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) {
@@ -73,6 +78,7 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
     var slates = new Slates(ss);
     var gen = slates.generator();
 
+    var partRotated = false;
     while (slates.hasMore()) {
         // End condition
         if (parts.length === 0) {
@@ -104,8 +110,6 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         parts.shift();
         rotateFn[rotationIdx](part);
 
-        result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
-
         var newWidth = slate.rect.w - part.w;
         var newHeight = slate.rect.h - part.h;
         if (this.cutType === 'v') {
@@ -116,6 +120,8 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
             // TODO: optimal
             splitV();
         }
+
+        result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
 
         var res = this.solution(slates.slates, parts, result, cuts, 0);
         if (res.success) {
@@ -138,11 +144,16 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         result.pop();
 
         rotateFn[rotationIdx](part);
+        if (partRotated) {
+            partRotated = false;
+            rotate(part);
+        }
         parts.unshift(part);
 
         if (rotationIdx === 0) {
             return this.solution(slates.slates, parts, result, cuts, 1);
         }
+
         return {
             success: false
         };
@@ -156,26 +167,97 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
     function splitH () {
         var area1 = newWidth * part.h;
         var area2 = slate.rect.w * newHeight;
+        var rotatedNewWidth, rotatedNewHeight, rotatedArea1, rotatedArea2;
 
-        if (area1 > area2) {
-            splitHH();
-            splitHV();
+        if (part.canRotate && !partRotated && rotationIdx === 0) {
+            partRotated = true;
+            rotate(part);
+            rotatedNewWidth = slate.rect.w - part.w;
+            rotatedNewHeight = slate.rect.h - part.h;
+            rotatedArea1 = rotatedNewWidth * part.h;
+            rotatedArea2 = slate.rect.w * rotatedNewHeight;
+
+            if (area1 >= area2 && rotatedArea1 > area1 ||
+                    area2 >= area1 && rotatedArea2 > area2) {
+                newWidth = rotatedNewWidth;
+                newHeight = rotatedNewHeight;
+                area1 = rotatedArea1;
+                area2 = rotatedArea2;
+
+                if (area1 > area2) {
+                    splitVV();
+                    splitVH();
+                } else {
+                    splitVH();
+                    splitVV();
+                }
+            } else {
+                partRotated = false;
+                rotate(part);
+
+                splitNormalH();
+            }
         } else {
-            splitHV();
-            splitHH();
+            splitNormalH();
+        }
+
+        function splitNormalH () {
+            if (area1 > area2) {
+                splitHH();
+                splitHV();
+            } else {
+                splitHV();
+                splitHH();
+            }
         }
     }
 
     function splitV () {
         var area1 = newWidth * slate.rect.h;
         var area2 = part.w * newHeight;
+        var rotatedNewWidth, rotatedNewHeight, rotatedArea1, rotatedArea2;
 
-        if (area1 > area2) {
-            splitVH();
-            splitVV();
+        if (part.canRotate && !partRotated && rotationIdx === 0) {
+            partRotated = true;
+            rotate(part);
+            rotatedNewWidth = slate.rect.w - part.w;
+            rotatedNewHeight = slate.rect.h - part.h;
+            rotatedArea1 = newWidth * slate.rect.h;
+            rotatedArea2 = part.w * newHeight;
+
+            if (area1 >= area2 && rotatedArea1 > area1 ||
+                    area2 >= area1 && rotatedArea2 > area2) {
+                newWidth = rotatedNewWidth;
+                newHeight = rotatedNewHeight;
+                area1 = rotatedArea1;
+                area2 = rotatedArea2;
+
+                if (area1 > area2) {
+                    splitHV();
+                    splitHH();
+                } else {
+                    splitHH();
+                    splitHV();
+                }
+            } else {
+                partRotated = false;
+                rotate(part);
+
+                splitNormalV();
+            }
         } else {
-            splitVV();
-            splitVH();
+            splitNormalV();
+        }
+
+
+        function splitNormalV () {
+            if (area1 > area2) {
+                splitVH();
+                splitVV();
+            } else {
+                splitVV();
+                splitVH();
+            }
         }
     }
 
