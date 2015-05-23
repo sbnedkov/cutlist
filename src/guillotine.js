@@ -153,38 +153,57 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         success: false
     };
 
+    function splitH () {
+        var area1 = newWidth * part.h;
+        var area2 = slate.rect.w * newHeight;
+
+        if (area1 > area2) {
+            splitHH();
+            splitHV();
+        } else {
+            splitHV();
+            splitHH();
+        }
+    }
+
     function splitV () {
+        var area1 = newWidth * slate.rect.h;
+        var area2 = part.w * newHeight;
+
+        if (area1 > area2) {
+            splitVH();
+            splitVV();
+        } else {
+            splitVV();
+            splitVH();
+        }
+    }
+
+    function splitVH () {
         if (newWidth) {
             slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, slate.rect.h)));
             cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + slate.rect.h));
         }
+    }
+
+    function splitVV () {
         if (newHeight) {
             slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, part.w, newHeight)));
             cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + part.w, slate.rect.y + part.h));
         }
     }
 
-    function splitH () {
-        var area1 = newWidth * part.h;
-        var area2 = slate.rect.w * newHeight;
-        if (area1 > area2) {
-            if (newWidth) {
-                slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, part.h)));
-                cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + part.h));
-            }
-            if (newHeight) {
-                slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, slate.rect.w, newHeight)));
-                cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + slate.rect.w, slate.rect.y + part.h));
-            }
-        } else {
-            if (newHeight) {
-                slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, slate.rect.w, newHeight)));
-                cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + slate.rect.w, slate.rect.y + part.h));
-            }
-            if (newWidth) {
-                slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, part.h)));
-                cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + part.h));
-            }
+    function splitHH () {
+        if (newWidth) {
+            slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, part.h)));
+            cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + part.h));
+        }
+    }
+
+    function splitHV () {
+        if (newHeight) {
+            slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, slate.rect.w, newHeight)));
+            cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + slate.rect.w, slate.rect.y + part.h));
         }
     }
 };
