@@ -7,7 +7,7 @@ var Rectangle = common.Rectangle;
 var Part = common.Part;
 var Guillotine = require('./guillotine');
 
-/*
+
 describe('Guillotine', () => {
     describe('#apply()', () => {
         it('should return empty result for no parts', () => {
@@ -18,7 +18,7 @@ describe('Guillotine', () => {
             assert.equal(res.cuts.length, 0);
         });
 
-        it('should return correct vertical cut', () => {
+        it('should return correct vertical cut', (done) => {
             var guillotine = new Guillotine('v');
             var parts = [{
                 name: 'a',
@@ -57,11 +57,13 @@ describe('Guillotine', () => {
             var res = guillotine.apply(new Slate(new Rectangle(0, 0, 1000, 1000)), parts);
 
             assert.equal(res.result.length, 6);
-            assert.equal(res.cuts.length, 8);
-            assert.deepEqual(res, {'result':[{'name':'c','x':0,'y':0,'w':800,'h':200},{'name':'a','x':800,'y':0,'w':200,'h':600},{'name':'e','x':0,'y':200,'w':400,'h':500},{'name':'f','x':400,'y':200,'w':400,'h':500},{'name':'d','x':400,'y':700,'w':400,'h':300},{'name':'b','x':0,'y':700,'w':300,'h':200}],'cuts':[{'name':'c','x1':800,'y1':0,'x2':800,'y2':1000},{'name':'c','x1':0,'y1':200,'x2':800,'y2':200},{'name':'a','x1':800,'y1':600,'x2':1000,'y2':600},{'name':'e','x1':400,'y1':200,'x2':400,'y2':1000},{'name':'e','x1':0,'y1':700,'x2':400,'y2':700},{'name':'f','x1':400,'y1':700,'x2':800,'y2':700},{'name':'b','x1':300,'y1':700,'x2':300,'y2':1000},{'name':'b','x1':0,'y1':900,'x2':300,'y2':900}]});
+            assert.equal(res.cuts.length, 7);
+            assert.deepEqual(res, {"rating":120141.4213562373,"result":[{"name":"e","x":0,"y":0,"w":400,"h":500},{"name":"d","x":0,"y":500,"w":400,"h":300},{"name":"a","x":400,"y":0,"w":600,"h":200},{"name":"f","x":400,"y":200,"w":400,"h":500},{"name":"c","x":800,"y":200,"w":200,"h":800},{"name":"b","x":0,"y":800,"w":300,"h":200}],"cuts":[{"name":"e","x1":400,"y1":0,"x2":400,"y2":1000},{"name":"e","x1":0,"y1":500,"x2":400,"y2":500},{"name":"d","x1":0,"y1":800,"x2":400,"y2":800},{"name":"a","x1":400,"y1":200,"x2":1000,"y2":200},{"name":"f","x1":800,"y1":200,"x2":800,"y2":1000},{"name":"f","x1":400,"y1":700,"x2":800,"y2":700},{"name":"b","x1":300,"y1":800,"x2":300,"y2":1000}]});
+
+            done();
         });
 
-        it('should return correct horizontal cut', () => {
+        it('should return correct horizontal cut', (done) => {
             var guillotine = new Guillotine('h');
             var parts = [{
                 name: 'a',
@@ -100,12 +102,14 @@ describe('Guillotine', () => {
             var res = guillotine.apply(new Slate(new Rectangle(0, 0, 1000, 1000)), parts);
 
             assert.equal(res.result.length, 6);
-            assert.equal(res.cuts.length, 8);
-            assert.deepEqual(res, {'result':[{'name':'e','x':0,'y':0,'w':500,'h':400},{'name':'f','x':500,'y':0,'w':500,'h':400},{'name':'d','x':0,'y':400,'w':300,'h':400},{'name':'c','x':0,'y':800,'w':800,'h':200},{'name':'a','x':300,'y':400,'w':600,'h':200},{'name':'b','x':300,'y':600,'w':300,'h':200}],'cuts':[{'name':'e','x1':500,'y1':0,'x2':500,'y2':400},{'name':'e','x1':0,'y1':400,'x2':1000,'y2':400},{'name':'d','x1':300,'y1':400,'x2':300,'y2':800},{'name':'d','x1':0,'y1':800,'x2':1000,'y2':800},{'name':'c','x1':800,'y1':800,'x2':800,'y2':1000},{'name':'a','x1':900,'y1':400,'x2':900,'y2':600},{'name':'a','x1':300,'y1':600,'x2':1000,'y2':600},{'name':'b','x1':600,'y1':600,'x2':600,'y2':800}]});
+            assert.equal(res.cuts.length, 7);
+            assert.deepEqual(res, {"rating":120141.4213562373,"result":[{"name":"e","x":0,"y":0,"w":500,"h":400},{"name":"a","x":0,"y":400,"w":200,"h":600},{"name":"c","x":200,"y":400,"w":800,"h":200},{"name":"d","x":500,"y":0,"w":300,"h":400},{"name":"f","x":200,"y":600,"w":500,"h":400},{"name":"b","x":800,"y":0,"w":200,"h":300}],"cuts":[{"name":"e","x1":0,"y1":400,"x2":1000,"y2":400},{"name":"e","x1":500,"y1":0,"x2":500,"y2":400},{"name":"a","x1":200,"y1":400,"x2":200,"y2":1000},{"name":"c","x1":200,"y1":600,"x2":1000,"y2":600},{"name":"d","x1":800,"y1":0,"x2":800,"y2":400},{"name":"f","x1":700,"y1":600,"x2":700,"y2":1000},{"name":"b","x1":800,"y1":300,"x2":1000,"y2":300}]});
+
+            done();
         });
     });
 });
-*/
+
 
 describe('Utils', () => {
     describe('#permute()', () => {

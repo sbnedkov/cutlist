@@ -17,7 +17,7 @@ gulp.task('babelify-test', function () {
 
 gulp.task('test', ['babelify-test'], function () {
     return gulp.src('tmp-test/test.js', {read: false})
-        .pipe(mocha({reporter: 'nyan'}));
+        .pipe(mocha({reporter: 'nyan', timeout: 30000}));
 });
 
 gulp.task('browserify', function () {
