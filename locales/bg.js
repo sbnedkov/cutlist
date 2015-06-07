@@ -7,5 +7,6 @@
 	"Cutlist": "Разкрой",
     "Configuration": "Конфигурация",
 	"Test": "Тест",
-	"Optimal cut": "Оптимален срез"
+	"Optimal cut": "Оптимален срез",
+    "Add part": "Добави част"
 }

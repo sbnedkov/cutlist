@@ -23,6 +23,10 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         });
     };
 
+    $scope.addPart = () => {
+        $scope.parts.push({});
+    };
+
     $scope.cutType = 'v';
 
     $scope.testsIdx = 1;

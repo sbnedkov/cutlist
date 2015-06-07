@@ -7,5 +7,6 @@
 	"Cutlist": "Cutlist",
 	"Configuration": "Configuration",
 	"Test": "Test",
-	"Optimal cut": "Optimal cut"
+	"Optimal cut": "Optimal cut",
+    "Add part": "Add part"
 }
