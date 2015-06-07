@@ -186,13 +186,10 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         var rotatedNewWidth, rotatedNewHeight, rotatedArea1, rotatedArea2;
 
         if (part.canRotate && rotationIdx === 0) {
-            // TODO: estimate without modifying part
-            rotate(part);
-            rotatedNewWidth = slate.rect.w - part.w;
-            rotatedNewHeight = slate.rect.h - part.h;
-            rotatedArea1 = rotatedNewWidth * part.h;
-            rotatedArea2 = slate.rect.w * rotatedNewHeight;
-            rotate(part);
+            rotatedNewWidth = slate.rect.h - part.h;
+            rotatedNewHeight = slate.rect.w - part.w;
+            rotatedArea1 = rotatedNewWidth * part.w;
+            rotatedArea2 = slate.rect.h * rotatedNewHeight;
 
             if (area1 >= area2 && rotatedArea1 > area1 ||
                     area2 >= area1 && rotatedArea2 > area2) {
@@ -223,13 +220,10 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         var rotatedNewWidth, rotatedNewHeight, rotatedArea1, rotatedArea2;
 
         if (part.canRotate && rotationIdx === 0) {
-            // TODO: estimate without modifying part
-            rotate(part);
-            rotatedNewWidth = slate.rect.w - part.w;
-            rotatedNewHeight = slate.rect.h - part.h;
-            rotatedArea1 = newWidth * slate.rect.h;
-            rotatedArea2 = part.w * newHeight;
-            rotate(part);
+            rotatedNewWidth = slate.rect.h - part.h;
+            rotatedNewHeight = slate.rect.w - part.w;
+            rotatedArea1 = newWidth * slate.rect.w;
+            rotatedArea2 = part.h * newHeight;
 
             if (area1 >= area2 && rotatedArea1 > area1 ||
                     area2 >= area1 && rotatedArea2 > area2) {
