@@ -38,7 +38,13 @@ app.post('/lang', (req, res) => {
 });
 
 app.post('/cutlist', (req, res) => {
-    var slate = new Slate(new Rectangle(0, 0, parseInt(req.body.slate.w), parseInt(req.body.slate.h)));
+    var slates = [];
+    var idx = 0;
+    req.body.slates.forEach(slate => {
+        if (slate.w && slate.h) {
+            slates.push(new Slate(new Rectangle(0, 0, parseInt(slate.w), parseInt(slate.h)), idx++));
+        }
+    });
     var parts = [];
     req.body.parts.forEach((part) => {
         if (part.w && part.h && part.name) {
@@ -49,7 +55,7 @@ app.post('/cutlist', (req, res) => {
     });
 
     var guillotine = new Guillotine(req.body.cutType);
-    res.json(guillotine.apply(slate, parts));
+    res.json(guillotine.apply(slates, parts));
 });
 
 var port = process.env.PORT || 31314;

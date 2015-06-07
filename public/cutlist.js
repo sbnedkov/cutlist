@@ -13,7 +13,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
 
     $scope.submit = () => {
         $http.post('/cutlist', {
-            slate: $scope.slate,
+            slates: $scope.slates,
             parts: $scope.parts,
             cutType: $scope.cutType
         }).success((res) => {
@@ -27,14 +27,18 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         $scope.parts.push({});
     };
 
+    $scope.addSlate = () => {
+        $scope.slates.push({});
+    };
+
     $scope.cutType = 'v';
 
     $scope.testsIdx = 1;
     $scope.tests = [{
-            slate: {
+            slates: [{
                 w: 1000,
                 h: 1000
-            },
+            }],
             parts: [{
                 name: 'a',
                 count: 1,
@@ -73,10 +77,10 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 canRotate: true
             }]
         }, {
-            slate: {
+            slates: [{
                 w: 1500,
                 h: 1000
-            },
+            }],
             parts: [{
                 name: 'a',
                 count: 1,
@@ -115,10 +119,10 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 canRotate: true
             }]
         }, {
-            slate: {
+            slates: [{
                 w: 1500,
                 h: 1000
-            },
+            }],
             parts: [{
                 name: 'a',
                 count: 1,
@@ -160,7 +164,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
 
     $scope.$watch('testsIdx', (idx) => {
         if (idx >= 0) {
-            $scope.slate = $scope.tests[idx].slate;
+            $scope.slates = $scope.tests[idx].slates;
             $scope.parts = $scope.tests[idx].parts;
         }
     });
@@ -169,37 +173,43 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         restrict: 'E',
         replace: true,
         link: function (scope, element, attributes) {
+            var idx = parseInt(attributes.idx);
+            var canvas = element.find('canvas')[0];
             scope.$watch('cutlist', function (cutlist) {
-                var ctx = element[0].getContext('2d');
+                var ctx = canvas.getContext('2d');
 
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.font = '20px Verdana';
 
                 if (!cutlist) {
-                    ctx.clearRect(0, 0, element[0].width, element[0].height);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
                     return;
                 }
 
-                ctx.clearRect(0, 0, element[0].width, element[0].height);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.strokeStyle = 'black';
 
-                var ratio = element[0].width / scope.slate.w;
+                var ratio = canvas.width / scope.slates[idx].w;
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-                ctx.strokeRect(0, 0, scope.slate.w, scope.slate.h);
+                ctx.strokeRect(0, 0, scope.slates[idx].w, scope.slates[idx].h);
                 cutlist.result.forEach(function (part) {
-                    ctx.strokeRect(part.x, part.y, part.w, part.h);
-                    ctx.fillText(part.name, part.x + part.w / 2, part.y + part.h / 2);
+                    if (part.slateIdx === idx) {
+                        ctx.strokeRect(part.x, part.y, part.w, part.h);
+                        ctx.fillText(part.name, part.x + part.w / 2, part.y + part.h / 2);
+                    }
                 });
                 cutlist.cuts.forEach(function (cut) {
-                    ctx.beginPath();
-                    ctx.moveTo(cut.x1, cut.y1);
-                    ctx.lineTo(cut.x2, cut.y2);
-                    ctx.strokeStyle = 'red';
-                    ctx.stroke();
+                    if (cut.slateIdx === idx) {
+                        ctx.beginPath();
+                        ctx.moveTo(cut.x1, cut.y1);
+                        ctx.lineTo(cut.x2, cut.y2);
+                        ctx.strokeStyle = 'red';
+                        ctx.stroke();
+                    }
                 });
             });
         },
-        template: '<canvas width="1000px" height="1000px"></canvas>'
+        template: '<div><canvas width="1000px" height="1000px"></canvas></div>'
     };
 });

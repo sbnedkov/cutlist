@@ -11,20 +11,22 @@ Rectangle.prototype.markUsed = function () {
     this.used = true;
 };
 
-var Cut = function (name, x1, y1, x2, y2) {
+var Cut = function (name, x1, y1, x2, y2, slateIdx) {
     this.name = name;
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;
     this.y2 = y2;
+    this.slateIdx = slateIdx;
 };
 
-var NamedRectangle = function (name, x, y, w, h) {
+var NamedRectangle = function (name, x, y, w, h, slateIdx) {
     this.name = name;
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+    this.slateIdx = slateIdx;
 };
 
 var Slates = function (slates) {
@@ -77,8 +79,9 @@ Slates.prototype.hasMore = function () {
     return !_.all(this.slates, 'marked');
 };
 
-var Slate = function (rect) {
+var Slate = function (rect, idx) {
     this.rect = rect;
+    this.idx = idx;
 };
 
 var Part = function (name, w, h, canRotate) {

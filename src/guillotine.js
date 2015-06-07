@@ -18,7 +18,7 @@ var Guillotine = module.exports = function (cutType) {
 };
 
 var THRESHOLD = 1000;
-Guillotine.prototype.apply = function (slate, parts) {
+Guillotine.prototype.apply = function (slates, parts) {
     var copy = parts.slice(0);
     // TODO: Parts that can be rotated should be sorted further down the list
     var ps = copy.sort((part1, part2) => {
@@ -39,7 +39,7 @@ Guillotine.prototype.apply = function (slate, parts) {
         if (permutation) { // if false - skip by threshold
             var result = [];
             var cuts = [];
-            var res = this.solution([slate], permutation, result, cuts, 0);
+            var res = this.solution(slates, permutation, result, cuts, 0);
             if (res.success) {
                 results.push({
                     rating: utils.rate(res.spares),
@@ -307,29 +307,29 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
 
     function cutVH () {
         if (newWidth) {
-            slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, slate.rect.h)));
-            cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + slate.rect.h));
+            slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, slate.rect.h), slate.idx));
+            cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + slate.rect.h, slate.idx));
         }
     }
 
     function cutVV () {
         if (newHeight) {
-            slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, part.w, newHeight)));
-            cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + part.w, slate.rect.y + part.h));
+            slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, part.w, newHeight), slate.idx));
+            cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + part.w, slate.rect.y + part.h, slate.idx));
         }
     }
 
     function cutHH () {
         if (newWidth) {
-            slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, part.h)));
-            cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + part.h));
+            slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, part.h), slate.idx));
+            cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + part.h, slate.idx));
         }
     }
 
     function cutHV () {
         if (newHeight) {
-            slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, slate.rect.w, newHeight)));
-            cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + slate.rect.w, slate.rect.y + part.h));
+            slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, slate.rect.w, newHeight), slate.idx));
+            cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + slate.rect.w, slate.rect.y + part.h, slate.idx));
         }
     }
 
@@ -342,6 +342,6 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
     }
 
     function recordResult () {
-        result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
+        result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h, slate.idx));
     }
 };

@@ -8,5 +8,6 @@
     "Configuration": "Конфигурация",
 	"Test": "Тест",
 	"Optimal cut": "Оптимален срез",
-    "Add part": "Добави част"
+    "Add part": "Добави част",
+    "Add slate": "Добави плоча"
 }

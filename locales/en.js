@@ -8,5 +8,6 @@
 	"Configuration": "Configuration",
 	"Test": "Test",
 	"Optimal cut": "Optimal cut",
-    "Add part": "Add part"
+    "Add part": "Add part",
+    "Add slate": "Add slate"
 }

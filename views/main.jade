@@ -18,8 +18,10 @@ html(ng-app="cutlist")
     br
     span #{__("Slate")}
       br
-      input(type="text", ng-model="slate.w")
-      input(type="text", ng-model="slate.h")
+      div(ng-repeat="slate in slates")
+        input(type="text", ng-model="slate.w")
+        input(type="text", ng-model="slate.h")
+      button(ng-click="addSlate()") #{__("Add slate")}
       br
     span #{__("Parts")}
       div(ng-repeat="part in parts")
@@ -37,6 +39,6 @@ html(ng-app="cutlist")
     button(ng-click="submit()") #{__("Calculate")}
     br
     div {{cutlist}}
-    x-cutlist-canvas#cutlist-canvas
+    x-cutlist-canvas#cutlist-canvas(ng-repeat="slate in slates", idx="{{$index}}")
 
     script(type="application/javascript", src="dist/public/cutlist.js")
