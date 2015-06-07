@@ -33,31 +33,37 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
             },
             parts: [{
                 name: 'a',
+                count: 1,
                 w: 600,
                 h: 200,
                 canRotate: true
             }, {
                 name: 'b',
+                count: 1,
                 w: 300,
                 h: 200,
                 canRotate: true
             }, {
                 name: 'c',
+                count: 1,
                 w: 800,
                 h: 200,
                 canRotate: true
             }, {
                 name: 'd',
+                count: 1,
                 w: 400,
                 h: 300,
                 canRotate: true
             }, {
                 name: 'e',
+                count: 1,
                 w: 400,
                 h: 500,
                 canRotate: true
             }, {
                 name: 'f',
+                count: 1,
                 w: 400,
                 h: 500,
                 canRotate: true
@@ -69,31 +75,37 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
             },
             parts: [{
                 name: 'a',
+                count: 1,
                 w: 300,
                 h: 200,
                 canRotate: true
             }, {
                 name: 'b',
+                count: 1,
                 w: 300,
                 h: 200,
                 canRotate: true
             }, {
                 name: 'c',
+                count: 1,
                 w: 100,
                 h: 200,
                 canRotate: true
             }, {
                 name: 'd',
+                count: 1,
                 w: 400,
                 h: 220,
                 canRotate: true
             }, {
                 name: 'e',
+                count: 1,
                 w: 200,
                 h: 500,
                 canRotate: true
             }, {
                 name: 'f',
+                count: 1,
                 w: 400,
                 h: 250,
                 canRotate: true
@@ -105,31 +117,37 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
             },
             parts: [{
                 name: 'a',
+                count: 1,
                 w: 100,
                 h: 325,
                 canRotate: true
             }, {
                 name: 'b',
+                count: 1,
                 w: 320,
                 h: 100,
                 canRotate: true
             }, {
                 name: 'c',
+                count: 1,
                 w: 155,
                 h: 280,
                 canRotate: true
             }, {
                 name: 'd',
+                count: 1,
                 w: 120,
                 h: 800,
                 canRotate: true
             }, {
                 name: 'e',
+                count: 1,
                 w: 222,
                 h: 325,
                 canRotate: true
             }, {
                 name: 'f',
+                count: 1,
                 w: 128,
                 h: 250,
                 canRotate: true

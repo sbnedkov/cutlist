@@ -17,7 +17,7 @@ var Guillotine = module.exports = function (cutType) {
     this.cutType = cutType;
 };
 
-var THRESHOLD = 100000;
+var THRESHOLD = 1000;
 Guillotine.prototype.apply = function (slate, parts) {
     var copy = parts.slice(0);
     // TODO: Parts that can be rotated should be sorted further down the list

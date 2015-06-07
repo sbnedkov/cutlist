@@ -41,8 +41,10 @@ app.post('/cutlist', (req, res) => {
     var slate = new Slate(new Rectangle(0, 0, parseInt(req.body.slate.w), parseInt(req.body.slate.h)));
     var parts = [];
     req.body.parts.forEach((part) => {
-        if (part.w && part.h) {
-            parts.push(new Part(part.name, parseInt(part.w), parseInt(part.h), Boolean(part.canRotate)));
+        if (part.w && part.h && part.name) {
+            for (let i = 0; i < part.count; i++) {
+                parts.push(new Part(part.name + '#' + (i + 1), parseInt(part.w), parseInt(part.h), Boolean(part.canRotate)));
+            }
         }
     });
 
