@@ -113,6 +113,7 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
             return this.solution(slates.slates, parts, result, cuts, 1);
         }
 
+        var res;
         var shouldKeep;
         var newWidth = slate.rect.w - part.w;
         var newHeight = slate.rect.h - part.h;
@@ -121,14 +122,71 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         } else if (this.cutType === 'h') {
             shouldKeep = splitH();
         } else if (this.cutType === 'o') {
-            // TODO: optimal
             shouldKeep = splitV();
+            if (shouldKeep) {
+                result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
+                res = this.solution(slates.slates, parts, result, cuts, 0);
+                if (res.success) {
+                    return {
+                        success: true,
+                        spares: res.spares
+                    };
+                } else {
+                    reverse();
+                    result.pop();
+                    res = this.solution(slates.slates, parts, result, cuts, 1);
+                    if (res.success) {
+                        return {
+                            success: true,
+                            spares: res.spares
+                        };
+                    } else {
+                        reverse();
+                        result.pop();
+                        shouldKeep = splitH();
+                    }
+                }
+            } else {
+                if (newWidth) {
+                    slates.shift();
+                    cuts.pop();
+                }
+                if (newHeight) {
+                    slates.shift();
+                    cuts.pop();
+                }
+                shouldKeep = splitH();
+                if (shouldKeep) {
+                    result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
+                    res = this.solution(slates.slates, parts, result, cuts, 0);
+                    if (res.success) {
+                        return {
+                            success: true,
+                            spares: res.spares
+                        };
+                    } else {
+                        reverse();
+                        result.pop();
+                        res = this.solution(slates.slates, parts, result, cuts, 1);
+                        if (res.success) {
+                            return {
+                                success: true,
+                                spares: res.spares
+                            };
+                        } else {
+                            reverse();
+                            result.pop();
+                            shouldKeep = splitV();
+                        }
+                    }
+                }
+            }
         }
 
         result.push(new NamedRectangle(part.name, slate.rect.x, slate.rect.y, part.w, part.h));
 
         if (shouldKeep) {
-            var res = this.solution(slates.slates, parts, result, cuts, 0);
+            res = this.solution(slates.slates, parts, result, cuts, 0);
             if (res.success) {
                 return {
                     success: true,
@@ -141,6 +199,7 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         }
 
         reverse();
+        smallReverse();
 
         if (rotationIdx === 0) {
             return this.solution(slates.slates, parts, result, cuts, 1);
@@ -177,7 +236,6 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
             slates.shift();
             cuts.pop();
         }
-        smallReverse();
     }
 
     function splitH () {

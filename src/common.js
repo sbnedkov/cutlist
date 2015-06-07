@@ -28,7 +28,7 @@ var NamedRectangle = function (name, x, y, w, h) {
 };
 
 var Slates = function (slates) {
-    this.slates = _.cloneDeep(slates).sort((slate1, slate2) => {
+    this.slates = _.clone(slates).sort((slate1, slate2) => {
         return slate1.rect.w * slate1.rect.h - slate2.rect.w * slate2.rect.h;
     });
     this.markUnused();
