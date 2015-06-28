@@ -179,7 +179,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 var ctx = canvas.getContext('2d');
 
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.font = '20px Verdana';
+                ctx.font = '25px Verdana';
 
                 if (!cutlist) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
