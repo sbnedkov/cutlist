@@ -33,7 +33,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
 
     $scope.cutType = 'v';
 
-    $scope.testsIdx = 1;
+    $scope.testsIdx = 3;
     $scope.tests = [{
             slates: [{
                 w: 1000,
@@ -160,6 +160,48 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 h: 250,
                 canRotate: true
             }]
+        }, {
+            slates: [{
+                w: 2800,
+                h: 2070
+            }],
+            parts: [{
+                name: 'Det. 1',
+                count: 2,
+                w: 562,
+                h: 353,
+                canRotate: true
+            }, {
+                name: 'Det. 3',
+                count: 5,
+                w: 420,
+                h: 232,
+                canRotate: true
+            }, {
+                name: 'Det. 2',
+                count: 5,
+                w: 500,
+                h: 652,
+                canRotate: true
+            }, {
+                name: 'd',
+                count: 0,
+                w: 400,
+                h: 220,
+                canRotate: true
+            }, {
+                name: 'e',
+                count: 0,
+                w: 200,
+                h: 500,
+                canRotate: true
+            }, {
+                name: 'f',
+                count: 0,
+                w: 400,
+                h: 250,
+                canRotate: true
+            }]
         }];
 
     $scope.$watch('testsIdx', (idx) => {
@@ -179,7 +221,8 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 var ctx = canvas.getContext('2d');
 
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.font = '25px Verdana';
+                ctx.textAlign = 'center';
+                ctx.font = '45px Verdana';
 
                 if (!cutlist) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
