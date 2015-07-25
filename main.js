@@ -46,10 +46,12 @@ app.post('/cutlist', (req, res) => {
         }
     });
     var parts = [];
+    var group = 0;
     req.body.parts.forEach((part) => {
         if (part.w && part.h && part.name) {
+            group++;
             for (let i = 0; i < part.count; i++) {
-                parts.push(new Part(part.name + '#' + (i + 1), parseInt(part.w), parseInt(part.h), Boolean(part.canRotate)));
+                parts.push(new Part(part.name + '#' + (i + 1), parseInt(part.w), parseInt(part.h), Boolean(part.canRotate), group));
             }
         }
     });

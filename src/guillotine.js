@@ -17,29 +17,78 @@ var Guillotine = module.exports = function (cutType) {
     this.cutType = cutType;
 };
 
+Guillotine.prototype.sortParts = function (copy) {
+    var groupDimMap = {};
+    _.each(copy, (part) => {
+        if (!groupDimMap[part.group]) {
+            groupDimMap[part.group] = {
+                w: 0,
+                h: 0,
+                short: 0
+            };
+        }
+
+        switch (this.cutType) {
+            case 'v':
+                if (part.w < part.h) {
+                    rotate(part);
+                }
+                groupDimMap[part.group].w = part.w;
+                groupDimMap[part.group].h += part.h;
+                break;
+            case 'h':
+                if (part.w > part.h) {
+                    rotate(part);
+                }
+                groupDimMap[part.group].w = part.w;
+                groupDimMap[part.group].h += part.h;
+                break;
+            case 'o':
+                if (part.w > part.h) {
+                    rotate(part);
+                }
+                groupDimMap[part.group].w += part.w;
+                groupDimMap[part.group].h = part.h;
+                break;
+            default:
+                throw new Error('Unknown cut type: ' + this.cutType);
+        }
+    });
+
+    return copy.sort((part1, part2) => {
+        var short1 = groupDimMap[part1.group].w > groupDimMap[part1.group].h ? groupDimMap[part1.group].h : groupDimMap[part1.group].w;
+        var short2 = groupDimMap[part2.group].w > groupDimMap[part2.group].h ? groupDimMap[part2.group].h : groupDimMap[part2.group].w;
+
+        return short2 - short1;
+    });
+};
+
 var THRESHOLD = 1000;
 Guillotine.prototype.apply = function (slates, parts) {
     var copy = parts.slice(0);
+    var ps = this.sortParts(copy);
+
     // TODO: Parts that can be rotated should be sorted further down the list
-    var ps = copy.sort((part1, part2) => {
-        var primary = part2.w * part2.h - part1.w * part1.h;
-        return primary ? primary : ((part1, part2) => {
-            if (this.cutType === 'v') {
-                return part1.w === part2.w ? part2.h - part1.h : part2.w - part1.w;
-            } else if (this.cutType === 'h') {
-                return part1.h === part2.h ? part2.w - part1.w : part2.h - part1.h;
-            } else if (this.cutType === 'o') {
-                return 0;
-            }
-        })(part1, part2);
-    });
+//    var ps = copy.sort((part1, part2) => {
+//        var primary = part2.w * part2.h - part1.w * part1.h;
+//        return primary ? primary : ((part1, part2) => {
+//            if (this.cutType === 'v') {
+//                return part1.w === part2.w ? part2.h - part1.h : part2.w - part1.w;
+//            } else if (this.cutType === 'h') {
+//                return part1.h === part2.h ? part2.w - part1.w : part2.h - part1.h;
+//            } else if (this.cutType === 'o') {
+//                return 0;
+//            }
+//        })(part1, part2);
+//    });
 
     var results = [];
-    utils.permute(ps, {threshold: THRESHOLD}, (permutation) => {
-        if (permutation) { // if false - skip by threshold
+//    utils.permute(ps, {threshold: THRESHOLD}, (permutation) => {
+//        if (permutation) { // if false - skip by threshold
             var result = [];
             var cuts = [];
-            var res = this.solution(slates, permutation, result, cuts, 0);
+            var res = this.solution(slates, ps, result, cuts, 0);
+//            var res = this.solution(slates, permutation, result, cuts, 0);
             if (res.success) {
                 results.push({
                     rating: utils.rate(res.spares),
@@ -47,8 +96,8 @@ Guillotine.prototype.apply = function (slates, parts) {
                     cuts: cuts
                 });
             }
-        }
-    });
+//        }
+//    });
 
     return _.max(results, (result) => {
         return result.rating;
@@ -59,6 +108,7 @@ function rotateNoop (part) {
 }
 
 function rotate (part) {
+    part.rotated = !part.rotated;
     part.w = part.w ^ part.h;
     part.h = part.w ^ part.h;
     part.w = part.w ^ part.h;
@@ -72,6 +122,7 @@ var rotateFn = [
 Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) {
 //    console.log(ss, parts, result);
     var slates = new Slates(ss);
+//    parts = this.sortParts(parts);
     var gen = slates.generator();
 
     while (slates.hasMore()) {
@@ -83,18 +134,22 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
             };
         }
 
-        var part = parts[0];
-        parts.shift();
-        rotateFn[rotationIdx](part);
+        rotateFn[rotationIdx](parts[0]);
 
         var slate;
         do {
             slate = gen.next();
-//            console.log('Consider', slate, 'for', part);
+
+            if (slate.value && !slate.value.lastUsed) {
+                parts = this.sortParts(parts);
+            }
+
             if (slate.value) {
                 slate.value.marked = true;
             }
-        } while (!slate.done && !fitPart(slate.value, part) && !fitPartRotated(slate.value, part));
+        } while (!slate.done && !fitPart(slate.value, parts[0]) && !fitPartRotated(slate.value, parts[0]));
+
+        var part = parts.shift();
 
         // TODO: revisit the next condition, what about slate.done && !slate.value?
         if (slate.done) {
@@ -107,6 +162,7 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
 
         slates.pop();
         slate = slate.value;
+        slates.clearLastUsed();
 
         if (!fitPart(slate, part)) {
             returnParts();
@@ -117,6 +173,7 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         var shouldKeep;
         var newWidth = slate.rect.w - part.w;
         var newHeight = slate.rect.h - part.h;
+
         if (this.cutType === 'v') {
             shouldKeep = cutV();
         } else if (this.cutType === 'h') {
@@ -275,7 +332,7 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
         var area2 = part.w * newHeight;
         var rotatedNewWidth, rotatedNewHeight, rotatedArea1, rotatedArea2;
 
-        if (part.canRotate && rotationIdx === 0) {
+        if (!part.rotated && part.canRotate && rotationIdx === 0) {
             rotatedNewWidth = slate.rect.h - part.h;
             rotatedNewHeight = slate.rect.w - part.w;
             rotatedArea1 = newWidth * slate.rect.w;
@@ -307,28 +364,34 @@ Guillotine.prototype.solution = function (ss, parts, result, cuts, rotationIdx) 
 
     function cutVH () {
         if (newWidth) {
-            slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, slate.rect.h), slate.idx));
+            var s = new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, slate.rect.h), slate.idx);
+            slates.unshift(s);
             cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + slate.rect.h, slate.idx));
         }
     }
 
     function cutVV () {
         if (newHeight) {
-            slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, part.w, newHeight), slate.idx));
+            var s = new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, part.w, newHeight), slate.idx);
+            s.lastUsed = true;
+            slates.unshift(s);
             cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + part.w, slate.rect.y + part.h, slate.idx));
         }
     }
 
     function cutHH () {
         if (newWidth) {
-            slates.unshift(new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, part.h), slate.idx));
+            var s = new Slate(new Rectangle(slate.rect.x + part.w, slate.rect.y, newWidth, part.h), slate.idx);
+            s.lastUsed = true;
+            slates.unshift(s);
             cuts.push(new Cut(part.name, slate.rect.x + part.w, slate.rect.y, slate.rect.x + part.w, slate.rect.y + part.h, slate.idx));
         }
     }
 
     function cutHV () {
         if (newHeight) {
-            slates.unshift(new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, slate.rect.w, newHeight), slate.idx));
+            var s = new Slate(new Rectangle(slate.rect.x, slate.rect.y + part.h, slate.rect.w, newHeight), slate.idx);
+            slates.unshift(s);
             cuts.push(new Cut(part.name, slate.rect.x, slate.rect.y + part.h, slate.rect.x + slate.rect.w, slate.rect.y + part.h, slate.idx));
         }
     }

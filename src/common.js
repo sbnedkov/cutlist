@@ -75,6 +75,12 @@ Slates.prototype.markUnused = function () {
     return this.slates;
 };
 
+Slates.prototype.clearLastUsed = function () {
+    _.each(this.slates, (slate) => {
+        delete slate.lastUsed;
+    });
+};
+
 Slates.prototype.hasMore = function () {
     return !_.all(this.slates, 'marked');
 };
@@ -84,11 +90,12 @@ var Slate = function (rect, idx) {
     this.idx = idx;
 };
 
-var Part = function (name, w, h, canRotate) {
+var Part = function (name, w, h, canRotate, group) {
     this.name = name;
     this.w = w;
     this.h = h;
     this.canRotate = canRotate;
+    this.group = group;
 };
 
 module.exports = {
