@@ -1,8 +1,10 @@
 class Item {
-    constructor (w, ref) {
-        this.w = w;
-        this.v = w;
+    constructor (ref, weight, quantity = 1, index = 0) {
         this.ref = ref;
+        this.w = weight;
+        this.q = quantity;
+        this.v = weight;
+        this.index = index;
     }
 }
 
@@ -16,58 +18,91 @@ class Backpack {
             return;
         }
 
-        var solution = [];
-
         var sortedItems = items.sort((item1, item2) => {
             return item2.v - item1.v;
         });
 
-        var m = new Array2D(sortedItems.length + 1, this.W + 1);
+        var expandedItems = [];
+        sortedItems.forEach(item => {
+            for (let i = 0; i < item.q; i++) {
+                expandedItems.push(new Item(item.ref, item.w, 1, i));
+            }
+        });
+
+        var m = new ItemArray2D(expandedItems.length + 1, this.W + 1);
 
         for (let j = 0; j < this.W + 1; j++) {
-            m.set(0, j, 0);
+            m.set(0, j);
         }
 
-        for (let i = 1; i < sortedItems.length + 1; i++) {
+        for (let i = 1; i < expandedItems.length + 1; i++) {
             for (let j = 0; j < this.W + 1; j++) {
-                if (sortedItems[i - 1].w <= j) {
-                    let prev = m.get(i - 1, j);
-                    let ith = m.get(i - 1, j - sortedItems[i - 1].w) + sortedItems[i - 1].v;
+                let item = expandedItems[i - 1];
+                if (item.w <= j) {
+                    let prev = m.getValue(i - 1, j);
+                    let ith = m.getValue(i - 1, j - item.w) + item.v;
 
-                    if (j === this.W && ith > prev) {
-                        solution.push(sortedItems[i - 1]);
+                    if (ith > prev) {
+                        m.set(i, j, [i - 1, j - expandedItems[i - 1].w], item);
+                    } else {
+                        m.set(i, j, [i - 1, j]);
                     }
-
-                    m.set(i, j, Math.max(prev, ith));
                 } else {
-                    m.set(i, j, m.get(i - 1, j));
+                    m.set(i, j, m.getReference(i - 1, j), m.getItem(i - 1, j));
                 }
             }
         }
 
         return {
-            solution,
-            value: m.get(sortedItems.length, this.W)
+            solution: m.getItemList(expandedItems.length, this.W),
+            value: m.getValue(expandedItems.length, this.W)
         };
     }
 }
 
-class Array2D {
+class ItemArray2D {
     constructor (dim1, dim2) {
         this.array = [];
         this.dim1 = dim1;
         this.dim2 = dim2;
     }
 
-    get (d1, d2) {
-        return this.array[d1][d2];
+    getItem (d1, d2) {
+        return this.array[d1][d2].item;
     }
 
-    set (d1, d2, x) {
+    getReference (d1, d2) {
+        return this.array[d1][d2].reference;
+    }
+
+    getValue (d1, d2) {
+        var obj = this.array[d1][d2];
+        if (obj.reference) {
+            return this.getValue(obj.reference[0], obj.reference[1]) + (obj.item ? obj.item.v : 0);
+        } else {
+            return 0;
+        }
+    }
+
+    getItemList (d1, d2) {
+        if (d1 === 0) {
+            return [];
+        }
+
+        var reference = this.getReference(d1, d2);
+        var item = this.getItem(d1, d2);
+
+        return (reference ? this.getItemList(reference[0], reference[1]) : []).concat(item || []);
+    }
+
+    set (d1, d2, reference, item) {
         if (!this.array[d1]) {
             this.array[d1] = [];
         }
-        this.array[d1][d2] = x;
+        this.array[d1][d2] = {
+            reference,
+            item
+        };
     }
 }
 

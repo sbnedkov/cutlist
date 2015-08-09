@@ -60,8 +60,8 @@ describe('Backpack', () => {
             assert.equal(result, void 0);
         });
 
-        it('should solve simple task #1', () => {
-            var items = [new Item(50, 'one'), new Item(40, 'two'), new Item(10, 'three'), new Item(30, 'four')];
+        it('should solve task with matching capacity', () => {
+            var items = [new Item('one', 50), new Item('two', 40), new Item('three', 10), new Item('four', 30)];
             var result = backpack.solve(items);
 
             assert.equal(result.value, 100);
@@ -70,16 +70,46 @@ describe('Backpack', () => {
             }), ['one', 'two', 'three']);
         });
 
-        it('should solve simple task #2', () => {
+        it('should solve task with incomplete capacity', () => {
             var backpack = new Backpack(60);
 
-            var items = [new Item(50, 'one'), new Item(40, 'two'), new Item(9, 'three'), new Item(30, 'four')];
+            var items = [new Item('one', 50), new Item('two', 40), new Item('three', 9), new Item('four', 30)];
             var result = backpack.solve(items);
 
             assert.equal(result.value, 59);
             assert.deepEqual(result.solution.map(item => {
                 return item.ref;
             }), ['one', 'three']);
+        });
+
+        it('should solve task with multiple items of the same kind', () => {
+            var backpack = new Backpack(58);
+
+            var items = [new Item('one', 50), new Item('two', 40), new Item('three', 9, 6), new Item('four', 30)];
+            var result = backpack.solve(items);
+
+            assert.equal(result.value, 58);
+            assert.deepEqual(result.solution.map(item => {
+                return item.ref;
+            }), ['two', 'three', 'three']);
+            assert.deepEqual(result.solution.map(item => {
+                return item.index;
+            }), [0, 0, 1]);
+        });
+
+        it('should solve task with more elements', () => {
+            var backpack = new Backpack(188);
+
+            var items = [new Item('one', 50, 2), new Item('two', 43, 5), new Item('three', 9, 6), new Item('four', 31, 3)];
+            var result = backpack.solve(items);
+
+            assert.equal(result.value, 188);
+            assert.deepEqual(result.solution.map(item => {
+                return item.ref;
+            }), ['one', 'two','two', 'two', 'three']);
+            assert.deepEqual(result.solution.map(item => {
+                return item.index;
+            }), [0, 0, 1, 2, 0]);
         });
     });
 });
