@@ -16,6 +16,8 @@ class Backpack {
             return;
         }
 
+        var solution = [];
+
         var sortedItems = items.sort((item1, item2) => {
             return item2.v - item1.v;
         });
@@ -29,15 +31,24 @@ class Backpack {
         for (let i = 1; i < sortedItems.length + 1; i++) {
             for (let j = 0; j < this.W + 1; j++) {
                 if (sortedItems[i - 1].w <= j) {
-                    m.set(i, j, Math.max(m.get(i - 1, j), m.get(i - 1, j - sortedItems[i - 1].w) + sortedItems[i - 1].v));
+                    let prev = m.get(i - 1, j);
+                    let ith = m.get(i - 1, j - sortedItems[i - 1].w) + sortedItems[i - 1].v;
+
+                    if (j === this.W && ith > prev) {
+                        solution.push(sortedItems[i - 1]);
+                    }
+
+                    m.set(i, j, Math.max(prev, ith));
                 } else {
                     m.set(i, j, m.get(i - 1, j));
                 }
-                console.log(i, j, m.get(i, j));
             }
         }
 
-        return m.get(sortedItems.length, this.W);
+        return {
+            solution,
+            value: m.get(sortedItems.length, this.W)
+        };
     }
 }
 

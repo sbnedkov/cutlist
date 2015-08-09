@@ -51,7 +51,7 @@ describe('Utils', () => {
 });
 
 describe('Backpack', () => {
-    var backpack = new Backpack(100, 100);
+    var backpack = new Backpack(100);
 
     describe('#solve()', () => {
         it('should return no result for empty', () => {
@@ -60,11 +60,26 @@ describe('Backpack', () => {
             assert.equal(result, void 0);
         });
 
-        it('should solve simple task', () => {
+        it('should solve simple task #1', () => {
             var items = [new Item(50, 'one'), new Item(40, 'two'), new Item(10, 'three'), new Item(30, 'four')];
             var result = backpack.solve(items);
 
-            console.log(result);
+            assert.equal(result.value, 100);
+            assert.deepEqual(result.solution.map(item => {
+                return item.ref;
+            }), ['one', 'two', 'three']);
+        });
+
+        it('should solve simple task #2', () => {
+            var backpack = new Backpack(60);
+
+            var items = [new Item(50, 'one'), new Item(40, 'two'), new Item(9, 'three'), new Item(30, 'four')];
+            var result = backpack.solve(items);
+
+            assert.equal(result.value, 59);
+            assert.deepEqual(result.solution.map(item => {
+                return item.ref;
+            }), ['one', 'three']);
         });
     });
 });
