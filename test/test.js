@@ -111,5 +111,15 @@ describe('Backpack', () => {
                 return item.index;
             }), [0, 0, 1, 2, 0]);
         });
+
+        it('should solve task with not enough space', () => {
+            var backpack = new Backpack(1);
+
+            var items = [new Item('one', 50, 2), new Item('two', 43, 5), new Item('three', 9, 6), new Item('four', 31, 3)];
+            var result = backpack.solve(items);
+
+            assert.equal(result.value, 0);
+            assert.deepEqual(result.solution, []);
+        });
     });
 });
