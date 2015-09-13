@@ -6,17 +6,21 @@ var browserify = require('browserify');
 var nodemon = require('gulp-nodemon');
 var babelify = require('babelify');
 var babel = require('gulp-babel');
+var sourcemaps = require('gulp-sourcemaps');
 require("babel/polyfill"); // for ES6
 var mocha = require('gulp-mocha');
 
 gulp.task('babelify-test', function () {
     return gulp.src(['test/*.js', 'src/**/*.js'])
+        .pipe(sourcemaps.init())
         .pipe(babel())
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('tmp-test/'));
 });
 
 gulp.task('test', ['babelify-test'], function () {
-    return gulp.src('tmp-test/test.js', {read: false})
+    return gulp
+        .src('tmp-test/test.js', {read: false})
         .pipe(mocha({reporter: 'nyan', timeout: 30000}));
 });
 
