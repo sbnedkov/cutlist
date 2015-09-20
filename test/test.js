@@ -6,7 +6,9 @@ var Slate = common.Slate;
 var Rectangle = common.Rectangle;
 var Part = common.Part;
 var Guillotine = require('./guillotine');
+
 import {Backpack, Item} from './backpack';
+import {ddp} from './solver';
 
 describe('Utils', () => {
     describe('#permute()', () => {
@@ -120,6 +122,19 @@ describe('Backpack', () => {
 
             assert.equal(result.value, 0);
             assert.deepEqual(result.solution, []);
+        });
+    });
+});
+
+describe('Solver', () => {
+    describe('#ddp()', () => {
+        it('should return the correct discretization points', () => {
+            var d = [2, 5];
+            var D = 7;
+
+            var result = ddp(D, d);
+
+            assert.deepEqual(result, [2, 4, 5, 6]);
         });
     });
 });
