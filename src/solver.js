@@ -37,8 +37,12 @@ export class Solver {
         var P = knapsack(this.W, w);
         var Q = knapsack(this.H, h);
 
-        var P1 = P.concat([this.W]);
-        var Q1 = Q.concat([this.H]);
+        var P1 = P.concat([{
+            len: this.W
+        }]);
+        var Q1 = Q.concat([{
+            len: this.H
+        }]);
 
         var V = new Array2D(P1.length, Q1.length);
 
@@ -48,7 +52,7 @@ export class Solver {
                 let maxk = 0;
 
                 v.forEach((vk, k) => {
-                    if (P1[i].gte(expandedItems[k]) && Q1[j].gte(h[k])) {
+                    if (P1[i].len >= w[k].len() && Q1[j] >= h[k].len()) {
                         if (vk >= maxvk) {
                             maxvk = vk;
                         }
@@ -56,7 +60,7 @@ export class Solver {
                 });
 
                 v.forEach((vk, k) => {
-                    if (P1[i].gte(expandedItems[k]) && Q1[j].gte(h[k]) && vk === maxvk) {
+                    if (P1[i].len >= w[k].len() && Q1[j] >= h[k].len() && vk === maxvk) {
                         maxk = k;
                     }
                 });
@@ -91,11 +95,16 @@ export class Solver {
                         };
                         expandedItems.forEach(item => {
                             if (!stripPrev.uses(item) && stripCurr.value() < item.v + stripPrev.value()) {
-                                if (item.w + stripPrev.w <= P1[i] && item.h <= Q1[j]) {
+                                if (item.w + stripPrev.w <= P1[i].len && item.h <= Q1[j].len) {
                                     selectedH = item;
+                                } else if (item.canRotate && item.h + stripPrev.w <= P1[i].len && item.w <= Q1[j].len) {
+                                    selectedH = item.rotate();
                                 }
-                                if (item.h + stripPrev.h <= Q1[j] && item.w <= P1[i]) {
+
+                                if (item.h + stripPrev.h <= Q1[j].len && item.w <= P1[i].len) {
                                     selectedV = item;
+                                } else if (item.canRotate && item.w + stripPrev.h <= Q1[j].len && item.h <= P1[i].len) {
+                                    selectedV = item.rotate();
                                 }
                             }
                         });
@@ -152,7 +161,9 @@ export class Solver {
 
 
 export function knapsack (D, dd) {
-    var result = [0];
+    var result = [{
+        len: 0
+    }];
 
     var d = reduce(dd, (acc, el) => {
         return acc.concat(el.split());
@@ -216,7 +227,10 @@ export function knapsack (D, dd) {
 
     for (let j = 1; j < D; j++) {
         if (c.get(d.length - 1, j)[0] === j) {
-            result.push(j);
+            result.push({
+                len: j,
+                item: c.get(d.length - 1, j)[1]
+            });
         }
     }
 

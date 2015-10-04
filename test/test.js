@@ -16,7 +16,9 @@ describe('#knapsack()', () => {
 
         var result = knapsack(D, d);
 
-        assert.deepEqual(result, [0, 10, 30, 40, 50, 60, 80, 90]);
+        assert.deepEqual(result.map(step => {
+            return step.len;
+        }), [0, 10, 30, 40, 50, 60, 80, 90]);
     });
 
     it('should return the correct discretization points with rotation #2', () => {
@@ -27,7 +29,9 @@ describe('#knapsack()', () => {
 
         var result = knapsack(D, d);
 
-        assert.deepEqual(result, [0, 10, 50]);
+        assert.deepEqual(result.map(step => {
+            return step.len;
+        }), [0, 10, 50]);
     });
 
     it('should return the correct discretization points with rotation #3', () => {
@@ -38,7 +42,9 @@ describe('#knapsack()', () => {
 
         var result = knapsack(D, d);
 
-        assert.deepEqual(result, [0, 1, 5, 30, 31, 35, 40, 41, 45, 50, 51, 55, 80, 81, 85, 90, 91, 95]);
+        assert.deepEqual(result.map(step => {
+            return step.len;
+        }), [0, 1, 5, 30, 31, 35, 40, 41, 45, 50, 51, 55, 80, 81, 85, 90, 91, 95]);
     });
 });
 
