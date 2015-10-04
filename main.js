@@ -7,12 +7,9 @@ var cookieParser = require('cookie-parser');
 var I18n = require('i18n-2');
 
 var middleware = require('./src/middleware');
-var Guillotine = require('./src/guillotine');
-var common = require('./src/common');
 
-var Rectangle = common.Rectangle;
-var Slate = common.Slate;
-var Part = common.Part;
+var Item = require('./src/item');
+var Solver = require('./src/solver').Solver;
 
 var app = express();
 
@@ -38,26 +35,21 @@ app.post('/lang', (req, res) => {
 });
 
 app.post('/cutlist', (req, res) => {
-    var slates = [];
-    var idx = 0;
-    req.body.slates.forEach(slate => {
-        if (slate.w && slate.h) {
-            slates.push(new Slate(new Rectangle(0, 0, parseInt(slate.w), parseInt(slate.h)), idx++));
-        }
-    });
-    var parts = [];
-    var group = 0;
-    req.body.parts.forEach((part) => {
-        if (part.w && part.h && part.name) {
-            group++;
-            for (let i = 0; i < part.count; i++) {
-                parts.push(new Part(part.name + '#' + (i + 1), parseInt(part.w), parseInt(part.h), Boolean(part.canRotate), group));
-            }
+    // TODO: cut type
+
+    var stocks = req.body.slates;
+    var parts = req.body.parts;
+    var items = [];
+
+    // TODO: many stock sheets
+    var solver = new Solver(parseInt(stocks[0].w), parseInt(stocks[0].h));
+    parts.forEach(item => {
+        if (item.ref) { // TODO: better way to filter unwanted items
+            items.push(new Item(item.ref, parseInt(item.w), parseInt(item.h), parseInt(item.q)));
         }
     });
 
-    var guillotine = new Guillotine(req.body.cutType);
-    res.json(guillotine.apply(slates, parts));
+    res.json(solver.solveNew(items));
 });
 
 var port = process.env.PORT || 31314;

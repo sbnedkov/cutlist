@@ -1,140 +1,105 @@
+require('source-map-support').install();
+
 var assert = require('assert');
 
-var utils = require('./utils');
-var common = require('./common');
-var Slate = common.Slate;
-var Rectangle = common.Rectangle;
-var Part = common.Part;
-var Guillotine = require('./guillotine');
+import {knapsack, Solver} from './solver';
+import Item from './item';
 
-import {Backpack, Item} from './backpack';
-import {ddp} from './solver';
+describe('#knapsack()', () => {
+    it('should return the correct discretization points', () => {
+        var d = [2, 5];
+        var D = 7;
 
-describe('Utils', () => {
-    describe('#permute()', () => {
-        it('should return empty result for empty', () => {
-            utils.permute([], {threshold: 1000}, (permutation) => {
-                assert.deepEqual(permutation, []);
-            });
-        });
+        var result = knapsack(D, d);
 
-        it('should return same result for 1-element array', () => {
-            utils.permute([1], {threshold: 1000}, (permutation) => {
-                assert.deepEqual(permutation, [1]);
-            });
-        });
-
-        it('should return 6 permutation in particular order for 3-elements array', () => {
-            var permutations = [
-                [1, 2, 3],
-                [1, 3, 2],
-                [2, 1, 3],
-                [3, 1, 2],
-                [2, 3, 1],
-                [3, 2, 1]
-            ];
-            utils.permute([1, 2, 3], {threshold: 1000}, (permutation) => {
-                assert.deepEqual(permutation, permutations.shift());
-            });
-        });
+        assert.deepEqual(result, [0, 2, 5]);
     });
 
-    describe('#rate', () => {
-        var rect1 = new Rectangle(0, 0, 800, 600);
-        var rect2 = new Rectangle(0, 0, 400, 500);
-        var rect3 = new Rectangle(0, 0, 500, 600);
-        var rect4 = new Rectangle(0, 0, 2900, 100);
-        it('should rate bigger rectangle combination higher', () => {
-            var rate1 = utils.rate({slates: [{rect: rect1}, {rect: rect2}]});
-            var rate2 = utils.rate({slates: [{rect: rect3}, {rect: rect4}]});
-            assert(rate1 > rate2, rate1 + ' > ' + rate2);
-        });
+    it('should return the correct discretization points #2', () => {
+        var d = [1, 5];
+        var D = 7;
+
+        var result = knapsack(D, d);
+
+        assert.deepEqual(result, [0, 1, 5, 6]);
     });
-});
 
-describe('Backpack', () => {
-    var backpack = new Backpack(100);
+    it('should return the correct discretization points #3', () => {
+        var d = [2, 2, 5];
+        var D = 7;
 
-    describe('#solve()', () => {
-        it('should return no result for empty', () => {
-            var result = backpack.solve([]);
+        var result = knapsack(D, d);
 
-            assert.equal(result, void 0);
-        });
+        assert.deepEqual(result, [0, 2, 4, 5]);
+    });
 
-        it('should solve task with matching capacity', () => {
-            var items = [new Item('one', 50), new Item('two', 40), new Item('three', 10), new Item('four', 30)];
-            var result = backpack.solve(items);
+    it('should return the correct discretization points #4', () => {
+        var d = [1, 2, 3, 4];
+        var D = 10;
 
-            assert.equal(result.value, 100);
-            assert.deepEqual(result.solution.map(item => {
-                return item.ref;
-            }), ['one', 'two', 'three']);
-        });
+        var result = knapsack(D, d);
 
-        it('should solve task with incomplete capacity', () => {
-            var backpack = new Backpack(60);
+        assert.deepEqual(result, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    });
 
-            var items = [new Item('one', 50), new Item('two', 40), new Item('three', 9), new Item('four', 30)];
-            var result = backpack.solve(items);
+    it('should return the correct discretization points #4', () => {
+        var d = [1, 2, 4];
+        var D = 10;
 
-            assert.equal(result.value, 59);
-            assert.deepEqual(result.solution.map(item => {
-                return item.ref;
-            }), ['one', 'three']);
-        });
+        var result = knapsack(D, d);
 
-        it('should solve task with multiple items of the same kind', () => {
-            var backpack = new Backpack(58);
+        assert.deepEqual(result, [0, 1, 2, 3, 4, 5, 6, 7]);
+    });
 
-            var items = [new Item('one', 50), new Item('two', 40), new Item('three', 9, 6), new Item('four', 30)];
-            var result = backpack.solve(items);
+    it('should return the correct discretization points #5', () => {
+        var d = [10, 20, 30, 40, 50];
+        var D = 100;
 
-            assert.equal(result.value, 58);
-            assert.deepEqual(result.solution.map(item => {
-                return item.ref;
-            }), ['two', 'three', 'three']);
-            assert.deepEqual(result.solution.map(item => {
-                return item.index;
-            }), [0, 0, 1]);
-        });
+        var result = knapsack(D, d);
 
-        it('should solve task with more elements', () => {
-            var backpack = new Backpack(188);
-
-            var items = [new Item('one', 50, 2), new Item('two', 43, 5), new Item('three', 9, 6), new Item('four', 31, 3)];
-            var result = backpack.solve(items);
-
-            assert.equal(result.value, 188);
-            assert.deepEqual(result.solution.map(item => {
-                return item.ref;
-            }), ['one', 'two','two', 'two', 'three']);
-            assert.deepEqual(result.solution.map(item => {
-                return item.index;
-            }), [0, 0, 1, 2, 0]);
-        });
-
-        it('should solve task with not enough space', () => {
-            var backpack = new Backpack(1);
-
-            var items = [new Item('one', 50, 2), new Item('two', 43, 5), new Item('three', 9, 6), new Item('four', 31, 3)];
-            var result = backpack.solve(items);
-
-            assert.equal(result.value, 0);
-            assert.deepEqual(result.solution, []);
-        });
+        assert.deepEqual(result, [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]);
     });
 });
 
 describe('Solver', () => {
-    describe('#ddp()', () => {
-        it('should return the correct discretization points', () => {
-            var d = [2, 5];
-            var D = 7;
+    describe('#solve()', () => {
+        /*
+        it('should solve task with one items', () => {
+            var solver = new Solver(100, 100);
 
-            var result = ddp(D, d);
-
-            assert.deepEqual(result, [2, 4, 5, 6]);
+            var items = [new Item('one', 50, 50)];
+            solver.solveBinary(items);
         });
+
+        it('should solve task with two items', () => {
+            var solver = new Solver(100, 100);
+
+            var items = [new Item('one', 50, 50), new Item('two', 50, 50)];
+            solver.solveBinary(items);
+        });
+        */
+
+        it('should solve simple task', () => {
+            var solver = new Solver(100, 100);
+
+            var items = [new Item('one', 10, 10), new Item('two', 20, 20), new Item('three', 30, 30), new Item('four', 40, 40), new Item('five', 50, 50)];
+            solver.solveNew(items);
+        });
+        /*
+        it('should solve real world task', () => {
+            var solver = new Solver(2800, 2070);
+
+            var items = [new Item('one', 353, 562, 2), new Item('two', 652, 500, 5), new Item('three', 232, 420, 5)];
+            var result = solver.solveNew(items);
+
+            assert.equal(result.v, 2513972);
+            assert.deepEqual(result.solution.map(item => {
+                return item.ref;
+            }), ['two', 'two','two', 'two', 'one', 'one', 'two', 'three', 'three', 'three', 'three', 'three']);
+            assert.deepEqual(result.solution.map(item => {
+                return item.index;
+            }), [0, 1, 2, 3, 0, 1, 0, 1, 2, 3, 4]);
+        });
+        */
     });
 });

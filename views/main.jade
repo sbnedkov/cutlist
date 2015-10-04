@@ -26,8 +26,8 @@ html(ng-app="cutlist")
       br
     span #{__("Parts")}
       div(ng-repeat="part in parts")
-        input(type="text", ng-model="part.name")
-        input(type="text", ng-model="part.count")
+        input(type="text", ng-model="part.ref")
+        input(type="text", ng-model="part.q")
         input(type="text", ng-model="part.w")
         input(type="text", ng-model="part.h")
         input(type="checkbox", ng-model="part.canRotate")

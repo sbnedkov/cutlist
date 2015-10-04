@@ -40,38 +40,38 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 h: 1000
             }],
             parts: [{
-                name: 'a',
-                count: 1,
+                ref: 'a',
+                q: 1,
                 w: 600,
                 h: 200,
                 canRotate: true
             }, {
-                name: 'b',
-                count: 1,
+                ref: 'b',
+                q: 1,
                 w: 300,
                 h: 200,
                 canRotate: true
             }, {
-                name: 'c',
-                count: 1,
+                ref: 'c',
+                q: 1,
                 w: 800,
                 h: 200,
                 canRotate: true
             }, {
-                name: 'd',
-                count: 1,
+                ref: 'd',
+                q: 1,
                 w: 400,
                 h: 300,
                 canRotate: true
             }, {
-                name: 'e',
-                count: 1,
+                ref: 'e',
+                q: 1,
                 w: 400,
                 h: 500,
                 canRotate: true
             }, {
-                name: 'f',
-                count: 1,
+                ref: 'f',
+                q: 1,
                 w: 400,
                 h: 500,
                 canRotate: true
@@ -82,38 +82,38 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 h: 1000
             }],
             parts: [{
-                name: 'a',
-                count: 1,
+                ref: 'a',
+                q: 1,
                 w: 300,
                 h: 200,
                 canRotate: true
             }, {
-                name: 'b',
-                count: 1,
+                ref: 'b',
+                q: 1,
                 w: 300,
                 h: 200,
                 canRotate: true
             }, {
-                name: 'c',
-                count: 1,
+                ref: 'c',
+                q: 1,
                 w: 100,
                 h: 200,
                 canRotate: true
             }, {
-                name: 'd',
-                count: 1,
+                ref: 'd',
+                q: 1,
                 w: 400,
                 h: 220,
                 canRotate: true
             }, {
-                name: 'e',
-                count: 1,
+                ref: 'e',
+                q: 1,
                 w: 200,
                 h: 500,
                 canRotate: true
             }, {
-                name: 'f',
-                count: 1,
+                ref: 'f',
+                q: 1,
                 w: 400,
                 h: 250,
                 canRotate: true
@@ -124,38 +124,38 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 h: 1000
             }],
             parts: [{
-                name: 'a',
-                count: 1,
+                ref: 'a',
+                q: 1,
                 w: 100,
                 h: 325,
                 canRotate: true
             }, {
-                name: 'b',
-                count: 1,
+                ref: 'b',
+                q: 1,
                 w: 320,
                 h: 100,
                 canRotate: true
             }, {
-                name: 'c',
-                count: 1,
+                ref: 'c',
+                q: 1,
                 w: 155,
                 h: 280,
                 canRotate: true
             }, {
-                name: 'd',
-                count: 1,
+                ref: 'd',
+                q: 1,
                 w: 120,
                 h: 800,
                 canRotate: true
             }, {
-                name: 'e',
-                count: 1,
+                ref: 'e',
+                q: 1,
                 w: 222,
                 h: 325,
                 canRotate: true
             }, {
-                name: 'f',
-                count: 1,
+                ref: 'f',
+                q: 1,
                 w: 128,
                 h: 250,
                 canRotate: true
@@ -166,38 +166,38 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 h: 2070
             }],
             parts: [{
-                name: 'Det. 1',
-                count: 2,
+                ref: 'Det. 1',
+                q: 2,
                 w: 562,
                 h: 353,
                 canRotate: true
             }, {
-                name: 'Det. 3',
-                count: 5,
+                ref: 'Det. 3',
+                q: 5,
                 w: 420,
                 h: 232,
                 canRotate: true
             }, {
-                name: 'Det. 2',
-                count: 5,
+                ref: 'Det. 2',
+                q: 5,
                 w: 500,
                 h: 652,
                 canRotate: true
             }, {
-                name: 'd',
-                count: 0,
+                ref: 'd',
+                q: 0,
                 w: 400,
                 h: 220,
                 canRotate: true
             }, {
-                name: 'e',
-                count: 0,
+                ref: 'e',
+                q: 0,
                 w: 200,
                 h: 500,
                 canRotate: true
             }, {
-                name: 'f',
-                count: 0,
+                ref: 'f',
+                q: 0,
                 w: 400,
                 h: 250,
                 canRotate: true
@@ -222,7 +222,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
 
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.textAlign = 'center';
-                ctx.font = '45px Verdana';
+//                ctx.font = '45px Verdana';
 
                 if (!cutlist) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -236,12 +236,14 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
                 ctx.strokeRect(0, 0, scope.slates[idx].w, scope.slates[idx].h);
-                cutlist.result.forEach(function (part) {
-                    if (part.slateIdx === idx) {
+                cutlist.arr.forEach(function (part) {
+                    // TODO: slateIdx
+//                    if (part.slateIdx === idx) {
                         ctx.strokeRect(part.x, part.y, part.w, part.h);
-                        ctx.fillText(part.name, part.x + part.w / 2, part.y + part.h / 2);
-                    }
+                        ctx.fillText(part.ref, part.x + part.w / 2, part.y + part.h / 2);
+//                    }
                 });
+                /*
                 cutlist.cuts.forEach(function (cut) {
                     if (cut.slateIdx === idx) {
                         ctx.beginPath();
@@ -251,6 +253,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                         ctx.stroke();
                     }
                 });
+                */
             });
         },
         template: '<div><canvas width="1000px" height="1000px"></canvas></div>'
