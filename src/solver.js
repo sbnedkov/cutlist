@@ -1,8 +1,10 @@
-import {min, max, reduce} from 'lodash';
+import {reduce} from 'lodash';
 
 import Array2D from './array2d';
 import Item from './item';
 import Strip from './strip';
+import Width from './width';
+import Height from './height';
 
 export class Solver {
     constructor (W, H) {
@@ -14,7 +16,7 @@ export class Solver {
         var expandedItems = [];
         items.forEach(item => {
             for (let i = 0; i < item.q; i++) {
-                expandedItems.push(new Item(item.ref, item.w, item.h, 1, i));
+                expandedItems.push(new Item(item.ref, item.w, item.h, item.canRotate, 1, i));
             }
         });
 
@@ -22,26 +24,18 @@ export class Solver {
             return i1.v - i2.v;
         });
 
-        var sortFn = (i1, i2) => {
-            return i1 - i2;
-        };
-
         var w = expandedItems.map(item => {
-            return item.w;
-        }).sort(sortFn);
+            return new Width(item);
+        });
         var h = expandedItems.map(item => {
-            return item.h;
-        }).sort(sortFn);
+            return new Height(item);
+        });
         var v = expandedItems.map(item => {
             return item.v;
-        }).sort(sortFn);
+        });
 
-        var P = knapsack(this.W, expandedItems.map(item => {
-            return item.w;
-        }));
-        var Q = knapsack(this.H, expandedItems.map(item => {
-            return item.h;
-        }));
+        var P = knapsack(this.W, w);
+        var Q = knapsack(this.H, h);
 
         var P1 = P.concat([this.W]);
         var Q1 = Q.concat([this.H]);
@@ -54,7 +48,7 @@ export class Solver {
                 let maxk = 0;
 
                 v.forEach((vk, k) => {
-                    if (w[k] <= P1[i] && h[k] <= Q1[j]) {
+                    if (P1[i].gte(expandedItems[k]) && Q1[j].gte(h[k])) {
                         if (vk >= maxvk) {
                             maxvk = vk;
                         }
@@ -62,7 +56,7 @@ export class Solver {
                 });
 
                 v.forEach((vk, k) => {
-                    if (w[k] <= P1[i] && h[k] <= Q1[j] && vk === maxvk) {
+                    if (P1[i].gte(expandedItems[k]) && Q1[j].gte(h[k]) && vk === maxvk) {
                         maxk = k;
                     }
                 });
@@ -159,27 +153,69 @@ export class Solver {
 
 export function knapsack (D, dd) {
     var result = [0];
-    var d = dd.slice(0);
-    d.unshift(0);
+
+    var d = reduce(dd, (acc, el) => {
+        return acc.concat(el.split());
+    }, []);
+
+    d.unshift(null);
 
     var c = new Array2D(d.length, D);
 
     for (let j = 0; j < D; j++) {
-        c.set(0, j, 0);
+        c.set(0, j, [0, null]);
     }
 
     for (let i = 1; i < d.length; i++) {
         for (let j = 0; j < D; j++) {
-            if (d[i] <= j) {
-                c.set(i, j, Math.max(c.get(i - 1, j), c.get(i - 1, j - d[i]) + d[i]));
+            if (d[i].len() <= j && c.get(i - 1, j - d[i].len())[1]) {
+                if (c.get(i - 1, j - d[i].len())[1].item.ident() !== d[i].item.ident()) {
+                    let v1 = c.get(i - 1, j)[0];
+                    let v2 = c.get(i - 1, j - d[i].len())[0] + d[i].len();
+
+                    if (v1 > v2){
+                        c.set(i, j, c.get(i - 1, j));
+                    } else {
+                        c.set(i, j, [v2, d[i]]);
+                    }
+                } else { // we have the same item already used in its other dimension
+                    // TODO: optimize this bit
+                    let set = false;
+                    for (let k = 1; k <= i; k++) {
+                        if (d[k].len() <= j && c.get(k - 1, j - d[k].len())[1] && c.get(k - 1, j - d[k].len())[1].item.ident() !== d[k].item.ident()) {
+                            let v1 = c.get(k - 1, j)[0];
+                            let v2 = c.get(k - 1, j - d[k].len())[0] + d[k].len();
+                            if (v1 > v2) {
+                                c.set(i, j, c.get(k - 1, j));
+                            } else {
+                                c.set(i, j, [v2, d[k]]);
+                            }
+                            set = true;
+                        }
+                    }
+                    if (!set) {
+                        c.set(i, j, c.get(i - 1, j));
+                    }
+                }
             } else {
-                c.set(i, j, c.get(i - 1, j));
+                if (d[i].len() <= j) {
+                    let v1 = c.get(i - 1, j)[0];
+                    let v2 = c.get(i - 1, j - d[i].len())[0] + d[i].len();
+
+                    if (v1 > v2){
+                        c.set(i, j, c.get(i - 1, j));
+                    } else {
+                        c.set(i, j, [v2, d[i]]);
+                    }
+                } else {
+                    c.set(i, j, c.get(i - 1, j));
+                }
             }
         }
     }
 
     for (let j = 1; j < D; j++) {
-        if (c.get(d.length - 1, j) === j) {
+        if (c.get(d.length - 1, j)[0] === j) {
             result.push(j);
         }
     }

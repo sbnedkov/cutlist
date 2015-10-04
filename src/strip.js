@@ -64,7 +64,7 @@ export default class Strip {
     }
 
     ident (item) {
-        return `${item.ref}#${item.index}`;
+        return item.ident();
     }
 
     value () {

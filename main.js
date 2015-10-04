@@ -45,7 +45,7 @@ app.post('/cutlist', (req, res) => {
     var solver = new Solver(parseInt(stocks[0].w), parseInt(stocks[0].h));
     parts.forEach(item => {
         if (item.ref) { // TODO: better way to filter unwanted items
-            items.push(new Item(item.ref, parseInt(item.w), parseInt(item.h), parseInt(item.q)));
+            items.push(new Item(item.ref, parseInt(item.w), parseInt(item.h), item.canRotate, parseInt(item.q)));
         }
     });
 

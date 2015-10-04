@@ -4,60 +4,41 @@ var assert = require('assert');
 
 import {knapsack, Solver} from './solver';
 import Item from './item';
+import Width from './width';
 
 describe('#knapsack()', () => {
-    it('should return the correct discretization points', () => {
-        var d = [2, 5];
-        var D = 7;
 
-        var result = knapsack(D, d);
-
-        assert.deepEqual(result, [0, 2, 5]);
-    });
-
-    it('should return the correct discretization points #2', () => {
-        var d = [1, 5];
-        var D = 7;
-
-        var result = knapsack(D, d);
-
-        assert.deepEqual(result, [0, 1, 5, 6]);
-    });
-
-    it('should return the correct discretization points #3', () => {
-        var d = [2, 2, 5];
-        var D = 7;
-
-        var result = knapsack(D, d);
-
-        assert.deepEqual(result, [0, 2, 4, 5]);
-    });
-
-    it('should return the correct discretization points #4', () => {
-        var d = [1, 2, 3, 4];
-        var D = 10;
-
-        var result = knapsack(D, d);
-
-        assert.deepEqual(result, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    });
-
-    it('should return the correct discretization points #4', () => {
-        var d = [1, 2, 4];
-        var D = 10;
-
-        var result = knapsack(D, d);
-
-        assert.deepEqual(result, [0, 1, 2, 3, 4, 5, 6, 7]);
-    });
-
-    it('should return the correct discretization points #5', () => {
-        var d = [10, 20, 30, 40, 50];
+    it('should return the correct discretization points with rotation #1', () => {
+        var d = [new Item('one', 10, 30), new Item('two', 30, 40, true), new Item('three', 50, 50)].map(item => {
+            return new Width(item);
+        });
         var D = 100;
 
         var result = knapsack(D, d);
 
-        assert.deepEqual(result, [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]);
+        assert.deepEqual(result, [0, 10, 30, 40, 50, 60, 80, 90]);
+    });
+
+    it('should return the correct discretization points with rotation #2', () => {
+        var d = [new Item('one', 10, 50, true)].map(item => {
+            return new Width(item);
+        });
+        var D = 100;
+
+        var result = knapsack(D, d);
+
+        assert.deepEqual(result, [0, 10, 50]);
+    });
+
+    it('should return the correct discretization points with rotation #3', () => {
+        var d = [new Item('one', 1, 5, true), new Item('two', 30, 40, true), new Item('three', 50, 50)].map(item => {
+            return new Width(item);
+        });
+        var D = 100;
+
+        var result = knapsack(D, d);
+
+        assert.deepEqual(result, [0, 1, 5, 30, 31, 35, 40, 41, 45, 50, 51, 55, 80, 81, 85, 90, 91, 95]);
     });
 });
 
@@ -77,7 +58,6 @@ describe('Solver', () => {
             var items = [new Item('one', 50, 50), new Item('two', 50, 50)];
             solver.solveBinary(items);
         });
-        */
 
         it('should solve simple task', () => {
             var solver = new Solver(100, 100);
@@ -85,11 +65,10 @@ describe('Solver', () => {
             var items = [new Item('one', 10, 10), new Item('two', 20, 20), new Item('three', 30, 30), new Item('four', 40, 40), new Item('five', 50, 50)];
             solver.solveNew(items);
         });
-        /*
         it('should solve real world task', () => {
             var solver = new Solver(2800, 2070);
 
-            var items = [new Item('one', 353, 562, 2), new Item('two', 652, 500, 5), new Item('three', 232, 420, 5)];
+            var items = [new Item('one', 353, 562, true, 2), new Item('two', 652, 500, true, 5), new Item('three', 232, 420, true, 5)];
             var result = solver.solveNew(items);
 
             assert.equal(result.v, 2513972);
