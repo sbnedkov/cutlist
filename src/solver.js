@@ -18,15 +18,23 @@ export class Solver {
             }
         });
 
+        expandedItems.sort((i1, i2) => {
+            return i1.v - i2.v;
+        });
+
+        var sortFn = (i1, i2) => {
+            return i1 - i2;
+        };
+
         var w = expandedItems.map(item => {
             return item.w;
-        });
+        }).sort(sortFn);
         var h = expandedItems.map(item => {
             return item.h;
-        });
+        }).sort(sortFn);
         var v = expandedItems.map(item => {
             return item.v;
-        });
+        }).sort(sortFn);
 
         var P = knapsack(this.W, expandedItems.map(item => {
             return item.w;
