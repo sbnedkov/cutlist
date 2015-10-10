@@ -52,7 +52,7 @@ export class Solver {
                 let maxk = 0;
 
                 v.forEach((vk, k) => {
-                    if (P1[i].len >= w[k].len() && Q1[j] >= h[k].len()) {
+                    if (P1[i].len >= w[k].len() && Q1[j].len >= h[k].len()) {
                         if (vk >= maxvk) {
                             maxvk = vk;
                         }
@@ -60,7 +60,7 @@ export class Solver {
                 });
 
                 v.forEach((vk, k) => {
-                    if (P1[i].len >= w[k].len() && Q1[j] >= h[k].len() && vk === maxvk) {
+                    if (P1[i].len >= w[k].len() && Q1[j].len >= h[k].len() && vk === maxvk) {
                         maxk = k;
                     }
                 });
@@ -146,6 +146,8 @@ export class Solver {
 
                     V.set(i, j, stripNew);
                 }
+
+                console.log(i, j, 'of', P1.length, Q1.length);
             }
         }
 
