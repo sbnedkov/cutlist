@@ -12,7 +12,7 @@ export class Solver {
         this.H = H;
     }
 
-    solveNew (items) {
+    solve (items) {
         var expandedItems = [];
         items.forEach(item => {
             for (let i = 0; i < item.q; i++) {
@@ -46,6 +46,7 @@ export class Solver {
 
         var V = new Array2D(P1.length, Q1.length);
 
+        // XXX: Does this subalgorithm support rotated items?
         for (let i = 0; i < P1.length; i++) {
             for (let j = 0; j < Q1.length; j++) {
                 let maxvk = 0;
@@ -75,87 +76,80 @@ export class Solver {
 
         for (let i = 1; i < P1.length; i++) {
             for (let j = 1; j < Q1.length; j++) {
-                let stripCurr = V.get(i, j);
-                let max = 0;
-                let dir;
-                let selectedStripPrev;
-                let selected;
+                let n;
+                for (let k = 0; k <= i; k++) {
+                    if (P1[k].len <= Math.floor(P1[i].len / 2)) {
+                        n = k;
+                    }
+                }
 
-                for (let k = 0; k < i; k++) {
-                    for (let l = 0; l < j; l++) {
-                        let stripPrev = V.get(k, l);
+                for (let x = 0; x <= n; x++) {
+                    let t;
+                    for (let k = 0; k < P1.length; k++) {
+                        if (P1[k].len <= P1[i].len - P1[x].len && !V.get(k, j).uses(P1[x].item)) {
+                            t = k;
+                        }
+                    }
 
-                        // Find the maximum subproblem combined with the maximal item to add to it
+                    if (t >= 0 && V.get(i, j) < V.get(x, j) + V.get(t, j)) {
+                        let strip = new Strip();
 
-                        let selectedH = {
-                            v: 0
-                        };
-                        let selectedV = {
-                            v: 0
-                        };
-                        expandedItems.forEach(item => {
-                            if (!stripPrev.uses(item) && stripCurr.value() < item.v + stripPrev.value()) {
-                                if (item.w + stripPrev.w <= P1[i].len && item.h <= Q1[j].len) {
-                                    selectedH = item;
-                                } else if (item.canRotate && item.h + stripPrev.w <= P1[i].len && item.w <= Q1[j].len) {
-                                    selectedH = item.rotate();
-                                }
-
-                                if (item.h + stripPrev.h <= Q1[j].len && item.w <= P1[i].len) {
-                                    selectedV = item;
-                                } else if (item.canRotate && item.w + stripPrev.h <= Q1[j].len && item.h <= P1[i].len) {
-                                    selectedV = item.rotate();
-                                }
+                        V.get(t, j).items().forEach(item => {
+                            switch (item.dir) {
+                                case 'H':
+                                    strip.addH(item);
+                                    break;
+                                case 'V':
+                                    strip.addV(item);
+                                    break;
+                                default:
+                                    throw new Error('Unknown dir : ' + item.dir + '.');
                             }
                         });
 
-                        if (selectedH.v > selectedV.v) {
-                            if (max < stripPrev.value() + selectedH.v && selectedH.ref) {
-                                max = stripPrev.value() + selectedH.v;
-                                selectedStripPrev = stripPrev;
-                                selected = selectedH;
-                                dir = 'H';
-                            }
-                        } else {
-                            if (max < stripPrev.value() + selectedV.v && selectedV.ref) { // TODO: replace .ref
-                                max = stripPrev.value() + selectedV.v;
-                                selectedStripPrev = stripPrev;
-                                selected = selectedV;
-                                dir = 'V';
-                            }
-                        }
+                        // XXX: item might need to be rotated
+                        strip.addH(P1[x].item);
+                        V.set(i, j, strip);
                     }
                 }
 
-                if (selectedStripPrev) {
-                    let stripNew = new Strip();
-
-                    selectedStripPrev.items().forEach(item => {
-                        if (item.dir === 'H') {
-                            stripNew.addH(item);
-                        } else {
-                            stripNew.addV(item);
-                        }
-                    });
-
-                    if (dir === 'H') {
-                        stripNew.addH(selected);
-                    } else {
-                        stripNew.addV(selected);
+                for (let k = 0; k <= j; k++) {
+                    if (Q1[k].len <= Math.floor(Q1[j].len / 2)) {
+                        n = k;
                     }
-
-                    V.set(i, j, stripNew);
                 }
 
-                console.log(i, j, 'of', P1.length, Q1.length);
+                for (let y = 0; y <= n; y++) {
+                    let t;
+                    for (let k = 0; k < Q1.length; k++) {
+                        if (Q1[k].len <= Q1[j].len - Q1[y].len && !V.get(j, k).uses(Q1[y].item)) {
+                            t = k;
+                        }
+                    }
+
+                    if (t >= 0 && V.get(i, j) < V.get(j, y) + V.get(j, t)) {
+                        let strip = new Strip();
+
+                        V.get(j, t).items().forEach(item => {
+                            switch (item.dir) {
+                                case 'H':
+                                    strip.addH(item);
+                                    break;
+                                case 'V':
+                                    strip.addV(item);
+                                    break;
+                                default:
+                                    throw new Error('Unknown dir : ' + item.dir + '.');
+                            }
+                        });
+
+                        // XXX: same here
+                        strip.addV(Q1[y].item);
+                        V.set(i, j, strip);
+                    }
+                }
             }
         }
-
-//        for (let i = 0; i < P1.length; i++) {
-//            for (let j = 0; j < Q1.length; j++) {
-//                console.log(i, j, V.get(i, j));
-//            }
-//        }
 
         return V.get(P1.length - 1, Q1.length -1);
     }
@@ -231,7 +225,7 @@ export function knapsack (D, dd) {
         if (c.get(d.length - 1, j)[0] === j) {
             result.push({
                 len: j,
-                item: c.get(d.length - 1, j)[1]
+                item: c.get(d.length - 1, j)[1].item
             });
         }
     }

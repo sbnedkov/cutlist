@@ -49,7 +49,7 @@ app.post('/cutlist', (req, res) => {
         }
     });
 
-    res.json(solver.solveNew(items));
+    res.json(solver.solve(items));
 });
 
 var port = process.env.PORT || 31314;

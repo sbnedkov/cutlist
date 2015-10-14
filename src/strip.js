@@ -1,14 +1,10 @@
-import {any, intersection} from 'lodash';
-
-import Item from './item';
-
 export default class Strip {
     constructor (i) {
         this.arr = [];
         this.refs = {};
-        this.v = 0;
         this.w = 0;
         this.h = 0;
+        this.v = 0;
         if (i) {
             let item = i.clone();
 
@@ -30,10 +26,14 @@ export default class Strip {
     }
 
     uses (item) {
-        return this.refs[this.ident(item)];
+        return item && this.refs[this.ident(item)];
     }
 
     addH (i) {
+        if (!i) { // This is for the special cases - 0 and limit
+            return;
+        }
+
         var item = i.clone();
 
         this.arr.push(item);
@@ -49,6 +49,10 @@ export default class Strip {
     }
 
     addV (i) {
+        if (!i) {
+            return;
+        }
+
         var item = i.clone();
 
         this.arr.push(item);
