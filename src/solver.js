@@ -91,7 +91,7 @@ export class Solver {
                         }
                     }
 
-                    if (t >= 0 && V.get(i, j) < V.get(x, j) + V.get(t, j)) {
+                    if (t >= 0 && (V.get(i, j) < V.get(x, j) + V.get(t, j))) {
                         let strip = new Strip();
 
                         V.get(t, j).items().forEach(item => {
@@ -127,7 +127,7 @@ export class Solver {
                         }
                     }
 
-                    if (t >= 0 && V.get(i, j) < V.get(j, y) + V.get(j, t)) {
+                    if (t >= 0 && (V.get(i, j) < V.get(j, y) + V.get(j, t))) {
                         let strip = new Strip();
 
                         V.get(j, t).items().forEach(item => {
