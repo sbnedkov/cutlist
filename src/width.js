@@ -18,6 +18,7 @@ export default class Width {
 
             newItem.canRotate = false;
             newItem2.canRotate = false;
+            newItem2.isRotated = true;
 
             return [new Width(newItem), new Width(newItem2)];
         }

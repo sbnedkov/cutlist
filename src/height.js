@@ -18,6 +18,7 @@ export default class Height {
 
             newItem.canRotate = false;
             newItem2.canRotate = false;
+            newItem2.isRotated = true;
 
             return [new Height(newItem), new Height(newItem2)];
         }

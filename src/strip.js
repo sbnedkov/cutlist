@@ -1,3 +1,5 @@
+import {any} from 'lodash';
+
 export default class Strip {
     constructor (i) {
         this.arr = [];
@@ -5,66 +7,60 @@ export default class Strip {
         this.w = 0;
         this.h = 0;
         this.v = 0;
+
         if (i) {
             let item = i.clone();
 
-            this.initial = item;
-            this.initialValue = item.v;
+            this.arr.push(item);
+            this.v = item.v;
             this.refs[this.ident(item)] = true;
             this.w = item.w;
             this.h = item.h;
-            item.dir = 'H';
+            item.x = 0;
+            item.y = 0;
         }
     }
 
     items () {
-        if (this.arr.length) {
-            return this.arr;
-        }
-
-        return [this.initial];
+        return this.arr;
     }
 
     uses (item) {
         return item && this.refs[this.ident(item)];
     }
 
-    addH (i) {
-        if (!i) { // This is for the special cases - 0 and limit
-            return;
-        }
-
-        var item = i.clone();
-
-        this.arr.push(item);
-        this.refs[this.ident(item)] = true;
-        this.v += item.v;
-
-        item.x = this.w;
-        item.y = 0;
-        item.dir = 'H';
-
-        this.w += item.w;
-        this.h = this.h > item.h ? this.h : item.h;
+    intersects (strip) {
+        return any(strip.items(), this.uses.bind(this));
     }
 
-    addV (i) {
-        if (!i) {
-            return;
-        }
+    addStripH (strip) {
+        strip.items().forEach(i => {
+            let item = i.clone();
 
-        var item = i.clone();
+            this.arr.push(item);
+            this.refs[this.ident(item)] = true;
+            this.v += item.v;
 
-        this.arr.push(item);
-        this.refs[this.ident(item)] = true;
-        this.v += item.v;
+            item.x += this.w;
+        });
 
-        item.x = 0;
-        item.y = this.h;
-        item.dir = 'V';
+        this.w += strip.w;
+        this.h = this.h > strip.h ? this.h : strip.h;
+    }
 
-        this.h += item.h;
-        this.w = this.w > item.w ? this.w : item.w;
+    addStripV (strip) {
+        strip.items().forEach(i => {
+            let item = i.clone();
+
+            this.arr.push(item);
+            this.refs[this.ident(item)] = true;
+            this.v += item.v;
+
+            item.y += this.h;
+        });
+
+        this.w = this.w > strip.w ? this.w : strip.w;
+        this.h += strip.h;
     }
 
     ident (item) {
@@ -72,6 +68,6 @@ export default class Strip {
     }
 
     value () {
-        return this.v || this.initialValue;
+        return this.v;
     }
 }

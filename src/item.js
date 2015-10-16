@@ -20,7 +20,12 @@ export default class Item {
     }
 
     clone () {
-        return new Item(this.ref, this.w, this.h, this.canRotate, this.q, this.index);
+        var item = new Item(this.ref, this.w, this.h, this.canRotate, this.q, this.index);
+
+        item.x = this.x;
+        item.y = this.y;
+
+        return item;
     }
 
     ident () {

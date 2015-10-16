@@ -38,116 +38,76 @@ export class Solver {
         var Q = knapsack(this.H, h);
 
         var P1 = P.concat([{
-            len: this.W
+            len: this.W,
+            item: {}
         }]);
         var Q1 = Q.concat([{
-            len: this.H
+            len: this.H,
+            item: {}
         }]);
 
         var V = new Array2D(P1.length, Q1.length);
 
-        // XXX: Does this subalgorithm support rotated items?
+        // TODO: something for items with same dimensions
         for (let i = 0; i < P1.length; i++) {
             for (let j = 0; j < Q1.length; j++) {
                 let maxvk = 0;
-                let maxk = 0;
+                let maxItem;
 
                 v.forEach((vk, k) => {
-                    if (P1[i].len >= w[k].len() && Q1[j].len >= h[k].len()) {
-                        if (vk >= maxvk) {
+                    let item = expandedItems[k];
+                    let rotatedItem = item.rotate();
+
+                    if (vk >= maxvk) {
+                        if (P1[i].len >= rotatedItem.w && Q1[j].len >= rotatedItem.h) {
                             maxvk = vk;
+                            maxItem = rotatedItem;
+                        }
+
+                        if (P1[i].len >= item.w && Q1[j].len >= item.h) {
+                            maxvk = vk;
+                            maxItem = item;
                         }
                     }
                 });
 
-                v.forEach((vk, k) => {
-                    if (P1[i].len >= w[k].len() && Q1[j].len >= h[k].len() && vk === maxvk) {
-                        maxk = k;
-                    }
-                });
-
-                let item = expandedItems[maxk];
-                item.x = 0;
-                item.y = 0;
-                let strip = new Strip(item);
+                let strip = new Strip(maxItem);
                 V.set(i, j, strip);
             }
         }
 
+//        console.log(JSON.stringify(V, (key, value) => {return value;}, 2));
+
         for (let i = 1; i < P1.length; i++) {
             for (let j = 1; j < Q1.length; j++) {
-                let n;
-                for (let k = 0; k <= i; k++) {
-                    if (P1[k].len <= Math.floor(P1[i].len / 2)) {
-                        n = k;
-                    }
-                }
+                for (let x = 0; x < i; x++) {
+                    for (let t = 0; t < P1.length; t++) {
+                        if ((P1[t].len <= P1[i].len - P1[x].len) && !V.get(t, j).intersects(V.get(x, j))) {
+                            if ((V.get(i, j).value() < V.get(x, j).value() + V.get(t, j).value())) {
+                                let strip = new Strip();
 
-                for (let x = 0; x <= n; x++) {
-                    let t;
-                    for (let k = 0; k < P1.length; k++) {
-                        if (P1[k].len <= P1[i].len - P1[x].len && !V.get(k, j).uses(P1[x].item)) {
-                            t = k;
+                                strip.addStripH(V.get(t, j));
+                                strip.addStripH(V.get(x, j));
+                                V.set(i, j, strip);
+                            }
                         }
                     }
+                }
 
-                    if (t >= 0 && (V.get(i, j) < V.get(x, j) + V.get(t, j))) {
-                        let strip = new Strip();
+                for (let y = 0; y < j; y++) {
+                    for (let t = 0; t < Q1.length; t++) {
+                        if ((Q1[t].len <= Q1[j].len - Q1[y].len) && !V.get(i, t).intersects(V.get(i, y))) {
+                            if ((V.get(i, j).value() < V.get(i, y).value() + V.get(i, t).value())) {
+                                let strip = new Strip();
 
-                        V.get(t, j).items().forEach(item => {
-                            switch (item.dir) {
-                                case 'H':
-                                    strip.addH(item);
-                                    break;
-                                case 'V':
-                                    strip.addV(item);
-                                    break;
-                                default:
-                                    throw new Error('Unknown dir : ' + item.dir + '.');
+                                strip.addStripV(V.get(i, t));
+                                strip.addStripV(V.get(i, y));
+                                V.set(i, j, strip);
                             }
-                        });
-
-                        // XXX: item might need to be rotated
-                        strip.addH(P1[x].item);
-                        V.set(i, j, strip);
-                    }
-                }
-
-                for (let k = 0; k <= j; k++) {
-                    if (Q1[k].len <= Math.floor(Q1[j].len / 2)) {
-                        n = k;
-                    }
-                }
-
-                for (let y = 0; y <= n; y++) {
-                    let t;
-                    for (let k = 0; k < Q1.length; k++) {
-                        if (Q1[k].len <= Q1[j].len - Q1[y].len && !V.get(j, k).uses(Q1[y].item)) {
-                            t = k;
                         }
                     }
-
-                    if (t >= 0 && (V.get(i, j) < V.get(j, y) + V.get(j, t))) {
-                        let strip = new Strip();
-
-                        V.get(j, t).items().forEach(item => {
-                            switch (item.dir) {
-                                case 'H':
-                                    strip.addH(item);
-                                    break;
-                                case 'V':
-                                    strip.addV(item);
-                                    break;
-                                default:
-                                    throw new Error('Unknown dir : ' + item.dir + '.');
-                            }
-                        });
-
-                        // XXX: same here
-                        strip.addV(Q1[y].item);
-                        V.set(i, j, strip);
-                    }
                 }
+                console.log(i, ' of ', P1.length, ' ', j, ' of ', Q1.length);
             }
         }
 
@@ -155,10 +115,10 @@ export class Solver {
     }
 }
 
-
 export function knapsack (D, dd) {
     var result = [{
-        len: 0
+        len: 0,
+        item: {}
     }];
 
     var d = reduce(dd, (acc, el) => {

@@ -4,6 +4,7 @@ var assert = require('assert');
 
 import {knapsack, Solver} from './solver';
 import Item from './item';
+import Strip from './strip';
 import Width from './width';
 
 describe('#knapsack()', () => {
@@ -71,6 +72,7 @@ describe('Solver', () => {
             var items = [new Item('one', 10, 10), new Item('two', 20, 20), new Item('three', 30, 30), new Item('four', 40, 40), new Item('five', 50, 50)];
             solver.solveNew(items);
         });
+
         it('should solve real world task', () => {
             var solver = new Solver(2800, 2070);
 
@@ -87,4 +89,46 @@ describe('Solver', () => {
         });
         */
     });
+});
+
+describe('Strip', () => {
+    it('should report no intersection between empty sets', () => {
+        var strip1 = new Strip();
+        var strip2 = new Strip();
+
+        assert.equal(false, strip1.intersects(strip2));
+    });
+
+    it('should report no intersection between non-intersecting strips', () => {
+        var strip1 = new Strip(new Item('one', 10, 30));
+        var strip2 = new Strip(new Item('two', 30, 40, true));
+
+        assert.equal(false, strip1.intersects(strip2));
+    });
+
+    /*
+    it('should report intersection between intersecting strips', () => {
+        var strip1 = new Strip(new Item('one', 10, 30));
+        var strip2 = new Strip(new Item('two', 30, 40, true));
+        strip2.addH(new Item('one', 10, 10));
+
+        assert.equal(true, strip1.intersects(strip2));
+    });
+
+    it('should report intersection between intersecting strips with indices', () => {
+        var strip1 = new Strip(new Item('one', 10, 30, false, 1, 5));
+        var strip2 = new Strip(new Item('two', 30, 40, true));
+        strip2.addH(new Item('one', 10, 10, false, 1, 5));
+
+        assert.equal(true, strip1.intersects(strip2));
+    });
+
+    it('should report no intersection between non-intersecting strips with indices', () => {
+        var strip1 = new Strip(new Item('one', 10, 30, false, 1, 5));
+        var strip2 = new Strip(new Item('two', 30, 40, true));
+        strip2.addH(new Item('one', 10, 10, false, 1, 4));
+
+        assert.equal(false, strip1.intersects(strip2));
+    });
+    */
 });
