@@ -92,6 +92,7 @@ describe('Solver', () => {
 });
 
 describe('Strip', () => {
+    /*
     it('should report no intersection between empty sets', () => {
         var strip1 = new Strip();
         var strip2 = new Strip();
@@ -106,7 +107,6 @@ describe('Strip', () => {
         assert.equal(false, strip1.intersects(strip2));
     });
 
-    /*
     it('should report intersection between intersecting strips', () => {
         var strip1 = new Strip(new Item('one', 10, 30));
         var strip2 = new Strip(new Item('two', 30, 40, true));

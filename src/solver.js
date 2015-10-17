@@ -48,30 +48,32 @@ export class Solver {
 
         var V = new Array2D(P1.length, Q1.length);
 
-        // TODO: something for items with same dimensions
         for (let i = 0; i < P1.length; i++) {
             for (let j = 0; j < Q1.length; j++) {
                 let maxvk = 0;
-                let maxItem;
+                let maxvkR = 0;
+                let maxItems = [];
 
                 v.forEach((vk, k) => {
                     let item = expandedItems[k];
-                    let rotatedItem = item.rotate();
+                    let rotatedItem = item.clone().rotate();
 
-                    if (vk >= maxvk) {
-                        if (P1[i].len >= rotatedItem.w && Q1[j].len >= rotatedItem.h) {
+                    if (P1[i].len >= item.w && Q1[j].len >= item.h) {
+                        if (vk >= maxvk) {
                             maxvk = vk;
-                            maxItem = rotatedItem;
+                            maxItems.push(item);
                         }
+                    }
 
-                        if (P1[i].len >= item.w && Q1[j].len >= item.h) {
-                            maxvk = vk;
-                            maxItem = item;
+                    if (P1[i].len >= rotatedItem.w && Q1[j].len >= rotatedItem.h) {
+                        if (vk >= maxvkR) {
+                            maxvkR = vk;
+                            maxItems.push(rotatedItem);
                         }
                     }
                 });
 
-                let strip = new Strip(maxItem);
+                let strip = new Strip(maxItems);
                 V.set(i, j, strip);
             }
         }
@@ -82,12 +84,13 @@ export class Solver {
             for (let j = 1; j < Q1.length; j++) {
                 for (let x = 0; x < i; x++) {
                     for (let t = 0; t < P1.length; t++) {
+                        let v = V.get(i, j).value();
                         if ((P1[t].len <= P1[i].len - P1[x].len) && !V.get(t, j).intersects(V.get(x, j))) {
-                            if ((V.get(i, j).value() < V.get(x, j).value() + V.get(t, j).value())) {
+                            if ((v < V.get(x, j).value() + V.get(t, j).value())) {
                                 let strip = new Strip();
 
-                                strip.addStripH(V.get(t, j));
-                                strip.addStripH(V.get(x, j));
+                                strip.addStripH(V.get(t, j), v);
+                                strip.addStripH(V.get(x, j), v);
                                 V.set(i, j, strip);
                             }
                         }
@@ -96,12 +99,13 @@ export class Solver {
 
                 for (let y = 0; y < j; y++) {
                     for (let t = 0; t < Q1.length; t++) {
+                        let v = V.get(i, j).value();
                         if ((Q1[t].len <= Q1[j].len - Q1[y].len) && !V.get(i, t).intersects(V.get(i, y))) {
-                            if ((V.get(i, j).value() < V.get(i, y).value() + V.get(i, t).value())) {
+                            if ((v < V.get(i, y).value() + V.get(i, t).value())) {
                                 let strip = new Strip();
 
-                                strip.addStripV(V.get(i, t));
-                                strip.addStripV(V.get(i, y));
+                                strip.addStripV(V.get(i, t), v);
+                                strip.addStripV(V.get(i, y), v);
                                 V.set(i, j, strip);
                             }
                         }
