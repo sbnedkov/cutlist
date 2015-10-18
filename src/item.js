@@ -7,6 +7,8 @@ export default class Item {
         this.canRotate = canRotate;
         this.q = q;
         this.index = index;
+        this.x = 0;
+        this.y = 0;
     }
 
     rotate () {

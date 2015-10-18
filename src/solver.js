@@ -82,15 +82,17 @@ export class Solver {
 
         for (let i = 1; i < P1.length; i++) {
             for (let j = 1; j < Q1.length; j++) {
+//                (i === P1.length -1 && j === Q1.length - 1) && console.log(JSON.stringify(V, (key, value) => {return value;}, 2));
+
                 for (let x = 0; x < i; x++) {
                     for (let t = 0; t < P1.length; t++) {
                         let v = V.get(i, j).value();
-                        if ((P1[t].len <= P1[i].len - P1[x].len) && !V.get(t, j).intersects(V.get(x, j))) {
-                            if ((v < V.get(x, j).value() + V.get(t, j).value())) {
+                        let stripX = V.get(x, j);
+                        let stripT = V.get(t, j);
+                        if ((P1[t].len <= P1[i].len - P1[x].len) && !stripT.intersects(stripX)) {
+                            if (stripX.value() + stripT.value() > v) {
                                 let strip = new Strip();
-
-                                strip.addStripH(V.get(t, j), v);
-                                strip.addStripH(V.get(x, j), v);
+                                strip.addStripsH(stripX, stripT, v);
                                 V.set(i, j, strip);
                             }
                         }
@@ -100,12 +102,12 @@ export class Solver {
                 for (let y = 0; y < j; y++) {
                     for (let t = 0; t < Q1.length; t++) {
                         let v = V.get(i, j).value();
-                        if ((Q1[t].len <= Q1[j].len - Q1[y].len) && !V.get(i, t).intersects(V.get(i, y))) {
-                            if ((v < V.get(i, y).value() + V.get(i, t).value())) {
+                        let stripY = V.get(i, y);
+                        let stripT = V.get(i, t);
+                        if ((Q1[t].len <= Q1[j].len - Q1[y].len) && !stripT.intersects(stripY)) {
+                            if (stripY.value() + stripT.value() > v) {
                                 let strip = new Strip();
-
-                                strip.addStripV(V.get(i, t), v);
-                                strip.addStripV(V.get(i, y), v);
+                                strip.addStripsV(stripY, stripT, v);
                                 V.set(i, j, strip);
                             }
                         }
