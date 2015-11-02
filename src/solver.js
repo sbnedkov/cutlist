@@ -117,7 +117,25 @@ export class Solver {
             }
         }
 
-        return V.get(P1.length - 1, Q1.length -1);
+        var allValue = expandedItems.reduce((acc, item) => {
+            return acc + item.v;
+        }, 0);
+
+        var solution;
+        var min = 1e15;
+        for (let i = 0; i < P1.length; i++) {
+            for (let j = 0; j < Q1.length; j++) {
+                if (V.get(i, j).value() === allValue) {
+                    if (i * j < min) {
+                        min = i * j;
+                        solution = V.get(i, j);
+                        console.log(i, j);
+                    }
+                }
+            }
+        }
+
+        return solution || V.get(P1.length - 1, Q1.length -1);
     }
 }
 
