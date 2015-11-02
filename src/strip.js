@@ -61,6 +61,10 @@ export default class Strip {
             return false;
         }
 
+        if (this.isEmpty()) {
+            return false;
+        }
+
         if (strip.isInitial()) {
             return all(strip.initialItems(), this.uses.bind(this));
         } else if (this.isInitial()) {
@@ -89,42 +93,25 @@ export default class Strip {
     }
 
     findTwo (strip, otherStrip, v) {
-        var selectedItem1, selectedItem2;
-
-        // This is needed for algorithm to succeed
-        strip.initials.reverse();
-        otherStrip.initials.reverse();
+        var combinations = [];
 
         strip.initials.forEach(item1 => {
-            if (!selectedItem1 || !selectedItem2) {
-                selectedItem1 = item1;
-            } else {
-                if (selectedItem2 && item1.v + selectedItem2.v > selectedItem1.v + selectedItem2.v && item1.v + selectedItem2.v > v &&
-                        this.ident(item1) !== this.ident(selectedItem2)) {
-                    selectedItem1 = item1;
-                }
-            }
             otherStrip.initials.forEach(item2 => {
-                if (!selectedItem2 && this.ident(selectedItem1) !== this.ident(item2)) {
-                    selectedItem2 = item2;
-                } else {
-                    if (selectedItem2 && selectedItem1.v + item2.v > selectedItem1.v + selectedItem2.v && selectedItem1.v + item2.v > v &&
-                        this.ident(selectedItem1) !== this.ident(item2)) {
-                        selectedItem2 = item2;
-                    }
+                if (item1.v + item2.v > v && this.ident(item1) !== this.ident(item2)) {
+                    combinations.push({
+                        item1,
+                        item2,
+                        v: item1.v + item2.v
+                    });
                 }
             });
         });
 
-        // And return
-        strip.initials.reverse();
-        otherStrip.initials.reverse();
+        var combination = combinations.sort((c1, c2) => {
+            return c2.v - c1.v; // Sort in descending order
+        })[0];
 
-        if (selectedItem1 && selectedItem2 && selectedItem1.v + selectedItem2.v > v) {
-            return [selectedItem1, selectedItem2];
-        }
-
-        return [];
+        return combination ? [combination.item1, combination.item2] : [];
     }
 
     addStripH (strip) {
@@ -208,7 +195,7 @@ export default class Strip {
             } else {
                 let twoItems = this.findTwo(strip, otherStrip, v);
 
-                if (twoItems.length === 2) {
+                if (twoItems.length !== 0) {
                     let item1 = twoItems[0].clone();
                     let item2 = twoItems[1].clone();
                     addItemFn(item1);

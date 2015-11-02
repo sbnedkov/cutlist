@@ -378,7 +378,7 @@ describe('Strip', () => {
 
             var strip = new Strip();
 
-            assert.deepEqual(strip.findTwo(strip1, strip2, 0), [item3, item2]);
+            assert.deepEqual(strip.findTwo(strip1, strip2, 0), [item1, item4]);
         });
 
         it('should pick two maximal items with more choices where first items are not optimal', () => {
