@@ -9,7 +9,7 @@ export default class Item {
         this.index = index;
         this.x = 0;
         this.y = 0;
-        this.ident = `${this.ref}#${this.index}`;
+        this.identity = `${this.ref}#${this.index}`;
     }
 
     rotate () {
@@ -32,6 +32,6 @@ export default class Item {
     }
 
     ident () {
-        return this.ident;
+        return this.identity;
     }
 }
