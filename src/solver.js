@@ -113,8 +113,9 @@ export class Solver {
                         }
                     }
                 }
-                console.log(i, ' of ', P1.length, ' ', j, ' of ', Q1.length);
+//                console.log(i, ' of ', P1.length, ' ', j, ' of ', Q1.length);
             }
+            console.log(i, ' of ', P1.length);
         }
 
         var allValue = expandedItems.reduce((acc, item) => {
