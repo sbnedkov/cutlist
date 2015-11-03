@@ -235,49 +235,49 @@ describe('Strip', () => {
         });
     });
 
-    describe('#strongUses()', () => {
+    describe('#weakUses()', () => {
         it('should report no usage for initial strip', () => {
             var strip = new Strip([new Item('one', 10, 30, false, 1, 5)]);
-            assert.equal(strip.strongUses(new Item('two', 10, 30)), false);
+            assert.equal(strip.weakUses(new Item('two', 10, 30)), false);
         });
 
         it('should report usage for initial strip', () => {
             var strip = new Strip([new Item('one', 10, 30, false)]);
-            assert.equal(strip.strongUses(new Item('one', 10, 30)), true);
+            assert.equal(strip.weakUses(new Item('one', 10, 30)), true);
         });
 
         it('should report no usage for initial strip with indices', () => {
             var strip = new Strip([new Item('one', 10, 30, false, 1, 5)]);
-            assert.equal(strip.strongUses(new Item('one', 10, 30, false)), false);
+            assert.equal(strip.weakUses(new Item('one', 10, 30, false)), false);
         });
 
         it('should report usage for initial strip with indices', () => {
             var strip = new Strip([new Item('one', 10, 30, false, 1, 5)]);
-            assert.equal(strip.strongUses(new Item('one', 10, 30, false, 1, 5)), true);
+            assert.equal(strip.weakUses(new Item('one', 10, 30, false, 1, 5)), true);
         });
 
         it('should report no usage for strip', () => {
             var strip = new Strip();
             strip.addItemH(new Item('one', 10, 30, false, 1, 5));
-            assert.equal(strip.strongUses(new Item('two', 10, 30)), false);
+            assert.equal(strip.weakUses(new Item('two', 10, 30)), false);
         });
 
         it('should report usage for strip', () => {
             var strip = new Strip();
             strip.addItemH(new Item('one', 10, 30, false));
-            assert.equal(strip.strongUses(new Item('one', 10, 30)), true);
+            assert.equal(strip.weakUses(new Item('one', 10, 30)), true);
         });
 
         it('should report no usage for strip with indices', () => {
             var strip = new Strip();
             strip.add(new Item('one', 10, 30, false, 1, 5));
-            assert.equal(strip.strongUses(new Item('one', 10, 30, false)), false);
+            assert.equal(strip.weakUses(new Item('one', 10, 30, false)), false);
         });
 
         it('should report usage for strip with indices', () => {
             var strip = new Strip();
             strip.add(new Item('one', 10, 30, false, 1, 5));
-            assert.equal(strip.strongUses(new Item('one', 10, 30, false, 1, 5)), true);
+            assert.equal(strip.weakUses(new Item('one', 10, 30, false, 1, 5)), true);
         });
     });
 

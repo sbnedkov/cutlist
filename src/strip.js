@@ -45,7 +45,7 @@ export default class Strip {
         return !!(item && this.refs[this.ident(item)]);
     }
 
-    strongUses (item) {
+    weakUses (item) {
         if (this.isEmpty()) {
             return false;
         }
@@ -84,7 +84,7 @@ export default class Strip {
         var selectedItem;
 
         strip.initials.forEach(item => {
-            if (!otherStrip.strongUses(item) && (item.v + otherStrip.value() > v)) {
+            if (!otherStrip.weakUses(item) && (item.v + otherStrip.value() > v)) {
                 selectedItem = item;
             }
         });
