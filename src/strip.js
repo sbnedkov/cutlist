@@ -93,25 +93,22 @@ export default class Strip {
     }
 
     findTwo (strip, otherStrip, v) {
-        var combinations = [];
+        var combination;
+        var max = 0;
 
         strip.initials.forEach(item1 => {
             otherStrip.initials.forEach(item2 => {
-                if (item1.v + item2.v > v && this.ident(item1) !== this.ident(item2)) {
-                    combinations.push({
-                        item1,
-                        item2,
-                        v: item1.v + item2.v
-                    });
+                let newV = item1.v + item2.v;
+                if (newV > v && this.ident(item1) !== this.ident(item2)) {
+                    if (max < newV) {
+                        max = newV;
+                        combination = [item1, item2];
+                    }
                 }
             });
         });
 
-        var combination = combinations.sort((c1, c2) => {
-            return c2.v - c1.v; // Sort in descending order
-        })[0];
-
-        return combination ? [combination.item1, combination.item2] : [];
+        return combination || [];
     }
 
     addStripH (strip) {
