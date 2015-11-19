@@ -195,19 +195,29 @@ export default class Strip {
                 if (twoItems.length !== 0) {
                     let item1 = twoItems[0].clone();
                     let item2 = twoItems[1].clone();
-                    addItemFn(item1);
-                    addItemFn(item2);
+                    if (item1.v > item2.v) {
+                        addItemFn(item1);
+                        addItemFn(item2);
+                    } else {
+                        addItemFn(item2);
+                        addItemFn(item1);
+                    }
                 }
             }
         } else if (strip.isInitial()) {
+            addStripFn(otherStrip);
             pickAndAddItemFn(strip, otherStrip, v);
-            addStripFn(otherStrip);
         } else if (otherStrip.isInitial()) {
+            addStripFn(strip);
             pickAndAddItemFn(otherStrip, strip, v);
-            addStripFn(strip);
         } else {
-            addStripFn(strip);
-            addStripFn(otherStrip);
+            if (strip.value() > otherStrip.value()) {
+                addStripFn(strip);
+                addStripFn(otherStrip);
+            } else {
+                addStripFn(otherStrip);
+                addStripFn(strip);
+            }
         }
     }
 

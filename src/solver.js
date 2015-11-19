@@ -80,9 +80,10 @@ export class Solver {
 
 //        console.log(JSON.stringify(V, (key, value) => {return value;}, 2));
 
-        for (let i = 1; i < P1.length; i++) {
-            for (let j = 1; j < Q1.length; j++) {
+        for (let i = 0; i < P1.length; i++) {
+            for (let j = 0; j < Q1.length; j++) {
 //                (i === P1.length -1 && j === Q1.length - 1) && console.log(JSON.stringify(V, (key, value) => {return value;}, 2));
+                let sx, sy, st, vmax = 0, vuse;
 
                 for (let x = 0; x < i; x++) {
                     for (let t = 0; t < P1.length; t++) {
@@ -90,28 +91,49 @@ export class Solver {
                         let stripX = V.get(x, j);
                         let stripT = V.get(t, j);
                         if ((P1[t].len <= P1[i].len - P1[x].len) && !stripT.intersects(stripX)) {
-                            if (stripX.value() + stripT.value() > v) {
-                                let strip = new Strip();
-                                strip.addStripsH(stripX, stripT, v);
-                                V.set(i, j, strip);
+                            let vloc = stripX.value() + stripT.value();
+                            if (vloc > v) {
+                                if (vloc > vmax) {
+                                    sx = stripX;
+                                    st = stripT;
+                                    vmax = vloc;
+                                    vuse = v;
+                                }
                             }
                         }
                     }
                 }
 
+                if (sx) {
+                    let strip = new Strip();
+                    strip.addStripsH(sx, st, vuse);
+                    V.set(i, j, strip);
+                }
+
+                vmax = 0;
                 for (let y = 0; y < j; y++) {
                     for (let t = 0; t < Q1.length; t++) {
                         let v = V.get(i, j).value();
                         let stripY = V.get(i, y);
                         let stripT = V.get(i, t);
                         if ((Q1[t].len <= Q1[j].len - Q1[y].len) && !stripT.intersects(stripY)) {
-                            if (stripY.value() + stripT.value() > v) {
-                                let strip = new Strip();
-                                strip.addStripsV(stripY, stripT, v);
-                                V.set(i, j, strip);
+                            let vloc = stripY.value() + stripT.value();
+                            if (vloc > v) {
+                                if (vloc > vmax) {
+                                    sy = stripY;
+                                    st = stripT;
+                                    vmax = vloc;
+                                    vuse = v;
+                                }
                             }
                         }
                     }
+                }
+
+                if (sy) {
+                    let strip = new Strip();
+                    strip.addStripsV(sy, st, vuse);
+                    V.set(i, j, strip);
                 }
 //                console.log(i, ' of ', P1.length, ' ', j, ' of ', Q1.length);
             }
