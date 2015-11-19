@@ -25,6 +25,29 @@ export default class Strip {
             return a1.v - a2.v;
         });
 
+        this.uses = memoize((item) => {
+            if (this.isEmpty()) {
+                return false;
+            }
+
+            if (this.isInitial()) {
+                return !!(item && this.initialRefs[item.ident()] && (this.initials.length === 1 || this.initials.length === 2 &&
+                        this.initials[0].ident() === this.initials[1].ident()));
+            }
+            return !!(item && this.refs[item.ident()]);
+        });
+
+        this.weakUses = memoize((item) => {
+            if (this.isEmpty()) {
+                return false;
+            }
+
+            if (this.isInitial()) {
+                return !!(item && this.initialRefs[item.ident()]);
+            }
+            return !!(item && this.refs[item.ident()]);
+        });
+
         this.intersects = memoize((strip) => {
             if (strip.isEmpty()) {
                 return false;
@@ -50,29 +73,6 @@ export default class Strip {
 
     initialItems () {
         return this.initials;
-    }
-
-    uses (item) {
-        if (this.isEmpty()) {
-            return false;
-        }
-
-        if (this.isInitial()) {
-            return !!(item && this.initialRefs[item.ident()] && (this.initials.length === 1 || this.initials.length === 2 &&
-                    this.initials[0].ident() === this.initials[1].ident()));
-        }
-        return !!(item && this.refs[item.ident()]);
-    }
-
-    weakUses (item) {
-        if (this.isEmpty()) {
-            return false;
-        }
-
-        if (this.isInitial()) {
-            return !!(item && this.initialRefs[item.ident()]);
-        }
-        return !!(item && this.refs[item.ident()]);
     }
 
     add (item) {
