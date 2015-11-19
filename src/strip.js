@@ -4,6 +4,7 @@ export default class Strip {
     constructor (items) {
         this.initials = [];
         this.initialRefs = {};
+        this.uid = (Math.random() * 1e20).toString(36);
 
         this.arr = [];
         this.refs = {};
@@ -15,13 +16,31 @@ export default class Strip {
             let item = i.clone();
 
             this.initials.push(item);
-            this.initialRefs[this.ident(item)] = true;
+            this.initialRefs[item.ident()] = true;
             item.x = 0;
             item.y = 0;
         });
 
         this.initials.sort((a1, a2) => {
             return a1.v - a2.v;
+        });
+
+        this.intersects = memoize((strip) => {
+            if (strip.isEmpty()) {
+                return false;
+            }
+
+            if (this.isEmpty()) {
+                return false;
+            }
+
+            if (strip.isInitial()) {
+                return all(strip.initialItems(), this.uses.bind(this));
+            } else if (this.isInitial()) {
+                return all(this.initialItems(), strip.uses.bind(strip));
+            } else {
+                return any(strip.items(), this.uses.bind(this));
+            }
         });
     }
 
@@ -39,10 +58,10 @@ export default class Strip {
         }
 
         if (this.isInitial()) {
-            return !!(item && this.initialRefs[this.ident(item)] && (this.initials.length === 1 || this.initials.length === 2 &&
-                    this.ident(this.initials[0]) === this.ident(this.initials[1])));
+            return !!(item && this.initialRefs[item.ident()] && (this.initials.length === 1 || this.initials.length === 2 &&
+                    this.initials[0].ident() === this.initials[1].ident()));
         }
-        return !!(item && this.refs[this.ident(item)]);
+        return !!(item && this.refs[item.ident()]);
     }
 
     weakUses (item) {
@@ -51,32 +70,14 @@ export default class Strip {
         }
 
         if (this.isInitial()) {
-            return !!(item && this.initialRefs[this.ident(item)]);
+            return !!(item && this.initialRefs[item.ident()]);
         }
-        return !!(item && this.refs[this.ident(item)]);
-    }
-
-    intersects (strip) {
-        if (strip.isEmpty()) {
-            return false;
-        }
-
-        if (this.isEmpty()) {
-            return false;
-        }
-
-        if (strip.isInitial()) {
-            return all(strip.initialItems(), this.uses.bind(this));
-        } else if (this.isInitial()) {
-            return all(this.initialItems(), strip.uses.bind(strip));
-        } else {
-            return any(strip.items(), this.uses.bind(this));
-        }
+        return !!(item && this.refs[item.ident()]);
     }
 
     add (item) {
         this.arr.push(item);
-        this.refs[this.ident(item)] = true;
+        this.refs[item.ident()] = true;
         this.v += item.v;
     }
 
@@ -99,7 +100,7 @@ export default class Strip {
         strip.initials.forEach(item1 => {
             otherStrip.initials.forEach(item2 => {
                 let newV = item1.v + item2.v;
-                if (newV > v && this.ident(item1) !== this.ident(item2)) {
+                if (newV > v && item1.ident() !== item2.ident()) {
                     if (max < newV) {
                         max = newV;
                         combination = [item1, item2];
@@ -221,8 +222,8 @@ export default class Strip {
         }
     }
 
-    ident (item) {
-        return item && item.ident();
+    ident () {
+        return this.uid;
     }
 
     value () {
@@ -242,4 +243,16 @@ export default class Strip {
     isEmpty () {
         return !this.initials.length && !this.arr.length;
     }
+}
+
+function memoize (fn) {
+    var memory = {};
+
+    return (itemOrStrip) => {
+        var identity = itemOrStrip.ident();
+        if (memory[identity] === void 0) {
+            memory[identity] = fn(itemOrStrip);
+        }
+        return memory[identity];
+    };
 }

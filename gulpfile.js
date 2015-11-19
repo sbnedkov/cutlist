@@ -7,7 +7,7 @@ var nodemon = require('gulp-nodemon');
 var babelify = require('babelify');
 var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
-require("babel/polyfill"); // for ES6
+//require("babel/polyfill"); // for ES6
 var mocha = require('gulp-mocha');
 
 gulp.task('babelify-test', function () {

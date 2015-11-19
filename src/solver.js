@@ -87,11 +87,11 @@ export class Solver {
 
                 for (let x = 0; x < i; x++) {
                     for (let t = 0; t < P1.length; t++) {
-                        let v = V.get(i, j).value();
                         let stripX = V.get(x, j);
                         let stripT = V.get(t, j);
                         if ((P1[t].len <= P1[i].len - P1[x].len) && !stripT.intersects(stripX)) {
                             let vloc = stripX.value() + stripT.value();
+                            let v = V.get(i, j).value();
                             if (vloc > v) {
                                 if (vloc > vmax) {
                                     sx = stripX;
@@ -113,11 +113,11 @@ export class Solver {
                 vmax = 0;
                 for (let y = 0; y < j; y++) {
                     for (let t = 0; t < Q1.length; t++) {
-                        let v = V.get(i, j).value();
                         let stripY = V.get(i, y);
                         let stripT = V.get(i, t);
                         if ((Q1[t].len <= Q1[j].len - Q1[y].len) && !stripT.intersects(stripY)) {
                             let vloc = stripY.value() + stripT.value();
+                            let v = V.get(i, j).value();
                             if (vloc > v) {
                                 if (vloc > vmax) {
                                     sy = stripY;

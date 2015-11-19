@@ -1,14 +1,11 @@
-var path = require('path');
-
 var express = require('express');
-var jade = require('jade');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var I18n = require('i18n-2');
 
 var middleware = require('./src/middleware');
 
-var Item = require('./src/item');
+import Item from './src/item';
 var Solver = require('./src/solver').Solver;
 
 var app = express();
