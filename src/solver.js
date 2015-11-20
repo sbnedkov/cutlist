@@ -37,6 +37,9 @@ export class Solver {
         var P = knapsack(this.W, w);
         var Q = knapsack(this.H, h);
 
+        w = null;
+        h = null;
+
         var P1 = P.concat([{
             len: this.W,
             item: {}
@@ -77,6 +80,8 @@ export class Solver {
                 V.set(i, j, strip);
             }
         }
+
+        v = null;
 
 //        console.log(JSON.stringify(V, (key, value) => {return value;}, 2));
 

@@ -13,7 +13,7 @@ export default class Strip {
         this.v = 0;
 
         (items || []).forEach(i => {
-            let item = i.clone();
+            let item = i;
 
             this.initials.push(item);
             this.initialRefs[item.ident()] = true;

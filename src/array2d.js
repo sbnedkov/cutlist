@@ -15,6 +15,7 @@ export default class Array2D {
     }
 
     set (i, j, x) {
+        delete this.arr[i][j];
         this.arr[i][j] = x;
     }
 }
