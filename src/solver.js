@@ -145,14 +145,22 @@ export class Solver {
         }, 0);
 
         var solution;
-        var min = 1e15;
+        var max = 0;
         for (let i = 0; i < P1.length; i++) {
             for (let j = 0; j < Q1.length; j++) {
                 if (V.get(i, j).value() === allValue) {
-                    if (i * j < min) {
-                        min = i * j;
+                    let areav = (this.W - P1[i].len) * this.H;
+                    if (areav > max) {
+                        max = areav;
                         solution = V.get(i, j);
-                        console.log(i, j);
+                        console.log('Vertical cut off at:', P1[i].len);
+                    }
+
+                    let areah = (this.H - Q1[j].len) * this.W;
+                    if (areah > max) {
+                        max = areah;
+                        solution = V.get(i, j);
+                        console.log('Horizontal cut off at:', Q1[j].len);
                     }
                 }
             }
