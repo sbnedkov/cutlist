@@ -203,7 +203,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
             }]
         }];
 
-    $scope.testsIdx = 3;
+    $scope.testsIdx = '3';
     $scope.$watch('testsIdx', (idx) => {
         if (idx >= 0) {
             $scope.slates = $scope.tests[idx].slates;
