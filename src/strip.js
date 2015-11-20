@@ -248,7 +248,7 @@ function memoize (fn) {
     var memory = {};
 
     return function (itemOrStrip) {
-        var identity = `this.ident():itemOrStrip.ident()`;
+        var identity = `${this.ident()}:${itemOrStrip.ident()}`;
         if (memory[identity] === void 0) {
             memory[identity] = fn.call(this, itemOrStrip);
         }
