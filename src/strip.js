@@ -25,6 +25,8 @@ export default class Strip {
             return a1.v - a2.v;
         });
 
+        this.v += this.initials.length ? this.initials[this.initials.length - 1].v : 0;
+
         this.uses = memoize((item) => {
             if (this.isEmpty()) {
                 return false;
@@ -65,6 +67,40 @@ export default class Strip {
                 return any(strip.items(), this.uses.bind(this));
             }
         });
+
+        this.selectItem = memoize2((strip, otherStrip, v) => {
+            var selectedItem;
+
+            strip.initials.forEach(item => {
+                if (!otherStrip.weakUses(item) && (item.v + otherStrip.value() > v)) {
+                    selectedItem = item;
+                }
+            });
+
+            return selectedItem;
+        });
+
+        this.findTwo = memoize2((strip, otherStrip, v) => {
+            var combination;
+            var max = 0;
+
+            strip.initials.forEach(item1 => {
+                otherStrip.initials.forEach(item2 => {
+                    let newV = item1.v + item2.v;
+                    if (newV > v && item1.ident() !== item2.ident()) {
+                        if (max < newV) {
+                            max = newV;
+                            combination = [item1, item2];
+                        }
+                    }
+                });
+            });
+
+            return combination || [];
+        });
+
+        // Some precomputed values
+        this.empty = !this.initials.length;
     }
 
     items () {
@@ -79,37 +115,7 @@ export default class Strip {
         this.arr.push(item);
         this.refs[item.ident()] = true;
         this.v += item.v;
-    }
-
-    selectItem (strip, otherStrip, v) {
-        var selectedItem;
-
-        strip.initials.forEach(item => {
-            if (!otherStrip.weakUses(item) && (item.v + otherStrip.value() > v)) {
-                selectedItem = item;
-            }
-        });
-
-        return selectedItem;
-    }
-
-    findTwo (strip, otherStrip, v) {
-        var combination;
-        var max = 0;
-
-        strip.initials.forEach(item1 => {
-            otherStrip.initials.forEach(item2 => {
-                let newV = item1.v + item2.v;
-                if (newV > v && item1.ident() !== item2.ident()) {
-                    if (max < newV) {
-                        max = newV;
-                        combination = [item1, item2];
-                    }
-                }
-            });
-        });
-
-        return combination || [];
+        this.empty = false;
     }
 
     addStripH (strip) {
@@ -227,12 +233,6 @@ export default class Strip {
     }
 
     value () {
-        if (this.isEmpty()) {
-            return 0;
-        }
-        if (this.isInitial()) {
-            return this.initials[this.initials.length - 1].v;
-        }
         return this.v;
     }
 
@@ -241,17 +241,32 @@ export default class Strip {
     }
 
     isEmpty () {
-        return !this.initials.length && !this.arr.length;
+        return this.empty;
     }
 }
 
+// TODO: revisit (memoize - for comutative law, memoize2 - for identity formation)
+
 function memoize (fn) {
+    console.log(this);
     var memory = {};
 
     return (itemOrStrip) => {
         var identity = itemOrStrip.ident();
         if (memory[identity] === void 0) {
             memory[identity] = fn(itemOrStrip);
+        }
+        return memory[identity];
+    };
+}
+
+function memoize2 (fn) {
+    var memory = {};
+
+    return (stripa, stripb, value) => {
+        var identity = `${stripa.ident()}:${stripb.ident()}:${value}`;
+        if (memory[identity] === void 0) {
+            memory[identity] = fn(stripa, stripb, value);
         }
         return memory[identity];
     };
