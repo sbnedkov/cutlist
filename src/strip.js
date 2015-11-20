@@ -26,80 +26,6 @@ export default class Strip {
         });
 
         this.v += this.initials.length ? this.initials[this.initials.length - 1].v : 0;
-
-        this.uses = memoize((item) => {
-            if (this.isEmpty()) {
-                return false;
-            }
-
-            if (this.isInitial()) {
-                return !!(item && this.initialRefs[item.ident()] && (this.initials.length === 1 || this.initials.length === 2 &&
-                        this.initials[0].ident() === this.initials[1].ident()));
-            }
-            return !!(item && this.refs[item.ident()]);
-        });
-
-        this.weakUses = memoize((item) => {
-            if (this.isEmpty()) {
-                return false;
-            }
-
-            if (this.isInitial()) {
-                return !!(item && this.initialRefs[item.ident()]);
-            }
-            return !!(item && this.refs[item.ident()]);
-        });
-
-        this.intersects = memoize((strip) => {
-            if (strip.isEmpty()) {
-                return false;
-            }
-
-            if (this.isEmpty()) {
-                return false;
-            }
-
-            if (strip.isInitial()) {
-                return all(strip.initialItems(), this.uses.bind(this));
-            } else if (this.isInitial()) {
-                return all(this.initialItems(), strip.uses.bind(strip));
-            } else {
-                return any(strip.items(), this.uses.bind(this));
-            }
-        });
-
-        this.selectItem = memoize2((strip, otherStrip, v) => {
-            var selectedItem;
-
-            strip.initials.forEach(item => {
-                if (!otherStrip.weakUses(item) && (item.v + otherStrip.value() > v)) {
-                    selectedItem = item;
-                }
-            });
-
-            return selectedItem;
-        });
-
-        this.findTwo = memoize2((strip, otherStrip, v) => {
-            var combination;
-            var max = 0;
-
-            strip.initials.forEach(item1 => {
-                otherStrip.initials.forEach(item2 => {
-                    let newV = item1.v + item2.v;
-                    if (newV > v && item1.ident() !== item2.ident()) {
-                        if (max < newV) {
-                            max = newV;
-                            combination = [item1, item2];
-                        }
-                    }
-                });
-            });
-
-            return combination || [];
-        });
-
-        // Some precomputed values
         this.empty = !this.initials.length;
     }
 
@@ -245,16 +171,86 @@ export default class Strip {
     }
 }
 
-// TODO: revisit (memoize - for comutative law, memoize2 - for identity formation)
+Strip.prototype.uses = memoize(function (item) {
+    if (this.isEmpty()) {
+        return false;
+    }
 
+    if (this.isInitial()) {
+        return !!(item && this.initialRefs[item.ident()] && (this.initials.length === 1 || this.initials.length === 2 &&
+                this.initials[0].ident() === this.initials[1].ident()));
+    }
+    return !!(item && this.refs[item.ident()]);
+});
+
+Strip.prototype.weakUses = memoize(function (item) {
+    if (this.isEmpty()) {
+        return false;
+    }
+
+    if (this.isInitial()) {
+        return !!(item && this.initialRefs[item.ident()]);
+    }
+    return !!(item && this.refs[item.ident()]);
+});
+
+Strip.prototype.intersects = memoize(function (strip) {
+    if (strip.isEmpty()) {
+        return false;
+    }
+
+    if (this.isEmpty()) {
+        return false;
+    }
+
+    if (strip.isInitial()) {
+        return all(strip.initialItems(), this.uses.bind(this));
+    } else if (this.isInitial()) {
+        return all(this.initialItems(), strip.uses.bind(strip));
+    } else {
+        return any(strip.items(), this.uses.bind(this));
+    }
+});
+
+Strip.prototype.selectItem = memoize2(function (strip, otherStrip, v) {
+    var selectedItem;
+
+    strip.initials.forEach(item => {
+        if (!otherStrip.weakUses(item) && (item.v + otherStrip.value() > v)) {
+            selectedItem = item;
+        }
+    });
+
+    return selectedItem;
+});
+
+Strip.prototype.findTwo = memoize2(function (strip, otherStrip, v) {
+    var combination;
+    var max = 0;
+
+    strip.initials.forEach(item1 => {
+        otherStrip.initials.forEach(item2 => {
+            let newV = item1.v + item2.v;
+            if (newV > v && item1.ident() !== item2.ident()) {
+                if (max < newV) {
+                    max = newV;
+                    combination = [item1, item2];
+                }
+            }
+        });
+    });
+
+    return combination || [];
+});
+
+// TODO: cumulative law for memoize of two strips (e.g. intersects)
 function memoize (fn) {
-    console.log(this);
     var memory = {};
 
-    return (itemOrStrip) => {
-        var identity = itemOrStrip.ident();
+    return function (itemOrStrip) {
+        var identity = `this.ident():itemOrStrip.ident()`;
         if (memory[identity] === void 0) {
-            memory[identity] = fn(itemOrStrip);
+            memory[identity] = fn.call(this, itemOrStrip);
         }
         return memory[identity];
     };
@@ -263,10 +259,10 @@ function memoize (fn) {
 function memoize2 (fn) {
     var memory = {};
 
-    return (stripa, stripb, value) => {
+    return function (stripa, stripb, value) {
         var identity = `${stripa.ident()}:${stripb.ident()}:${value}`;
         if (memory[identity] === void 0) {
-            memory[identity] = fn(stripa, stripb, value);
+            memory[identity] = fn.call(this, stripa, stripb, value);
         }
         return memory[identity];
     };
