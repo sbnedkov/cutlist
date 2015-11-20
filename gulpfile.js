@@ -45,7 +45,7 @@ gulp.task('dev', ['browserify', 'test'], function () {
 gulp.task('prod', ['babel-node']);
 
 gulp.task('babel-node', ['browserify'], function () {
-    var server = spawn('./node_modules/.bin/babel-node', ['main.js']);
+    var server = spawn('./node_modules/babel-cli/bin/babel-node.js', ['main.js']);
 
     server.stdout.on('data', function (data) {
           process.stdout.write(data.toString());
