@@ -37,16 +37,11 @@ export class Solver {
         var P = knapsack(this.W, w);
         var Q = knapsack(this.H, h);
 
-        w = null;
-        h = null;
-
         var P1 = P.concat([{
-            len: this.W,
-            item: {}
+            len: this.W
         }]);
         var Q1 = Q.concat([{
-            len: this.H,
-            item: {}
+            len: this.H
         }]);
 
         var V = new Array2D(P1.length, Q1.length);
@@ -80,8 +75,6 @@ export class Solver {
                 V.set(i, j, strip);
             }
         }
-
-        v = null;
 
 //        console.log(JSON.stringify(V, (key, value) => {return value;}, 2));
 
@@ -177,8 +170,7 @@ export class Solver {
 
 export function knapsack (D, dd) {
     var result = [{
-        len: 0,
-        item: {}
+        len: 0
     }];
 
     var d = reduce(dd, (acc, el) => {
@@ -244,8 +236,7 @@ export function knapsack (D, dd) {
     for (let j = 1; j < D; j++) {
         if (c.get(d.length - 1, j)[0] === j) {
             result.push({
-                len: j,
-                item: c.get(d.length - 1, j)[1].item
+                len: j
             });
         }
     }

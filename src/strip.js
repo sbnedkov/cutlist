@@ -46,7 +46,7 @@ export default class Strip {
 
     addStripH (strip) {
         strip.items().forEach(i => {
-            let item = i.clone();
+            let item = i.createItemPosition();
             this.add(item);
             item.x += this.w;
         });
@@ -67,7 +67,7 @@ export default class Strip {
         let selectedItem = this.selectItem(strip, otherStrip, v);
 
         if (selectedItem) {
-            let item = selectedItem.clone();
+            let item = selectedItem.createItemPosition();
             this.add(item);
             item.x += this.w;
 
@@ -82,7 +82,7 @@ export default class Strip {
 
     addStripV (strip) {
         strip.items().forEach(i => {
-            let item = i.clone();
+            let item = i.createItemPosition();
             this.add(item);
             item.y += this.h;
         });
@@ -103,7 +103,7 @@ export default class Strip {
         let selectedItem = this.selectItem(strip, otherStrip, v);
 
         if (selectedItem) {
-            let item = selectedItem.clone();
+            let item = selectedItem.createItemPosition();
             this.add(item);
             item.y += this.h;
 
@@ -126,8 +126,8 @@ export default class Strip {
                 let twoItems = this.findTwo(strip, otherStrip, v);
 
                 if (twoItems.length !== 0) {
-                    let item1 = twoItems[0].clone();
-                    let item2 = twoItems[1].clone();
+                    let item1 = twoItems[0].createItemPosition();
+                    let item2 = twoItems[1].createItemPosition();
                     if (item1.v > item2.v) {
                         addItemFn(item1);
                         addItemFn(item2);

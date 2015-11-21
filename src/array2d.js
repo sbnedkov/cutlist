@@ -6,7 +6,7 @@ export default class Array2D {
         this.arr = [];
 
         for (let i = 0; i < d1; i++) {
-            this.arr.push(Array(d2));
+            this.arr.push([]);
         }
     }
 
@@ -15,7 +15,6 @@ export default class Array2D {
     }
 
     set (i, j, x) {
-        delete this.arr[i][j];
         this.arr[i][j] = x;
     }
 }

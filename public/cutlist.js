@@ -239,8 +239,8 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 cutlist.arr.forEach(function (part) {
                     // TODO: slateIdx
 //                    if (part.slateIdx === idx) {
-                        ctx.strokeRect(part.x, part.y, part.w, part.h);
-                        ctx.fillText(part.ref, part.x + part.w / 2, part.y + part.h / 2);
+                        ctx.strokeRect(part.x, part.y, part.item.w, part.item.h);
+                        ctx.fillText(part.item.ref, part.x + part.item.w / 2, part.y + part.item.h / 2);
 //                    }
                 });
                 /*

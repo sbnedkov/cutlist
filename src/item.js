@@ -1,3 +1,5 @@
+import ItemPosition from './itemposition';
+
 export default class Item {
     constructor (ref, w, h, canRotate = false, q = 1, index = -1) {
         this.ref = ref;
@@ -29,6 +31,10 @@ export default class Item {
         item.y = this.y;
 
         return item;
+    }
+
+    createItemPosition () {
+        return new ItemPosition(this.x, this.y, this);
     }
 
     ident () {
