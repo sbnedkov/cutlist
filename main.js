@@ -1,12 +1,12 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var I18n = require('i18n-2');
+import express from 'express';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import I18n from 'i18n-2';
 
-var middleware = require('./src/middleware');
+import middleware from './src/middleware';
 
 import Item from './src/item';
-var Solver = require('./src/solver').Solver;
+import {Solver} from './src/solver';
 
 var app = express();
 
