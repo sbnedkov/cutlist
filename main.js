@@ -5,9 +5,6 @@ import I18n from 'i18n-2';
 
 import middleware from './src/middleware';
 
-import Item from './src/item';
-import {Solver} from './src/solver';
-
 var app = express();
 
 app.use(cookieParser());
@@ -34,19 +31,20 @@ app.post('/lang', (req, res) => {
 app.post('/cutlist', (req, res) => {
     // TODO: cut type
 
-    var stocks = req.body.slates;
-    var parts = req.body.parts;
-    var items = [];
+//    var stocks = req.body.slates;
+//    var parts = req.body.parts;
+//    var items = [];
 
     // TODO: many stock sheets
-    var solver = new Solver(parseInt(stocks[0].w), parseInt(stocks[0].h));
-    parts.forEach(item => {
-        if (item.ref) { // TODO: better way to filter unwanted items
-            items.push(new Item(item.ref, parseInt(item.w), parseInt(item.h), item.canRotate, parseInt(item.q)));
-        }
-    });
+//    var solver = new Solver(parseInt(stocks[0].w), parseInt(stocks[0].h));
+//    parts.forEach(item => {
+//        if (item.ref) { // TODO: better way to filter unwanted items
+//            items.push(new Item(item.ref, parseInt(item.w), parseInt(item.h), item.canRotate, parseInt(item.q)));
+//        }
+//    });
 
-    res.json(solver.solve(items));
+//    res.json(solver.solve(items));
+    res.json({});
 });
 
 var port = process.env.PORT || 31314;
