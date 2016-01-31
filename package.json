@@ -15,7 +15,6 @@
     "express": "^4.13.3",
     "gulp": "^3.8.11",
     "gulp-babel": "^6.1.0",
-    "gulp-mocha": "^2.0.1",
     "gulp-nodemon": "^2.0.2",
     "gulp-sourcemaps": "^1.5.2",
     "i18n-2": "^0.4.6",

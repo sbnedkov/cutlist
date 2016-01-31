@@ -7,22 +7,6 @@ var nodemon = require('gulp-nodemon');
 var babelify = require('babelify');
 var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
-//require("babel/polyfill"); // for ES6
-var mocha = require('gulp-mocha');
-
-gulp.task('babelify-test', function () {
-    return gulp.src(['test/*.js', 'src/**/*.js'])
-        .pipe(sourcemaps.init())
-        .pipe(babel())
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('tmp-test/'));
-});
-
-gulp.task('test', ['babelify-test'], function () {
-    return gulp
-        .src('tmp-test/test.js', {read: false})
-        .pipe(mocha({reporter: 'nyan', timeout: 30000}));
-});
 
 gulp.task('browserify', function () {
     return browserify({
@@ -34,10 +18,9 @@ gulp.task('browserify', function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('dev', ['browserify', 'test'], function () {
+gulp.task('dev', ['browserify'], function () {
     return nodemon({exec: './node_modules/babel-cli/bin/babel-node.js main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'development'}/*, verbose: true*/}).on('restart', function () {
         console.log('restart');
-        gulp.run('test');
         gulp.run('browserify');
     });
 });
