@@ -1,3 +1,0 @@
-[submodule "lib/guillotine-solver"]
-	path = lib/guillotine-solver
-	url = git@github.com:sbnedkov/guillotine-solver.git
