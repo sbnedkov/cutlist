@@ -28,7 +28,9 @@
   "scripts": {
     "test": "gulp test",
     "cover": "istanbul cover --dir reports/coverage . tests/*.js",
-    "dev": "./node_modules/.bin/gulp dev"
+    "dev": "./node_modules/.bin/gulp dev",
+    "preinstall": "bash setup-ssh.sh",
+    "postinstall": "bash cleanup-ssh.sh"
   },
   "repository": {
     "type": "git",
