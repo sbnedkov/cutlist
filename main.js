@@ -52,6 +52,7 @@ app.post('/cutlist', (req, res) => {
     var solver = new SolverBnB([stocks[0].w], [stocks[0].h], itemsw, itemsh, demands);
     var result = solver.solve();
 
+
     console.log(result);
 
     res.json(result);
