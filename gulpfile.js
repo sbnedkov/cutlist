@@ -5,8 +5,8 @@ var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var nodemon = require('gulp-nodemon');
 var babelify = require('babelify');
-var babel = require('gulp-babel');
-var sourcemaps = require('gulp-sourcemaps');
+//var babel = require('gulp-babel');
+//var sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('browserify', function () {
     return browserify({
