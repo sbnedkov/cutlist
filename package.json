@@ -13,6 +13,7 @@
     "browserify": "^9.0.7",
     "cookie-parser": "^1.3.4",
     "express": "^4.13.3",
+    "guillotine-solver": "github:sbnedkov/guillotine-solver",
     "gulp": "^3.8.11",
     "gulp-babel": "^6.1.0",
     "gulp-nodemon": "^2.0.2",

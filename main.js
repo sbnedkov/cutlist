@@ -2,10 +2,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import I18n from 'i18n-2';
+import {SolverBnB} from 'guillotine-solver';
 
 import middleware from './src/middleware';
-
-import Solver from './lib/guillotine-solver/dist/solvers/solver-bnb';
 
 var app = express();
 
@@ -50,7 +49,7 @@ app.post('/cutlist', (req, res) => {
         }
     });
 
-    var solver = new Solver([parseInt(stocks[0].w)], [parseInt(stocks[0].h)], itemsw, itemsh, demands);
+    var solver = new SolverBnB([parseInt(stocks[0].w)], [parseInt(stocks[0].h)], itemsw, itemsh, demands);
     var result = solver.solve();
     console.log(result);
 
