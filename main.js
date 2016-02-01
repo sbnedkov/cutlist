@@ -5,6 +5,8 @@ import I18n from 'i18n-2';
 
 import middleware from './src/middleware';
 
+import Solver from './lib/guillotine-solver/dist/solvers/solver-bnb';
+
 var app = express();
 
 app.use(cookieParser());
@@ -31,20 +33,28 @@ app.post('/lang', (req, res) => {
 app.post('/cutlist', (req, res) => {
     // TODO: cut type
 
-//    var stocks = req.body.slates;
-//    var parts = req.body.parts;
-//    var items = [];
+    var stocks = req.body.slates;
+    var parts = req.body.parts;
+    var itemsw = [];
+    var itemsh = [];
+    var demands = [];
 
     // TODO: many stock sheets
-//    var solver = new Solver(parseInt(stocks[0].w), parseInt(stocks[0].h));
-//    parts.forEach(item => {
-//        if (item.ref) { // TODO: better way to filter unwanted items
-//            items.push(new Item(item.ref, parseInt(item.w), parseInt(item.h), item.canRotate, parseInt(item.q)));
-//        }
-//    });
+    parts.forEach(item => {
+        if (item.ref) { // TODO: better way to filter unwanted items
+            itemsw.push(parseInt(item.w));
+            itemsh.push(parseInt(item.h));
+            demands.push(parseInt(item.q));
+            // item.ref
+            // item.canRotate
+        }
+    });
 
-//    res.json(solver.solve(items));
-    res.json({});
+    var solver = new Solver([parseInt(stocks[0].w)], [parseInt(stocks[0].h)], itemsw, itemsh, demands);
+    var result = solver.solve();
+    console.log(result);
+
+    res.json(result);
 });
 
 var port = process.env.PORT || 31314;
