@@ -27,6 +27,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "./node_modules/.bin/gulp prod",
     "test": "gulp test",
     "cover": "istanbul cover --dir reports/coverage . tests/*.js",
     "dev": "./node_modules/.bin/gulp dev",
