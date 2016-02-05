@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import I18n from 'i18n-2';
-import SolverBnB from 'guillotine-solver';
+import solve from 'guillotine-solver';
 
 import middleware from './src/middleware';
 
@@ -40,7 +40,7 @@ app.post('/cutlist', (req, res) => {
 
     // TODO: many stock sheets
     parts.forEach(item => {
-        if (item.ref) { // TODO: better way to filter unwanted items
+        if (item.ref && item.q) { // TODO: better way to filter unwanted items
             itemsw.push(item.w);
             itemsh.push(item.h);
             demands.push(item.q);
@@ -49,9 +49,7 @@ app.post('/cutlist', (req, res) => {
         }
     });
 
-    var solver = new SolverBnB([stocks[0].w], [stocks[0].h], itemsw, itemsh, demands);
-    var result = solver.solve();
-
+    var result = solve([stocks[0].w], [stocks[0].h], itemsw, itemsh, demands);
 
     console.log(result);
 
