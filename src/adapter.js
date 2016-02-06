@@ -7,6 +7,7 @@ export default function translate (solution) {
         var res = [];
 
         activities.forEach(activity => {
+            console.log(activity);
             var c = 0;
 
             activity.constituentsx.forEach((consx, conidx) => {

@@ -50,9 +50,9 @@ app.post('/cutlist', (req, res) => {
         }
     });
 
-    var result = solve([stocks[0].w], [stocks[0].h], itemsw, itemsh, demands);
+    var result = solve([stocks[0].w], [stocks[0].h], itemsh, itemsw, demands);  // TODO: w is l which is h, confusing, fix
 
-    console.log(result);
+//    console.log(result);
 
     res.json(translate(result));
 });
