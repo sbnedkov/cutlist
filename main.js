@@ -5,6 +5,7 @@ import I18n from 'i18n-2';
 import solve from 'guillotine-solver';
 
 import middleware from './src/middleware';
+import translate from './src/adapter';
 
 var app = express();
 
@@ -53,7 +54,7 @@ app.post('/cutlist', (req, res) => {
 
     console.log(result);
 
-    res.json(result);
+    res.json(translate(result));
 });
 
 var port = process.env.PORT || 31314;
