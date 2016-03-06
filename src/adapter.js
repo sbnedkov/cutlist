@@ -12,10 +12,11 @@ export default function translate (solution) {
 
             activity.constituentsx.forEach((consx, conidx) => {
                 consx.forEach((n, idx) => {
-                    if (n) {
+                    var l = activity.locations[c];
+                    if (n && l) {
                         let m = activity.constituentsy[conidx][idx];
                         for (let i = 0; i < n * m; i++) {
-                            res.push(constructPart(i, n, m, activity.locations[c], activity.patternIsRotated[c]));
+                            res.push(constructPart(i, n, m, l, activity.patternIsRotated[c]));
                         }
                     }
 
