@@ -1,4 +1,12 @@
-export default function translate (solution) {
+export default function translate (solution, parts) {
+    var names = [];
+
+    parts.forEach(part => {
+        for (let i = 0; i < part.q; i++) {
+            names.push(part.ref);
+        }
+    });
+
     return {
         arr: mapActivities(solution.activities)
     };
@@ -19,9 +27,9 @@ export default function translate (solution) {
                             res.push(constructPart(i, n, m, l, activity.patternIsRotated[c]));
                         }
                     }
-
-                    c = c + 1;
                 });
+
+                c = c + 1;
             });
         });
 
@@ -37,10 +45,11 @@ export default function translate (solution) {
         // Right now either n or m will be 1, find out which one
         if (m === 1) { // horizontal block
             return {
+                ref: names[idx],
                 x: location.x1 + idx * w,
                 y: location.y1,
                 item: {
-                    ref: '???',
+                    ref: parts[idx].ref,
                     w,
                     h
                 },
@@ -48,10 +57,11 @@ export default function translate (solution) {
             };
         } else if (n === 1) { // vertical block
             return {
+                ref: names[idx],
                 x: location.x1,
                 y: location.y1 + idx * h,
                 item: {
-                    ref: '???',
+                    ref: parts[idx].ref,
                     w,
                     h
                 },

@@ -54,7 +54,7 @@ app.post('/cutlist', (req, res) => {
 
 //    console.log(result);
 
-    res.json(translate(result));
+    res.json(translate(result, parts));
 });
 
 var port = process.env.PORT || 31314;

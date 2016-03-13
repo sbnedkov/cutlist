@@ -222,7 +222,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
 
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.textAlign = 'center';
-//                ctx.font = '45px Verdana';
+                ctx.font = '45px Verdana';
 
                 if (!cutlist) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -242,7 +242,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                         var w = part.rotated ? part.item.h : part.item.w;
                         var h = part.rotated ? part.item.w : part.item.h;
                         ctx.strokeRect(part.x, part.y, w, h);
-                        ctx.fillText(part.item.ref, part.x + w / 2, part.y + h / 2);
+                        ctx.fillText(part.ref, part.x + w / 2, part.y + h / 2);
 //                    }
                 });
                 /*
