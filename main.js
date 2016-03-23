@@ -38,6 +38,7 @@ app.post('/cutlist', (req, res) => {
     var itemsw = [];
     var itemsh = [];
     var demands = [];
+    var names = [];
 
     // TODO: many stock sheets
     parts.forEach(item => {
@@ -45,6 +46,7 @@ app.post('/cutlist', (req, res) => {
             itemsw.push(item.w);
             itemsh.push(item.h);
             demands.push(item.q);
+            names.push(item.ref);
             // item.ref
             // item.canRotate
         }
@@ -54,7 +56,7 @@ app.post('/cutlist', (req, res) => {
 
 //    console.log(result);
 
-    res.json(translate(result, parts));
+    res.json(translate(result, names));
 });
 
 var port = process.env.PORT || 31314;
