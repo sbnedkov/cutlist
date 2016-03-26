@@ -1,12 +1,12 @@
 export default function translate (solution, names) {
     return {
-        arr: mapActivities(solution.activities, solution.names)
+        arr: mapActivities(solution.activities)
     };
 
     function mapActivities (activities) {
         var res = [];
 
-        activities.forEach(activity => {
+        activities.forEach((activity) => {
             console.log(activity);
             console.log(activity.locations);
             var c = 0;
@@ -15,13 +15,11 @@ export default function translate (solution, names) {
                 consx.forEach((n, idx) => {
                     if (n) {
                         let l = activity.locations[conidx][idx];
-                        if (l) { // XXX: is this a bug?
-                            let m = activity.constituentsy[conidx][idx];
-                            for (let i = 0; i < n * m; i++) {
-                                res.push(constructPart(i, n, m, l, activity.patternIsRotated[conidx], names[idx]));
-                            }
-                            c = c + 1;
+                        let m = activity.constituentsy[conidx][idx];
+                        for (let i = 0; i < n * m; i++) {
+                            res.push(constructPart(i, n, m, l, activity.patternIsRotated[conidx], names[idx]));
                         }
+                        c = c + 1;
                     }
                 });
             });
