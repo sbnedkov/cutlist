@@ -16,9 +16,7 @@ export default function translate (solution, names) {
                     if (n) {
                         let l = activity.locations[conidx][idx];
                         let m = activity.constituentsy[conidx][idx];
-                        for (let i = 0; i < n * m; i++) {
-                            res.push(constructPart(i, n, m, l, activity.patternIsRotated[conidx], names[idx]));
-                        }
+                        res = res.concat(constructPart(n, m, l, activity.patternIsRotated[conidx], names[idx]));
                         c = c + 1;
                     }
                 });
@@ -28,37 +26,51 @@ export default function translate (solution, names) {
         return res;
     }
 
-    function constructPart (idx, n, m, location, rotated, name) {
+    function constructPart (n, m, location, rotated, name) {
         var blockw = location.x2 - location.x1;
         var blockh = location.y2 - location.y1;
         var w = blockw / n;
         var h = blockh / m;
 
+        var res = [];
         // Right now either n or m will be 1, find out which one
         if (m === 1) { // horizontal block
-            return {
-                ref: name,
-                x: location.x1 + idx * w,
-                y: location.y1,
-                item: {
-                    w,
-                    h
-                },
-                rotated
-            };
+            for (let i = 0; i < n; i++) {
+                res.push({
+                    ref: name,
+                    x: location.x1 + i * w,
+                    y: location.y1,
+                    item: {
+                        w,
+                        h
+                    },
+                    rotated
+                });
+            }
         } else if (n === 1) { // vertical block
-            return {
-                ref: name,
-                x: location.x1,
-                y: location.y1 + idx * h,
-                item: {
-                    w,
-                    h
-                },
-                rotated
-            };
+            for (let i = 0; i < m; i++) {
+                res.push({
+                    ref: name,
+                    x: location.x1,
+                    y: location.y1 + i * h,
+                    item: {
+                        w,
+                        h
+                    },
+                    rotated
+                });
+            }
         } else {
-            throw new Error(`Cutting pattern has more dimensions: ${n}x${m}`);
+            for (let i = 0; i < m; i++) {
+                let tmpLocation = {
+                    x1: location.x1,
+                    x2: location.x2,
+                    y1: location.y1 + i * h,
+                    y2: location.y2 + i * h - (m - 1) * h
+                };
+                res = res.concat(constructPart(n, 1, tmpLocation, rotated, name));
+            }
         }
+        return res;
     }
 }
