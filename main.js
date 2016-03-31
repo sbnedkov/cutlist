@@ -52,11 +52,12 @@ app.post('/cutlist', (req, res) => {
         }
     });
 
+    // XXX: W <-> H!!
     var result = solve([stocks[0].w], [stocks[0].h], itemsw, itemsh, demands);  // TODO: w is l which is h, confusing, fix
 
 //    console.log(result);
 
-    res.json(translate(result, names));
+    res.json(translate(stocks[0].w, stocks[0].h, result, names));
 });
 
 var port = process.env.PORT || 31314;

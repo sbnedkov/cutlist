@@ -1,4 +1,4 @@
-export default function translate (solution, names) {
+export default function translate (W, L, solution, names) {
     return {
         arr: mapActivities(solution.activities)
     };
@@ -71,6 +71,19 @@ export default function translate (solution, names) {
                 res = res.concat(constructPart(n, 1, tmpLocation, rotated, name));
             }
         }
-        return res;
+        return res.map(flip);
+    }
+
+    function flip (result) {
+        return {
+            ref: result.ref,
+            x: result.y,
+            y: result.x,
+            item: {
+                w: result.item.h,
+                h: result.item.w
+            },
+            rotated: result.rotated
+        };
     }
 }
