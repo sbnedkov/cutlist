@@ -1,6 +1,7 @@
 export default function translate (W, L, solution, names) {
     return {
-        arr: mapActivities(solution.activities)
+        arr: mapActivities(solution.activities),
+        waste: solution.losses
     };
 
     function mapActivities (activities) {
