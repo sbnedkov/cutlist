@@ -52,8 +52,7 @@ app.post('/cutlist', (req, res) => {
         }
     });
 
-    // XXX: W <-> H!!
-    var result = solve([stocks[0].w], [stocks[0].h], itemsw, itemsh, demands);  // TODO: w is l which is h, confusing, fix
+    var result = solve([stocks[0].w], [stocks[0].h], itemsw, itemsh, demands);
 
 //    console.log(result);
 

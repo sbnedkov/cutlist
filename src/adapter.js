@@ -76,15 +76,16 @@ export default function translate (W, L, solution, names) {
     }
 
     function flip (result) {
-        return {
-            ref: result.ref,
-            x: result.y,
-            y: result.x,
-            item: {
-                w: result.item.h,
-                h: result.item.w
-            },
-            rotated: result.rotated
-        };
+        return result;
+//        return {
+//            ref: result.ref,
+//            x: result.y,
+//            y: result.x,
+//            item: {
+//                w: result.item.h,
+//                h: result.item.w
+//            },
+//            rotated: result.rotated
+//        };
     }
 }
