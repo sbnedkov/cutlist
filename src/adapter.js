@@ -1,7 +1,7 @@
 export default function translate (W, L, solution, names) {
     return {
         arr: mapActivities(solution.activities),
-        waste: solution.losses
+        waste: solution.losses.map(toPercent)
     };
 
     function mapActivities (activities) {
@@ -87,5 +87,9 @@ export default function translate (W, L, solution, names) {
 //            },
 //            rotated: result.rotated
 //        };
+    }
+
+    function toPercent (figure) {
+        return (figure * 100).toFixed(2) + '%';
     }
 }
