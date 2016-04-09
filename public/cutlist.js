@@ -201,6 +201,48 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 h: 250,
                 canRotate: true
             }]
+        }, {
+            slates: [{
+                w: 2800,
+                h: 2070
+            }],
+            parts: [{
+                ref: 'Det. 1',
+                q: 10,
+                w: 1562,
+                h: 353,
+                canRotate: true
+            }, {
+                ref: 'Det. 2',
+                q: 12,
+                w: 500,
+                h: 652,
+                canRotate: true
+            }, {
+                ref: 'Det. 3',
+                q: 5,
+                w: 420,
+                h: 232,
+                canRotate: true
+            }, {
+                ref: 'Det. 4',
+                q: 5,
+                w: 1800,
+                h: 500,
+                canRotate: true
+            }, {
+                ref: 'Det. 5',
+                q: 3,
+                w: 2000,
+                h: 650,
+                canRotate: true
+            }, {
+                ref: 'Det. 6',
+                q: 15,
+                w: 800,
+                h: 900,
+                canRotate: true
+            }]
         }];
 
     $scope.testsIdx = '3';
