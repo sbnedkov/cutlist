@@ -1,7 +1,8 @@
 export default function translate (W, L, solution, names) {
     return {
         arr: mapActivities(solution.activities),
-        waste: solution.losses.map(toPercent)
+        waste: solution.losses.map(toPercent),
+        wasteVsUsage: calculateLossAndUsage(W, L, solution.losses, solution.activities)
     };
 
     function mapActivities (activities) {
@@ -10,7 +11,6 @@ export default function translate (W, L, solution, names) {
         activities.forEach((activity) => {
             console.log(activity);
             console.log(activity.locations);
-            var c = 0;
 
             activity.constituentsx.forEach((consx, conidx) => {
                 consx.forEach((n, idx) => {
@@ -18,7 +18,6 @@ export default function translate (W, L, solution, names) {
                         let l = activity.locations[conidx][idx];
                         let m = activity.constituentsy[conidx][idx];
                         res = res.concat(constructPart(n, m, l, activity.patternIsRotated[conidx], names[idx]));
-                        c = c + 1;
                     }
                 });
             });
@@ -91,5 +90,33 @@ export default function translate (W, L, solution, names) {
 
     function toPercent (figure) {
         return (figure * 100).toFixed(2) + '%';
+    }
+
+    function calculateLossAndUsage (W, L, losses, activities) {
+        var waste = 0;
+        var area = 0;
+
+        activities.forEach((activity, aidx) => {
+            var activityArea = 0;
+            var activityWastePercent = losses[aidx];
+
+            activity.constituentsx.forEach((consx, conidx) => {
+                consx.forEach((n, idx) => {
+                    if (n) {
+                        let l = activity.locations[conidx][idx];
+
+                        activityArea += (l.x2 - l.x1) * (l.y2 - l.y1);
+                    }
+                });
+            });
+
+            area += activityArea;
+            waste += activityWastePercent * activityArea;
+        });
+
+        return {
+            wasteFree: toPercent(1 - waste / (W * L)),
+            usage: toPercent(area / (W * L))
+        };
     }
 }
