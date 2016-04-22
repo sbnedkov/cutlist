@@ -39,6 +39,7 @@ app.post('/cutlist', (req, res) => {
     var itemsh = [];
     var demands = [];
     var names = [];
+    var canRotate = [];
 
     // TODO: many stock sheets
     parts.forEach(item => {
@@ -47,12 +48,13 @@ app.post('/cutlist', (req, res) => {
             itemsh.push(item.h);
             demands.push(item.q);
             names.push(item.ref);
+            canRotate.push(item.canRotate);
             // item.ref
             // item.canRotate
         }
     });
 
-    var result = solve([stocks[0].w], [stocks[0].h], itemsw, itemsh, demands);
+    var result = solve([stocks[0].w], [stocks[0].h], itemsw, itemsh, canRotate, demands);
 
 //    console.log(result);
 
