@@ -256,8 +256,8 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
     return {
         restrict: 'E',
         replace: true,
-        link: function (scope, element, attributes) {
-            var idx = parseInt(attributes.idx);
+        link: function (scope, element/*, attributes*/) {
+//            var idx = parseInt(attributes.idx);
             var canvas = element.find('canvas')[0];
             scope.$watch('cutlist', function (cutlist) {
                 var ctx = canvas.getContext('2d');
@@ -274,30 +274,19 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.strokeStyle = 'black';
 
-                var ratio = canvas.width / scope.slates[idx].w;
+                var ratio = canvas.width / scope.slates[0].w; // TODO: more than a single slate
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-                ctx.strokeRect(0, 0, scope.slates[idx].w, scope.slates[idx].h);
-                cutlist.arr.forEach(function (part) {
-                    // TODO: slateIdx
-//                    if (part.slateIdx === idx) {
-                        var w = part.rotated ? part.item.h : part.item.w;
-                        var h = part.rotated ? part.item.w : part.item.h;
-                        ctx.strokeRect(part.x, part.y, w, h);
-                        ctx.fillText(part.ref, part.x + w / 2, part.y + h / 2);
-//                    }
+                ctx.strokeRect(0, 0, scope.slates[0].w, scope.slates[0].h); // TODO: more than a single slate
+                scope.slateSolution.forEach(part => {
+                    var w = part.rotated ? part.item.h : part.item.w;
+                    var h = part.rotated ? part.item.w : part.item.h;
+                    var x = part.x;
+                    var y = part.y;
+
+                    ctx.strokeRect(x, y, w, h);
+                    ctx.fillText(part.ref, x + w / 2, y + h / 2);
                 });
-                /*
-                cutlist.cuts.forEach(function (cut) {
-                    if (cut.slateIdx === idx) {
-                        ctx.beginPath();
-                        ctx.moveTo(cut.x1, cut.y1);
-                        ctx.lineTo(cut.x2, cut.y2);
-                        ctx.strokeStyle = 'red';
-                        ctx.stroke();
-                    }
-                });
-                */
             });
         },
         template: '<div><canvas width="1000px" height="1000px"></canvas></div>'

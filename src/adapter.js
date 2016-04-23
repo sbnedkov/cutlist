@@ -5,25 +5,32 @@ export default function translate (W, L, solution, names) {
         wasteVsUsage: calculateLossAndUsage(W, L, solution.losses, solution.activities)
     };
 
-    function mapActivities (activities) {
+    function mapActivities (allActivities) {
+        var allStocksRes = [];
         var res = [];
 
-        activities.forEach((activity) => {
-            console.log(activity);
-            console.log(activity.locations);
+        console.log(allActivities);
+        allActivities.forEach(activities => {
+            activities.forEach(activity => {
+                console.log(activity);
+                console.log(activity.locations);
 
-            activity.constituentsx.forEach((consx, conidx) => {
-                consx.forEach((n, idx) => {
-                    if (n) {
-                        let l = activity.locations[conidx][idx];
-                        let m = activity.constituentsy[conidx][idx];
-                        res = res.concat(constructPart(n, m, l, activity.patternIsRotated[conidx], names[idx]));
-                    }
+                activity.constituentsx.forEach((consx, conidx) => {
+                    consx.forEach((n, idx) => {
+                        if (n) {
+                            let l = activity.locations[conidx][idx];
+                            let m = activity.constituentsy[conidx][idx];
+                            res = res.concat(constructPart(n, m, l, activity.patternIsRotated[conidx], names[idx]));
+                        }
+                    });
                 });
             });
+
+            allStocksRes.push(res);
+            res = [];
         });
 
-        return res;
+        return allStocksRes;
     }
 
     function constructPart (n, m, location, rotated, name) {
@@ -92,26 +99,28 @@ export default function translate (W, L, solution, names) {
         return (figure * 100).toFixed(2) + '%';
     }
 
-    function calculateLossAndUsage (W, L, losses, activities) {
+    function calculateLossAndUsage (W, L, losses, allActivities) {
         var waste = 0;
         var area = 0;
 
-        activities.forEach((activity, aidx) => {
-            var activityArea = 0;
-            var activityWastePercent = losses[aidx];
+        allActivities.forEach(activities => {
+            activities.forEach((activity, aidx) => {
+                var activityArea = 0;
+                var activityWastePercent = losses[aidx];
 
-            activity.constituentsx.forEach((consx, conidx) => {
-                consx.forEach((n, idx) => {
-                    if (n) {
-                        let l = activity.locations[conidx][idx];
+                activity.constituentsx.forEach((consx, conidx) => {
+                    consx.forEach((n, idx) => {
+                        if (n) {
+                            let l = activity.locations[conidx][idx];
 
-                        activityArea += (l.x2 - l.x1) * (l.y2 - l.y1);
-                    }
+                            activityArea += (l.x2 - l.x1) * (l.y2 - l.y1);
+                        }
+                    });
                 });
-            });
 
-            area += activityArea;
-            waste += activityWastePercent * activityArea;
+                area += activityArea;
+                waste += activityWastePercent * activityArea;
+            });
         });
 
         return {
