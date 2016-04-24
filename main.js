@@ -12,6 +12,7 @@ var app = express();
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use('/dist', express.static(`${__dirname}/dist`));
+app.use('/views/partials', express.static(`${__dirname}/views/partials`));
 
 I18n.expressBind(app, {
     locales: ['en', 'bg'],

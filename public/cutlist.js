@@ -256,8 +256,8 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
     return {
         restrict: 'E',
         replace: true,
-        link: function (scope, element/*, attributes*/) {
-//            var idx = parseInt(attributes.idx);
+        link: function (scope, element, attributes) {
+            scope.idx = parseInt(attributes.idx);
             var canvas = element.find('canvas')[0];
             scope.$watch('cutlist', function (cutlist) {
                 var ctx = canvas.getContext('2d');
@@ -289,6 +289,6 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 });
             });
         },
-        template: '<div><canvas width="1000px" height="1000px"></canvas></div>'
+        templateUrl: '/views/partials/cutlist-canvas.html'
     };
 });
