@@ -1,8 +1,8 @@
 export default function translate (W, L, solution, names) {
     return {
         arr: mapActivities(solution.activities),
-        waste: solution.losses.map(toPercent),
-        wasteVsUsage: calculateLossAndUsage(W, L, solution.losses, solution.activities)
+        waste: solution.losses.map(loss => loss.map(toPercent)),
+        wasteVsUsage: solution.losses.map((loss, idx) => calculateLossAndUsage(W, L, loss, solution.activities[idx]))
     };
 
     function mapActivities (allActivities) {
@@ -99,33 +99,37 @@ export default function translate (W, L, solution, names) {
         return (figure * 100).toFixed(2) + '%';
     }
 
-    function calculateLossAndUsage (W, L, losses, allActivities) {
+    function calculateLossAndUsage (W, L, losses, activities) {
         var waste = 0;
         var area = 0;
 
-        allActivities.forEach(activities => {
-            activities.forEach((activity, aidx) => {
-                var activityArea = 0;
-                var activityWastePercent = losses[aidx];
+        activities.forEach((activity, aidx) => {
+            var activityArea = 0;
+//            var stripArea = 0;
+            var activityWastePercent = losses[aidx];
 
-                activity.constituentsx.forEach((consx, conidx) => {
-                    consx.forEach((n, idx) => {
-                        if (n) {
-                            let l = activity.locations[conidx][idx];
+            var maxX = 0, maxY = 0;
+            activity.constituentsx.forEach((consx, conidx) => {
+                consx.forEach((n, idx) => {
+                    if (n) {
+                        let l = activity.locations[conidx][idx];
 
-                            activityArea += (l.x2 - l.x1) * (l.y2 - l.y1);
-                        }
-                    });
+                        activityArea += (l.x2 - l.x1) * (l.y2 - l.y1);
+
+                        maxX = l.x2 > maxX ? l.x2 : maxX;
+                        maxY = l.y2 > maxY ? l.y2 : maxY;
+                    }
                 });
-
-                area += activityArea;
-                waste += activityWastePercent * activityArea;
             });
+
+            area += activityArea;
+//            stripArea += maxX * maxY;
+            waste += activityWastePercent * (maxX * maxY);
         });
 
         return {
-            wasteFree: toPercent(1 - waste / (W * L)),
-            usage: toPercent(area / (W * L))
+            usage: toPercent(1 - waste / (W * L)),
+            area: toPercent(area / (W * L))
         };
     }
 }
