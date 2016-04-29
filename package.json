@@ -17,7 +17,6 @@
     "express": "^4.13.3",
     "guillotine-solver": "github:sbnedkov/guillotine-solver",
     "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.0",
     "gulp-nodemon": "^2.0.2",
     "gulp-sourcemap": "^1.0.1",
     "gulp-sourcemaps": "^2.0.0-alpha",
