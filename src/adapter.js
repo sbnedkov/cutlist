@@ -102,7 +102,6 @@ export default function translate (W, L, solution, names) {
     function calculateLossAndUsage (W, L, losses, activities) {
         var waste = 0;
         var area = 0;
-        var stripArea = 0;
 
         activities.forEach((activity, aidx) => {
             var activityArea = 0;
@@ -120,11 +119,10 @@ export default function translate (W, L, solution, names) {
 
             area += activityArea;
             waste += activityWastePercent * (W * activity.maxY); // TODO: in vertical cuts this is computed differently
-            stripArea += W * activity.maxY;
         });
 
         return {
-            usage: toPercent(1 - waste / (stripArea)),
+            usage: toPercent(1 - waste / (W * L)),
             area: toPercent(area / (W * L))
         };
     }
