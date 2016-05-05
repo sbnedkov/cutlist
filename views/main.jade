@@ -11,12 +11,7 @@ html(ng-app="cutlist")
         span Български
     br
     span #{__("Configuration")} &nbsp;
-    select(ng-model="testsIdx")
-      option(value="0") #{__("Test")} 1
-      option(value="1") #{__("Test")} 2
-      option(value="2") #{__("Test")} 3
-      option(value="3") #{__("Test")} 4
-      option(value="4") #{__("Test")} 5
+    select(ng-model="testsIdx" ng-options="test.name as test.name for test in tests")
     br
     span #{__("Slate")}
       br

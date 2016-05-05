@@ -33,223 +33,24 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
 
     $scope.cutType = 'v';
 
-    $scope.tests = [{
-            slates: [{
-                w: 1000,
-                h: 1000
-            }],
-            parts: [{
-                ref: 'a',
-                q: 1,
-                w: 600,
-                h: 200,
-                canRotate: true
-            }, {
-                ref: 'b',
-                q: 1,
-                w: 300,
-                h: 200,
-                canRotate: true
-            }, {
-                ref: 'c',
-                q: 1,
-                w: 800,
-                h: 200,
-                canRotate: true
-            }, {
-                ref: 'd',
-                q: 1,
-                w: 400,
-                h: 300,
-                canRotate: true
-            }, {
-                ref: 'e',
-                q: 1,
-                w: 400,
-                h: 500,
-                canRotate: true
-            }, {
-                ref: 'f',
-                q: 1,
-                w: 400,
-                h: 500,
-                canRotate: true
-            }]
-        }, {
-            slates: [{
-                w: 1500,
-                h: 1000
-            }],
-            parts: [{
-                ref: 'a',
-                q: 1,
-                w: 300,
-                h: 200,
-                canRotate: true
-            }, {
-                ref: 'b',
-                q: 1,
-                w: 300,
-                h: 200,
-                canRotate: true
-            }, {
-                ref: 'c',
-                q: 1,
-                w: 100,
-                h: 200,
-                canRotate: true
-            }, {
-                ref: 'd',
-                q: 1,
-                w: 400,
-                h: 220,
-                canRotate: true
-            }, {
-                ref: 'e',
-                q: 1,
-                w: 200,
-                h: 500,
-                canRotate: true
-            }, {
-                ref: 'f',
-                q: 1,
-                w: 400,
-                h: 250,
-                canRotate: true
-            }]
-        }, {
-            slates: [{
-                w: 1500,
-                h: 1000
-            }],
-            parts: [{
-                ref: 'a',
-                q: 1,
-                w: 100,
-                h: 325,
-                canRotate: true
-            }, {
-                ref: 'b',
-                q: 1,
-                w: 320,
-                h: 100,
-                canRotate: true
-            }, {
-                ref: 'c',
-                q: 1,
-                w: 155,
-                h: 280,
-                canRotate: true
-            }, {
-                ref: 'd',
-                q: 1,
-                w: 120,
-                h: 800,
-                canRotate: true
-            }, {
-                ref: 'e',
-                q: 1,
-                w: 222,
-                h: 325,
-                canRotate: true
-            }, {
-                ref: 'f',
-                q: 1,
-                w: 128,
-                h: 250,
-                canRotate: true
-            }]
-        }, {
-            slates: [{
-                w: 2800,
-                h: 2070
-            }],
-            parts: [{
-                ref: 'Det. 1',
-                q: 2,
-                w: 562,
-                h: 353,
-                canRotate: true
-            }, {
-                ref: 'Det. 3',
-                q: 5,
-                w: 420,
-                h: 232,
-                canRotate: true
-            }, {
-                ref: 'Det. 2',
-                q: 5,
-                w: 500,
-                h: 652,
-                canRotate: true
-            }, {
-                ref: 'd',
-                q: 0,
-                w: 400,
-                h: 220,
-                canRotate: true
-            }, {
-                ref: 'e',
-                q: 0,
-                w: 200,
-                h: 500,
-                canRotate: true
-            }, {
-                ref: 'f',
-                q: 0,
-                w: 400,
-                h: 250,
-                canRotate: true
-            }]
-        }, {
-            slates: [{
-                w: 2800,
-                h: 2070
-            }],
-            parts: [{
-                ref: 'Det. 1',
-                q: 10,
-                w: 1562,
-                h: 353,
-                canRotate: true
-            }, {
-                ref: 'Det. 2',
-                q: 12,
-                w: 500,
-                h: 652,
-                canRotate: true
-            }, {
-                ref: 'Det. 3',
-                q: 5,
-                w: 420,
-                h: 232,
-                canRotate: true
-            }, {
-                ref: 'Det. 4',
-                q: 5,
-                w: 1800,
-                h: 500,
-                canRotate: true
-            }, {
-                ref: 'Det. 5',
-                q: 3,
-                w: 2000,
-                h: 650,
-                canRotate: true
-            }, {
-                ref: 'Det. 6',
-                q: 15,
-                w: 800,
-                h: 900,
-                canRotate: true
-            }]
-        }];
+    $http.get('/data/tests.json')
+        .success(function (tests) {
+            $scope.tests = tests;
+            $scope.testsMap = {};
+            tests.forEach(function (test) {
+                $scope.testsMap[test.name] = test;
+            });
+            $scope.testsIdx = 'Test 1';
+        })
+        .error(function (err) {
+            console.log(err);
+            alert(JSON.stringify(err));
+        });
 
-    $scope.testsIdx = '3';
     $scope.$watch('testsIdx', (idx) => {
-        if (idx >= 0) {
-            $scope.slates = $scope.tests[idx].slates;
-            $scope.parts = $scope.tests[idx].parts;
+        if (idx) {
+            $scope.slates = $scope.testsMap[idx].slates;
+            $scope.parts = $scope.testsMap[idx].parts;
         }
     });
 }]).directive('cutlistCanvas', function () {
