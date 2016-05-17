@@ -80,8 +80,11 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
 
                 ctx.strokeRect(0, 0, scope.slates[0].w, scope.slates[0].h); // TODO: more than a single slate
                 scope.slateSolution.forEach(part => {
-                    var w = part.rotated ? part.item.h : part.item.w;
-                    var h = part.rotated ? part.item.w : part.item.h;
+                    // Ignore rotation for now
+                    var w = part.item.w;
+                    var h = part.item.h;
+//                    var w = part.rotated ? part.item.h : part.item.w;
+//                    var h = part.rotated ? part.item.w : part.item.h;
                     var x = part.x;
                     var y = part.y;
 
