@@ -1,6 +1,6 @@
 {
   "name": "cutlist",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Web application for generating cutting plans.",
   "dependencies": {
     "angular": "^1.3.15",
