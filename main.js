@@ -37,6 +37,7 @@ app.post('/cutlist', (req, res) => {
 
     var stocks = req.body.slates;
     var parts = req.body.parts;
+    var type = req.body.cutType;
     var itemsw = [];
     var itemsh = [];
     var demands = [];
@@ -56,7 +57,7 @@ app.post('/cutlist', (req, res) => {
         }
     });
 
-    var result = solve([stocks[0].w], [stocks[0].h], itemsw, itemsh, canRotate, demands);
+    var result = solve([stocks[0].w], [stocks[0].h], itemsw, itemsh, canRotate, demands, type);
 
 //    console.log(result);
 
