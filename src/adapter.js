@@ -1,4 +1,4 @@
-export default function translate (W, L, solution, names) {
+export default function translate (W, L, solution, names, cutType) {
     return {
         arr: mapActivities(solution.activities),
         waste: solution.losses.map(loss => loss.map(toPercent)),
@@ -118,7 +118,7 @@ export default function translate (W, L, solution, names) {
             });
 
             area += activityArea;
-            waste += activityWastePercent * (W * activity.maxY); // TODO: in vertical cuts this is computed differently
+            waste += activityWastePercent * (cutType === 'h' ? W * activity.maxY : L * activity.maxX); // TODO: optimal cuts
         });
 
         return {

@@ -61,7 +61,7 @@ app.post('/cutlist', (req, res) => {
 
 //    console.log(result);
 
-    res.json(translate(stocks[0].w, stocks[0].h, result, names));
+    res.json(translate(stocks[0].w, stocks[0].h, result, names, type));
 });
 
 var port = process.env.PORT || 31314;
