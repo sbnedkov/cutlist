@@ -29,10 +29,10 @@ html(ng-app="cutlist")
         input(type="checkbox", ng-model="part.canRotate")
       button(ng-click="addPart()") #{__("Add part")}
     br
-    //select(ng-model="cutType")
-    //  option(value="v") #{__("Vertical cut")}
-    //  option(value="h") #{__("Horizontal cut")}
-    //  option(value="o") #{__("Optimal cut")}
+    select(ng-model="cutType")
+      option(value="h") #{__("Horizontal cut")}
+      option(value="v") #{__("Vertical cut")}
+      //option(value="o") #{__("Optimal cut")}
     button(ng-click="submit()") #{__("Calculate")}
     br
     x-cutlist-canvas#cutlist-canvas(ng-repeat="slateSolution in cutlist.arr", idx="{{$index}}")

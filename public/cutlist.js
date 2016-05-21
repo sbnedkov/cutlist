@@ -31,7 +31,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
         $scope.slates.push({});
     };
 
-    $scope.cutType = 'v';
+    $scope.cutType = 'h';
 
     $http.get('/data/tests.json')
         .success(function (tests) {
