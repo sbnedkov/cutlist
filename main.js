@@ -33,8 +33,6 @@ app.post('/lang', (req, res) => {
 });
 
 app.post('/cutlist', (req, res) => {
-    // TODO: cut type
-
     var stocks = req.body.slates;
     var parts = req.body.parts;
     var type = req.body.cutType;
@@ -44,24 +42,20 @@ app.post('/cutlist', (req, res) => {
     var names = [];
     var canRotate = [];
 
-    // TODO: many stock sheets
     parts.forEach(item => {
-        if (item.ref && item.q) { // TODO: better way to filter unwanted items
+        if (item.ref && item.q) {
             itemsw.push(item.w);
             itemsh.push(item.h);
             demands.push(item.q);
             names.push(item.ref);
             canRotate.push(item.canRotate);
-            // item.ref
-            // item.canRotate
         }
     });
 
-    var result = solve([stocks[0].w], [stocks[0].h], itemsw, itemsh, canRotate, demands, type);
+    var result = solve(stocks.map(s => s.w), stocks.map(s => s.h), itemsw, itemsh, canRotate, demands, type);
 
-//    console.log(result);
 
-    res.json(translate(stocks[0].w, stocks[0].h, result, names, type));
+    res.json(translate(result, names, type));
 });
 
 var port = process.env.PORT || 31314;

@@ -1,8 +1,8 @@
-export default function translate (W, L, solution, names, cutType) {
+export default function translate (solution, names, cutType) {
     return {
         arr: mapActivities(solution.activities),
         waste: solution.losses.map(loss => loss.map(toPercent)),
-        wasteVsUsage: solution.losses.map((loss, idx) => calculateLossAndUsage(W, L, loss, solution.activities[idx]))
+        wasteVsUsage: solution.losses.map((loss, idx) => calculateLossAndUsage(loss, solution.activities[idx]))
     };
 
     function mapActivities (allActivities) {
@@ -26,7 +26,11 @@ export default function translate (W, L, solution, names, cutType) {
                 });
             });
 
-            allStocksRes.push(res);
+            allStocksRes.push({
+                result: res,
+                W: activities[0].W,
+                L: activities[0].L
+            });
             res = [];
         });
 
@@ -99,7 +103,7 @@ export default function translate (W, L, solution, names, cutType) {
         return (figure * 100).toFixed(2) + '%';
     }
 
-    function calculateLossAndUsage (W, L, losses, activities) {
+    function calculateLossAndUsage (losses, activities) {
         var waste = 0;
         var area = 0;
 
@@ -118,12 +122,12 @@ export default function translate (W, L, solution, names, cutType) {
             });
 
             area += activityArea;
-            waste += activityWastePercent * (cutType === 'h' ? W * activity.maxY : L * activity.maxX); // TODO: optimal cuts
+            waste += activityWastePercent * (cutType === 'h' ? activity.W * activity.maxY : activity.L * activity.maxX); // TODO: optimal cuts
         });
 
         return {
-            usage: toPercent(1 - waste / (W * L)),
-            area: toPercent(area / (W * L))
+            usage: toPercent(1 - waste / (activities[0].W * activities[0].L)),
+            area: toPercent(area / (activities[0].W * activities[0].L))
         };
     }
 }

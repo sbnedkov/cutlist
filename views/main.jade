@@ -16,9 +16,9 @@ html(ng-app="cutlist")
     span #{__("Slate")}
       br
       div(ng-repeat="slate in slates")
-        input(type="text", ng-model="slate.w")
-        input(type="text", ng-model="slate.h")
-      //button(ng-click="addSlate()") #{__("Add slate")}
+        input(type="number", ng-model="slate.w")
+        input(type="number", ng-model="slate.h")
+      button(ng-click="addSlate()") #{__("Add slate")}
       br
     span #{__("Parts")}
       div(ng-repeat="part in parts")
