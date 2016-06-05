@@ -52,10 +52,9 @@ app.post('/cutlist', (req, res) => {
         }
     });
 
-    var result = solve(stocks.map(s => s.w), stocks.map(s => s.h), itemsw, itemsh, canRotate, demands, type);
-
-
-    res.json(translate(result, names, type));
+    solve(stocks.map(s => s.w), stocks.map(s => s.h), itemsw, itemsh, canRotate, demands, type, (_, result) => {
+        res.json(translate(result, names, type));
+    });
 });
 
 var port = process.env.PORT || 31314;

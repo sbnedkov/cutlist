@@ -75,7 +75,7 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.strokeStyle = 'black';
 
-                var ratio = canvas.width / scope.slateSolution.W;
+                var ratio = canvas.width / Math.max(...scope.cutlist.arr.map(slate => slate.W));
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
                 ctx.strokeRect(0, 0, scope.slateSolution.W, scope.slateSolution.L);
