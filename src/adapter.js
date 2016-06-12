@@ -9,11 +9,11 @@ export default function translate (solution, names, cutType) {
         var allStocksRes = [];
         var res = [];
 
-        console.log(allActivities);
+//        console.log(allActivities);
         allActivities.forEach(activities => {
             activities.forEach(activity => {
-                console.log(activity);
-                console.log(activity.locations);
+//                console.log(activity);
+//                console.log(activity.locations);
 
                 activity.constituentsx.forEach((consx, conidx) => {
                     consx.forEach((n, idx) => {
