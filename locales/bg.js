@@ -1,13 +1,13 @@
 {
-	"Parts": "Части",
+	"Parts": "Дейтайли",
 	"Slate": "Плоча",
 	"Calculate": "Изчисли",
-	"Vertical cut": "Вертикален срез",
-	"Horizontal cut": "Хоризонтален срез",
+	"Vertical cut": "Разкрой по ширина",
+	"Horizontal cut": "Разкрой по дължина",
 	"Cutlist": "Разкрой",
     "Configuration": "Конфигурация",
 	"Test": "Тест",
-	"Optimal cut": "Оптимален срез",
-    "Add part": "Добави част",
+	"Optimal cut": "Оптимален разкрой",
+    "Add part": "Добави детайл",
     "Add slate": "Добави плоча"
 }
