@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import I18n from 'i18n-2';
+import i18n from 'i18n-2';
 import solve from 'guillotine-solver';
 
 import middleware from './src/middleware';
@@ -15,7 +15,7 @@ app.use('/dist', express.static(`${__dirname}/dist`));
 app.use('/views/partials', express.static(`${__dirname}/views/partials`));
 app.use('/data', express.static(`${__dirname}/data`));
 
-I18n.expressBind(app, {
+i18n.expressBind(app, {
     locales: ['en', 'bg'],
     cookieName: 'cutlistlang'
 });
