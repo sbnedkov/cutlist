@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use('/dist', express.static(`${__dirname}/dist`));
 app.use('/views/partials', express.static(`${__dirname}/views/partials`));
 app.use('/data', express.static(`${__dirname}/data`));
+app.use('/node_modules', express.static(`${__dirname}/node_modules`));
 
 i18n.expressBind(app, {
     locales: ['en', 'bg'],
@@ -31,6 +32,8 @@ app.post('/lang', (req, res) => {
     res.cookie('cutlistlang', req.body.lang);
     res.status(200).end();
 });
+
+var cutlists = {};
 
 app.post('/cutlist', (req, res) => {
     var stocks = req.body.slates;
@@ -52,9 +55,23 @@ app.post('/cutlist', (req, res) => {
         }
     });
 
+    var key = (Math.random() * 1e18).toString(36);
+
+    res.send(key).end();
+
     solve(stocks.map(s => s.w), stocks.map(s => s.h), itemsw, itemsh, canRotate, demands, type, (_, result) => {
-        res.json(translate(result, names, type));
+        cutlists[key] = translate(result, names, type);
     });
+});
+
+app.post('/check-finished/:key', (req, res) => {
+    var result = cutlists[req.params.key];
+    if (result) {
+        delete cutlists[req.params.key];
+        return res.json(result);
+    }
+
+    res.json(false);
 });
 
 var port = process.env.PORT || 31314;

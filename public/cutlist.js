@@ -1,8 +1,6 @@
-var angular = require('angular');
+var app = angular.module('cutlist', ['picardy.fontawesome']);
 
-var app = angular.module('cutlist', []);
-
-app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
+app.controller('CutListCtrl', ['$scope', '$http', '$timeout', ($scope, $http, $timeout) => {
     $scope.changeLang = (lang) => {
         $http.post('/lang', {lang: lang}).success(() => {
             window.location.reload();
@@ -16,9 +14,28 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
             slates: $scope.slates,
             parts: $scope.parts,
             cutType: $scope.cutType
-        }).success((res) => {
-            $scope.cutlist = res;
-        }).error((err) => {
+        }).success(key => {
+            $scope.processing = true;
+
+            checkFinished();
+
+            function checkFinished () {
+                $timeout(() => {
+                    $http.post('/check-finished/' + key)
+                        .success(res => {
+                            if (res) {
+                                $scope.cutlist = res;
+                                $scope.processing = false;
+                            } else {
+                                checkFinished();
+                            }
+                        })
+                        .error(err => {
+                            alert(JSON.stringify(err));
+                        });
+                }, 1000);
+            }
+        }).error(err => {
             alert(JSON.stringify(err));
         });
     };
@@ -57,10 +74,10 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
     return {
         restrict: 'E',
         replace: true,
-        link: function (scope, element, attributes) {
-            scope.idx = parseInt(attributes.idx);
+        link: function ($scope, element, attributes) {
+            $scope.idx = parseInt(attributes.idx);
             var canvas = element.find('canvas')[0];
-            scope.$watch('cutlist', function (cutlist) {
+            $scope.$watch('cutlist', function (cutlist) {
                 var ctx = canvas.getContext('2d');
 
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -75,11 +92,11 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.strokeStyle = 'black';
 
-                var ratio = canvas.width / Math.max(...scope.cutlist.arr.map(slate => slate.W));
+                var ratio = canvas.width / Math.max(...$scope.cutlist.arr.map(slate => slate.W));
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-                ctx.strokeRect(0, 0, scope.slateSolution.W, scope.slateSolution.L);
-                scope.slateSolution.result.forEach(part => {
+                ctx.strokeRect(0, 0, $scope.slateSolution.W, $scope.slateSolution.L);
+                $scope.slateSolution.result.forEach(part => {
                     var w = part.item.w;
                     var h = part.item.h;
                     var x = part.x;
@@ -91,5 +108,34 @@ app.controller('CutListCtrl', ['$scope', '$http', ($scope, $http) => {
             });
         },
         templateUrl: '/views/partials/cutlist-canvas.html'
+    };
+}).directive('loadingOverlay', function () {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            processing: '='
+        },
+        link: function ($scope, el) {
+            $scope.$watch('processing', processing => {
+                if (processing === false) {
+                    el.css('visibility', 'hidden');
+                }
+
+                if (processing === true) {
+                    el.css('visibility', 'visible');
+                }
+            });
+        },
+        template:
+            '<div style="visibility: hidden;">' +
+                '<div style="position: fixed; top: 0; bottom: 0; opacity: 0.25; background: black; width: 100%; z-index=100;">' +
+                '</div>' +
+                '<div style="position: fixed; top: 0; width: 100%; height: 100%; z-index=100;">' +
+                    '<div style="top: 50%; height: 100%; width: 100%; text-align: center; position: absolute;">' +
+                        '<i style="opacity: 1;" class="fa fa-cog fa-spin fa-3x" style="color: blue;"></i>' +
+                    '</div>' +
+                '</div>' +
+            '</div>'
     };
 });

@@ -1,8 +1,9 @@
 doctype html
-html(ng-app="cutlist")
+html(ng-app="cutlist", style="height: 100%;")
   head
     title #{__("Cutlist")}
-  body(ng-cloak, ng-controller="CutListCtrl")
+    link(rel="stylesheet", href="/node_modules/font-awesome/css/font-awesome.min.css")
+  body(ng-cloak, ng-controller="CutListCtrl", style="margin: 0; height: 100%;")
     div
       a(ng-click="changeLang('en')", href="#")
         span Еnglish
@@ -36,5 +37,8 @@ html(ng-app="cutlist")
     button(ng-click="submit()") #{__("Calculate")}
     br
     x-cutlist-canvas#cutlist-canvas(ng-repeat="slateSolution in cutlist.arr", idx="{{$index}}")
+    x-loading-overlay(processing="processing")
 
-    script(type="application/javascript", src="dist/public/cutlist.js")
+    script(type="application/javascript", src="/node_modules/angular/angular.min.js")
+    script(type="application/javascript", src="/node_modules/angular-fontawesome/dist/angular-fontawesome.min.js")
+    script(type="application/javascript", src="/dist/public/cutlist.js")
