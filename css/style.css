@@ -187,7 +187,7 @@ ul.dropdown-menu {
 .left-col {
 	border:1px solid black;
 	background-color: #fbeed1;
-	height: 600px;
+	height: 340px;
 }
 
 .first-title {
@@ -229,7 +229,7 @@ ul.dropdown-menu {
     border: 1px solid;
     width: 160px;
     margin-left: 25px;
-    height: 620px;
+    height: 340px;
 }
 
 .right-col-title {
@@ -462,5 +462,11 @@ span.no-4 {
 }
 .go-button-container {
   float: right;
+}
+.result-outlook-container {
+  overflow-y: scroll;
+}
+.middle-col {
+  height: 340px;
 }
 /* END Added by me */
