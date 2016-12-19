@@ -19,6 +19,7 @@ app.use('/data', express.static(`${__dirname}/data`));
 app.use('/node_modules', express.static(`${__dirname}/node_modules`));
 app.use('/css', express.static(`${__dirname}/css`));
 app.use('/img', express.static(`${__dirname}/img`));
+app.use('/js', express.static(`${__dirname}/js`));
 
 i18n.expressBind(app, {
     locales: ['en', 'bg'],
