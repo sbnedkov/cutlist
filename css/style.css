@@ -227,8 +227,8 @@ ul.dropdown-menu {
 
 .right-col {
     border: 1px solid;
-    width: 160px;
-    margin-left: 25px;
+/*    width: 160px; */
+/*    margin-left: 25px; */
     height: 380px;
 }
 
@@ -289,7 +289,7 @@ ul.dropdown-menu {
 .first-table-row,
 .third-table-row,
 .fourth-table-row {
-	background-color: #ebbe70;
+	background-color: #f3d9ac;
 }
 
 span.rotate-letters p {
@@ -472,7 +472,14 @@ span.no-4 {
 .left-col-container {
   height: 315px;
 }
+.middle-col-container {
+  height: 280px;
+}
 .right-col-container {
   height: 180px;
+}
+.table-header {
+  display: block;
+  position: relative;
 }
 /* END Added by me */
