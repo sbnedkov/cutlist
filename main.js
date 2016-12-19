@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -15,6 +17,8 @@ app.use('/dist', express.static(`${__dirname}/dist`));
 app.use('/views/partials', express.static(`${__dirname}/views/partials`));
 app.use('/data', express.static(`${__dirname}/data`));
 app.use('/node_modules', express.static(`${__dirname}/node_modules`));
+app.use('/css', express.static(`${__dirname}/css`));
+app.use('/img', express.static(`${__dirname}/img`));
 
 i18n.expressBind(app, {
     locales: ['en', 'bg'],
@@ -24,8 +28,13 @@ i18n.expressBind(app, {
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'jade');
 
+//app.get('/', middleware.setLanguage, (req, res) => {
+//    res.render('main.jade');
+//});
+
 app.get('/', middleware.setLanguage, (req, res) => {
-    res.render('main.jade');
+    res.write(fs.readFileSync('./index.html'));
+    res.end();
 });
 
 app.post('/lang', (req, res) => {
