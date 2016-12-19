@@ -17,6 +17,7 @@ app.use('/dist', express.static(`${__dirname}/dist`));
 app.use('/views/partials', express.static(`${__dirname}/views/partials`));
 app.use('/data', express.static(`${__dirname}/data`));
 app.use('/node_modules', express.static(`${__dirname}/node_modules`));
+app.use('/fonts', express.static(`${__dirname}/fonts`));
 app.use('/css', express.static(`${__dirname}/css`));
 app.use('/img', express.static(`${__dirname}/img`));
 app.use('/js', express.static(`${__dirname}/js`));
