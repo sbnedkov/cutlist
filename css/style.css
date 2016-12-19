@@ -100,11 +100,11 @@ span.down-arrow {
 
 
 .sub1 {
-	width: 185px;
+	width: 90px;
 	margin-right: 10px;
 	padding-left: 5px;
     padding-right: 4px;
-    margin-left: 50px;
+    margin-left: 0;
 }
 
 .sub2 {
@@ -240,6 +240,8 @@ ul.dropdown-menu {
     padding-bottom: 10px;
     text-align: center;
     border: 1px solid;
+
+  width: 100%;
 }
 
 .zoom {
@@ -453,3 +455,12 @@ span.no-4 {
 .size-custom {
 
 }
+
+/* Added by me */
+.rz-dropdown {
+  cursor: pointer;
+}
+.go-button-container {
+  float: right;
+}
+/* END Added by me */

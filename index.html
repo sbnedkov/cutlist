@@ -51,12 +51,15 @@
 			<div class="row sub-header-row">
 					<div class="container sub-header-cont">
 							
-							<div class="col-md-2 col-sm-2 sub1 form-control" type="text" id="exampleInputEmail1" placeholder="въведи размер плоча">
-								<input placeholder="въведи размер плоча" class="custom-placeholder">
+							<div class="col-md-1 col-sm-1 sub1 form-control" type="text" id="exampleInputEmail1" placeholder="въведи размер плоча">
+                  <input placeholder="дължина" type="number" class="custom-placeholder">
+							</div>
+							<div class="col-md-1 col-sm-1 sub1 form-control" type="text" id="exampleInputEmail1" placeholder="въведи размер плоча">
+                  <input placeholder="ширина" type="number" class="custom-placeholder">
 							</div>
 							
 							<div class="col-md-2 col-sm-2 sub2">
-								размери <span class="down-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></span>
+								размери <span class="rz-dropdown down-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></span>
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 								    <li><a href="#">- дебелина на ножа</a></li>
 								    <li><a href="#">- обрезки</a></li>
@@ -64,17 +67,17 @@
 							</div>
 
 							<div class="col-md-2 col-sm-2 sub3 form-control" type="text" id="exampleInputEmail1" placeholder="брой">
-								<input placeholder="брой" class="custom-placeholder">
+								<input placeholder="брой" type="number" class="custom-placeholder">
 							</div>
 							<div class="col-md-2 col-sm-2 sub4">
 								<span class="x-1">1780</span>
 								<span class="x-2">2800</span>
 							</div>
-							<div class="col-md-2 col-sm-2 sub5">
+							<div class="col-md-2 col-sm-2 sub5 btn">
 								добави към наличност плочи
 							</div>
 							<div class="col-md-2 col-sm-2 sub6">
-								настройки <span class="down-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></span>
+								настройки <span class="rz-dropdown down-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></span>
 								 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 								    <li><a href="#">- дебелина на ножа</a></li>
 								    <li><a href="#">- обрезки</a></li>
@@ -126,12 +129,12 @@
 																<div class="divTableCell title-table">№</div>
 																<div class="divTableCell title-table">Име на <br> детайл</div>
 																<div class="divTableCell title-table">бр.</div>
-																<div class="divTableCell title-table"><span class="rotate-letters"><p>Размер по фладера<p></span></div>
-																<div class="divTableCell title-table size-custom"><span class="rotate-letters"><p class="p2">Размер перпендикулярно на фладера</p></span></div>
+																<div class="divTableCell title-table"><span><p title="Размер по фладера">&#8741;<p></span></div>
+																<div class="divTableCell title-table size-custom"><span><p class="p2" title="Размер перпендикулярно на фладера">&#8869;</p></span></div>
 																<div class="divTableCell title-table custom-p">Кантиране <br>0- без кант <br>1- тънък кант <br>2- дебел кант</div>
-																<div class="divTableCell title-table without-border">Визуализация <br>на детайла</div>
-																<div class="divTableCell title-table without-border">да се <br>върти</div>
-																<div class="divTableCell title-table without-border">забел.</div>
+																<div class="divTableCell title-table">Визуализация <br>на детайла</div>
+																<div class="divTableCell title-table">да се <br>върти</div>
+																<div class="divTableCell title-table">забел.</div>
 														</div>
 
 														<div class="divTableRow">
@@ -254,13 +257,13 @@
 
 									<div class="second-empty">&nbsp;</div>
 
-									<div class="right-col-title zoom">
+									<button class="right-col-title zoom">
 											zoom 
-									</div>
+									</button>
 
-									<div class="right-col-title print">
+									<button class="right-col-title print">
 											print 
-									</div>
+									</button>
 
 								</div>	
 							</div>
@@ -276,7 +279,7 @@
 			<!-- Offset Sum -->
 			<div class="row Sum-row">
 				<div class="container">
-						<div class="col-sm-3 col-md-offset-3 Summ">добави редове...</div>
+						<button class="col-sm-3 col-md-offset-3 Summ">добави редове...</button>
 				</div>
 			</div>
 			<!-- /Offset Sum -->
@@ -284,7 +287,9 @@
 			<!-- Checkout Orange -->
 			<div class="row row-Check">
 				<div class="container">
-						<div class="col-sm-3 col-md-offset-3 Check">СЪЗДАЙ РАЗКРОЙ</div>
+            <div class="col-sm-3 go-button-container">
+              <div class="Check btn btn-small">СЪЗДАЙ РАЗКРОЙ</div>
+            </div>
 				</div>
 			</div>
 			<!-- /Checkout Orange -->
