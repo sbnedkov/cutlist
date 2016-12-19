@@ -313,8 +313,8 @@ span.rotate-letters .p2 {
 }
 
 .special {
-	border:none;
-	width: 35%;
+	border: none;
+/*	width: 35%; */
 }
 
 
@@ -479,7 +479,40 @@ span.no-4 {
   height: 180px;
 }
 .table-header {
+  width: 100%;
   display: block;
   position: relative;
+}
+.table-body {
+  display: block;
+  overflow: auto;
+  height: 284px;
+}
+.first-col {
+  width: 5%;
+}
+.second-col {
+  width: 20%;
+}
+.third-col {
+  width: 10%;
+}
+.fourth-col {
+  width: 10%;
+}
+.fifth-col {
+  width: 10%;
+}
+.sixth-col {
+  width: 20%;
+}
+.seventh-col {
+  width: 5%;
+}
+.eighth-col {
+  width: 15%;
+}
+.ninth-col {
+  width: 5%;
 }
 /* END Added by me */
