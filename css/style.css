@@ -22,6 +22,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
+  width: 100%;
 }
 
 .header-right-info {
@@ -94,13 +95,14 @@ p.xletters {
   right: 0;
   top: 120px;
   height: 70px;
+  width: 100%;
 }
 
 .sub1, .sub2, .sub3 , .sub5, .sub6{
-	border: 1px solid black;
-    height: 35px;
-    margin-top: 18px;
-    padding-top: 5px;
+/*	border: 1px solid black; */
+  height: 35px;
+  margin-top: 18px;
+/*  padding-top: 5px; */
 }
 
 span.down-arrow {
@@ -109,47 +111,47 @@ span.down-arrow {
 
 
 .sub1 {
-	width: 90px;
-	margin-right: 10px;
+/*	width: 90px; */
+/*	margin-right: 10px; */
 	padding-left: 5px;
-    padding-right: 4px;
-    margin-left: 0;
+  padding-right: 4px;
+/*  margin-left: 0; */
 }
 
 .sub2 {
-	width: 185px;
-	margin-right: 10px;
+/*	width: 185px; */
+/*	margin-right: 10px; */
+  border: 1px solid black;
 }
 
 .sub3 {
-	width: 70px;
-	margin-right: 20px;
+/*	width: 70px; */
+/*	margin-right: 20px; */
 }
 
 .sub4 {
-	background: url('../img/sub-header-bg.png');
+	background: url('../img/sub-header-bg.png') no-repeat;
 	border:1px solid transparent;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	height: 60px;
-	width: 145px;
-	margin-right: 20px;
+/*	width: 145px; */
+/*	margin-right: 20px; */
 }
 
 .sub5 {
 	font-size: 11px;
-    padding-top: 9px;
     font-size: 12px;
-    padding-top: 9px;
     padding-left: 8px;
     padding-right: 5px;
-    width: 185px;
-	margin-right: 20px;
+/*    width: 185px; */
+/*	margin-right: 20px; */
 }
 
 
 .sub6 {
-	width: 185px;
+/*	width: 185px; */
+  border: 1px solid black;
 }
 
 span.x-1 {
@@ -446,6 +448,7 @@ span.no-4 {
   bottom: 0;
   left: 0;
   right: 0;
+  width: 100%;
 }
 
 .foot-col {
@@ -468,8 +471,8 @@ span.no-4 {
 }
 
 .custom-placeholder {
-	border: none;
-	width: 100%;
+/*	border: none; */
+/*	width: 100%; */
 }
 
 .custom-placeholder:focus {
