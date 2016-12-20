@@ -578,4 +578,7 @@ span.no-4 {
 .username-input {
   padding-top: 10px;
 }
+.tooltip-templates {
+  display: none;
+}
 /* END Added by me */

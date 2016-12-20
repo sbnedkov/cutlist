@@ -27,6 +27,7 @@
     "jade": "^1.11.0",
     "lodash": "^4.13.1",
     "source-map-support": "^0.4.0",
+    "tooltipster": "^4.1.6",
     "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {},

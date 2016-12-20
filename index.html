@@ -12,6 +12,18 @@
   <script type="application/javascript" src="js/bootstrap.min.js"></script>
   <script type="application/javascript" src="js/style.js"></script>
 
+  <link rel="stylesheet" type="text/css" href="/node_modules/tooltipster/dist/css/tooltipster.bundle.min.css" />
+  <link rel="stylesheet" type="text/css" href="/node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css" />
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+  <script type="text/javascript" src="/node_modules/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+
+  <script>
+      $(document).ready(function() {
+        $('.tooltipster').tooltipster({
+          theme: 'tooltipster-noir'
+        });
+      });
+  </script>
 </head>
 
 <body>
@@ -217,7 +229,7 @@
 
             <div class="table-body">
               <div class="divTableBody">
-                <div class="divTableRow">
+                <div class="divTableRow tooltipster" data-tooltip-content="#visualization-tooltip-content0">
                   <div class="divTableCell third-table-row first-col">0.</div>
                   <div class="divTableCell third-table-row second-col">Врата</div>
                   <div class="divTableCell third-table-row third-col">2</div>
@@ -240,7 +252,7 @@
                   <div class="divTableCell third-table-row ninth-col">&nbsp;</div>
                 </div>
 
-                <div class="divTableRow">
+                <div class="divTableRow tooltipster" data-tooltip-content="#visualization-tooltip-content1">
                   <div class="divTableCell whitish first-col">1.</div>
                   <div class="divTableCell whitish second-col">Страница</div>
                   <div class="divTableCell whitish third-col" type="text" id="exampleInputEmail1" placeholder="no."><input placeholder="no." class="form-control custom-placeholder"></div>
@@ -267,7 +279,7 @@
                   <div class="divTableCell whitish ninth-col">&nbsp;</div>
                 </div>
 
-                <div class="divTableRow">
+                <div class="divTableRow tooltipster" data-tooltip-content="#visualization-tooltip-content2">
                   <div class="divTableCell third-table-row first-col">2.</div>
                   <div class="divTableCell third-table-row second-col">Врата</div>
                   <div class="divTableCell third-table-row third-col">2</div>
@@ -546,6 +558,32 @@
   <!--/Footer area -->
 
 
+  <div class="tooltip-templates">
+    <div id="visualization-tooltip-content0">
+      <div class="outer-custom-div-one">
+        <div class="custom-div-one">
+          <span class="no-1">900</span>
+          <span class="no-2"><p>580</p></span>
+          <span class="no-3">стр.</span>
+        </div>
+      </div>
+    </div>
+    <div id="visualization-tooltip-content1">
+      <div class="custom-div-two">
+        <span class="no-3"><p>30</p></span>
+        <span class="no-4">880</span>
+      </div>
+    </div>
+    <div id="visualization-tooltip-content2">
+      <div class="outer-custom-div-one">
+        <div class="custom-div-one">
+          <span class="no-1">900</span>
+          <span class="no-2"><p>580</p></span>
+          <span class="no-3">стр.</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
