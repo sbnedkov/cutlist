@@ -273,22 +273,25 @@ ul.dropdown-menu {
   height: 100%;
 }
 .divTableRow {
-	display: table-row;
+/*	display: table-row; */
 /*	height: 82px; */
+
+  height: 83px;
 }
 .divTableHeading {
 	background-color: #EEE;
-	display: table-header-group;
+/*	display: table-header-group; */
 }
 .divTableCell, .divTableHead {
 	border: 1px solid #000;
-	display: table-cell;
 	padding: 3px 10px;
-  box-sizing: content-box;
+  display: block;
+  float: left;
+  height: 78px;
 }
 .divTableHeading {
 	background-color: #EEE;
-	display: table-header-group;
+/*	display: table-header-group; */
 	font-weight: bold;
 }
 .divTableFoot {
@@ -492,6 +495,7 @@ span.no-4 {
 }
 .go-button-container {
   float: right;
+  margin-right: 16px;
 }
 .result-outlook-container {
   overflow-y: scroll;
@@ -520,37 +524,37 @@ span.no-4 {
   overflow-y: scroll;
   height: 78%;
   border: 1px solid black;
-  box-sizing: content-box;
+
 }
 .first-col {
   width: 5%;
 }
 .second-col {
-  width: 20%;
+  width: 15%;
 }
 .third-col {
-  width: 10%;
+  width: 7%;
 }
 .fourth-col {
-  width: 10%;
+  width: 9%;
 }
 .fifth-col {
-  width: 10%;
+  width: 9%;
 }
 .sixth-col {
   width: 20%;
 }
 .seventh-col {
-  width: 5%;
+  width: 20%;
 }
 .eighth-col {
-  width: 15%;
+  width: 10%;
 }
 .ninth-col {
   width: 5%;
 }
 .master-body-cont {
-  box-sizing: content-box;
+
   height: 100%;
   bottom: 120px;
 }
