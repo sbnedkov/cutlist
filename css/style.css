@@ -283,7 +283,7 @@ ul.dropdown-menu {
 /*	display: table-row; */
 /*	height: 82px; */
 
-  height: 83px;
+  height: 40px;
 }
 .divTableHeading {
 	background-color: #EEE;
@@ -295,7 +295,7 @@ ul.dropdown-menu {
 	padding: 3px 10px;
   display: block;
   float: left;
-  height: 83px;
+  height: 40px;
 }
 .divTableHeading {
 	background-color: #EEE;
@@ -544,16 +544,16 @@ span.no-4 {
   width: 5%;
 }
 .second-col {
-  width: 15%;
+  width: 19%;
 }
 .third-col {
   width: 12%;
 }
 .fourth-col {
-  width: 14%;
+  width: 12%;
 }
 .fifth-col {
-  width: 14%;
+  width: 12%;
 }
 .sixth-col {
   width: 20%;
