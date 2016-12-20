@@ -37,14 +37,14 @@ body {
 
 p.xtitle {
 	font-family: Tahoma;
-	font-size: 14px;
+	font-size: 12px;
 	padding-top: 20px;
-	padding-left: 5px;
+/*	padding-left: 5px; */
 }
 
 p.xletters {
 	font-family: Tahoma;
-	font-size: 14px;
+	font-size: 12px;
 }
 
 .logo-area h2 {
@@ -187,7 +187,6 @@ ul.dropdown-menu {
 .left-col {
 	border:1px solid black;
 	background-color: #fbeed1;
-	height: 380px;
 }
 
 .first-title {
@@ -227,9 +226,8 @@ ul.dropdown-menu {
 
 .right-col {
     border: 1px solid;
-/*    width: 160px; */
+    width: 160px;
 /*    margin-left: 25px; */
-    height: 380px;
 }
 
 .right-col-title {
@@ -267,6 +265,7 @@ ul.dropdown-menu {
 	border: 1px solid #000;
 	display: table-cell;
 	padding: 3px 10px;
+  box-sizing: content-box;
 }
 .divTableHeading {
 	background-color: #EEE;
@@ -384,13 +383,15 @@ span.no-4 {
 
 .Summ {
 	border: 1px solid;
-    margin-left: 205px;
+/*    margin-left: 195px; */
     width: 297px;
     text-align: center;
     font-weight: bold;
 }
 
 .Sum-row {
+  position: relative;
+  bottom: 50px;
 	height: 20px;
 }
 
@@ -407,12 +408,19 @@ span.no-4 {
 }
 
 .row-Check {
+  position: relative;
+  bottom: 50px;
+  right: 10%;
 	height: 40px;
 }
 
 .footer-row {
+  position: absolute;
 	background-color: #ebbe70;
 	margin-top: 10px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .foot-col {
@@ -467,26 +475,25 @@ span.no-4 {
   overflow-y: scroll;
 }
 .middle-col {
-  height: 380px;
 }
 .left-col-container {
-  height: 315px;
+/*  height: 315px; */
 }
 .middle-col-container {
-  height: 280px;
+/*  height: 280px; */
 }
 .right-col-container {
-  height: 180px;
+/*  height: 180px; */
 }
 .table-header {
-  width: 100%;
   display: block;
-  position: relative;
+/*  position: relative; */
+  overflow-y: scroll;
 }
 .table-body {
   display: block;
-  overflow: auto;
-  height: 284px;
+  overflow-y: auto;
+/*  height: 284px; */
 }
 .first-col {
   width: 5%;
@@ -514,5 +521,16 @@ span.no-4 {
 }
 .ninth-col {
   width: 5%;
+}
+.master-body-cont {
+  box-sizing: content-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 210px;
+  bottom: 50px;
+}
+.username-input {
+  padding-top: 10px;
 }
 /* END Added by me */
