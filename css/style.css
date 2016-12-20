@@ -42,14 +42,14 @@ body {
 
 p.xtitle {
 	font-family: Tahoma;
-	font-size: 12px;
+	font-size: 0.8em;
 	padding-top: 20px;
 /*	padding-left: 5px; */
 }
 
 p.xletters {
 	font-family: Tahoma;
-	font-size: 12px;
+	font-size: 0.8em;
 }
 
 .logo-area h2 {
@@ -139,11 +139,10 @@ span.down-arrow {
 /*	margin-right: 20px; */
 }
 
-.sub5 {
-	font-size: 11px;
-    font-size: 12px;
-    padding-left: 8px;
-    padding-right: 5px;
+.sub5 .btn {
+	font-size: 0.7em;
+  padding-left: 8px;
+  padding-right: 5px;
 /*    width: 185px; */
 /*	margin-right: 20px; */
 }
