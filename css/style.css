@@ -18,6 +18,10 @@ body {
 	background: url('../img/new-bg.jpg');
 	height: 120px;
 	color:white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .header-right-info {
@@ -85,6 +89,11 @@ p.xletters {
 	border-top: 1px solid black;
 	border-bottom: 1px solid black;
 	box-shadow: 10px 10px 5px #888888;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 120px;
+  height: 70px;
 }
 
 .sub1, .sub2, .sub3 , .sub5, .sub6{
@@ -182,11 +191,17 @@ ul.dropdown-menu {
 
 .master-body-row {
 	margin-top: 20px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 190px;
+  bottom: 50px;
 }
 
 .left-col {
 	border:1px solid black;
 	background-color: #fbeed1;
+  height: 100%;
 }
 
 .first-title {
@@ -198,6 +213,7 @@ ul.dropdown-menu {
     font-size: x-large;
     text-align: center;
     border-bottom: 1px solid;
+    height: 10%;
 }
 
 .second-empty,
@@ -228,6 +244,7 @@ ul.dropdown-menu {
     border: 1px solid;
     width: 160px;
 /*    margin-left: 25px; */
+    height: 88%;
 }
 
 .right-col-title {
@@ -240,6 +257,7 @@ ul.dropdown-menu {
     border: 1px solid;
 
   width: 100%;
+  height: 10%;
 }
 
 .zoom {
@@ -250,8 +268,9 @@ ul.dropdown-menu {
 /* Tables all about in here*/
 
 .divTable{
-	display: table;
+/*	display: table; */
 	width: 100%;
+  height: 100%;
 }
 .divTableRow {
 	display: table-row;
@@ -278,7 +297,8 @@ ul.dropdown-menu {
 	font-weight: bold;
 }
 .divTableBody {
-	display: table-row-group;
+/*	display: table-row-group; */
+  height: 100%;
 }
 
 .without-border {
@@ -383,16 +403,18 @@ span.no-4 {
 
 .Summ {
 	border: 1px solid;
-/*    margin-left: 195px; */
+    margin-left: 25px;
     width: 297px;
     text-align: center;
     font-weight: bold;
+    z-index: 100;
 }
 
 .Sum-row {
-  position: relative;
-  bottom: 50px;
+  position: absolute;
+  bottom: 80px;
 	height: 20px;
+  width: 100%;
 }
 
 .Check {
@@ -408,7 +430,7 @@ span.no-4 {
 }
 
 .row-Check {
-  position: relative;
+  position: absolute;
   bottom: 50px;
   right: 10%;
 	height: 40px;
@@ -475,15 +497,18 @@ span.no-4 {
   overflow-y: scroll;
 }
 .middle-col {
+  height: 86%;
 }
 .left-col-container {
 /*  height: 315px; */
+  height: 88%;
 }
 .middle-col-container {
 /*  height: 280px; */
 }
 .right-col-container {
 /*  height: 180px; */
+  height: 62%;
 }
 .table-header {
   display: block;
@@ -492,8 +517,10 @@ span.no-4 {
 }
 .table-body {
   display: block;
-  overflow-y: auto;
-/*  height: 284px; */
+  overflow-y: scroll;
+  height: 78%;
+  border: 1px solid black;
+  box-sizing: content-box;
 }
 .first-col {
   width: 5%;
@@ -524,11 +551,11 @@ span.no-4 {
 }
 .master-body-cont {
   box-sizing: content-box;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 210px;
-  bottom: 50px;
+  height: 100%;
+  bottom: 120px;
+}
+.master-body-cont > div {
+  height: 100%;
 }
 .username-input {
   padding-top: 10px;
