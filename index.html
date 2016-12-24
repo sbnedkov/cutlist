@@ -79,22 +79,22 @@
     <div class="row sub-header-cont">
 
       <div class="col-md-1 col-sm-1 col-md-offset-1 col-sm-offset-1 sub1" type="text" id="exampleInputEmail1" placeholder="въведи размер плоча">
-        <input placeholder="дължина" type="number" class="custom-placeholder form-control">
+        <input placeholder="дължина" type="number" class="form-control">
       </div>
       <div class="col-md-1 col-sm-1 sub1" type="text" id="exampleInputEmail1" placeholder="въведи размер плоча">
-        <input placeholder="ширина" type="number" class="custom-placeholder form-control">
+        <input placeholder="ширина" type="number" class="form-control">
       </div>
 
       <div class="col-md-1 col-sm-1 sub2">
-        размери <span class="rz-dropdown down-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></span>
+        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">размери <i class="fa fa-angle-down" aria-hidden="true"></i></span>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
           <li><a href="#">- дебелина на ножа</a></li>
           <li><a href="#">- обрезки</a></li>
         </ul>
       </div>
 
-      <div class="col-md-2 col-sm-2 sub3" type="text" id="exampleInputEmail1" placeholder="брой">
-        <input placeholder="брой" type="number" class="custom-placeholder form-control">
+      <div class="col-md-1 col-sm-1 sub3" type="text" id="exampleInputEmail1" placeholder="брой">
+        <input placeholder="брой" type="number" class="form-control">
       </div>
       <div class="col-md-2 col-sm-2 sub4">
         <span class="x-1">1780</span>
@@ -102,11 +102,13 @@
       </div>
       <div class="col-md-2 col-sm-2 sub5">
         <div class="btn btn-default">
-          добави към наличност плочи
+          <p>
+            добави към наличност плочи
+          </p>
         </div>
       </div>
       <div class="col-md-1 col-sm-1 sub6">
-        настройки <span class="rz-dropdown down-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-angle-down fa-2x" aria-hidden="true"></i></span>
+        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">настройки <i class="fa fa-angle-down" aria-hidden="true"></i></span>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
           <li><a href="#">- дебелина на ножа</a></li>
           <li><a href="#">- обрезки</a></li>
@@ -203,260 +205,270 @@
         <!-- Middle Column -->
         <div class="col-sm-8 col-md-8 middle-col">
 
-          <div class="divTable">
-            <div class="table-header">
-              <div class="divTableBody">
-                <div class="divTableRow">
-                  <div class="divTableCell first-col">№</div>
-                  <div class="divTableCell second-col">Име на детайл</div>
-                  <div class="divTableCell third-col">бр.</div>
-                  <div class="divTableCell fourth-col" title="Размер по фладера">&#8741;</div>
-                  <div class="divTableCell fifth-col" title="Размер перпендикулярно на фладера">&#8869;</div>
-                  <div class="divTableCell special-title sixth-col" title="0- без кант 1- тънък кант 2- дебел кант">Кантиране
-                    <!--
-                    <div class="divTableCell special">първа дълга</div>
-                    <div class="divTableCell special">втора дълга</div>
-                    <div class="divTableCell special">първа къса</div>
-                    <div class="divTableCell special">втора къса</div>
-                    -->
-                  </div>
-                  <!--                  <div class="divTableCell seventh-col">Визуализация</div> -->
-                  <div class="divTableCell eighth-col">да се върти</div>
-                  <div class="divTableCell ninth-col"></div>
+          <div class="table-header">
+            <div class="divTableBody">
+              <div class="divTableRow">
+                <div class="divTableCell first-col">№</div>
+                <div class="divTableCell second-col">Име на детайл</div>
+                <div class="divTableCell third-col">бр.</div>
+                <div class="divTableCell fourth-col" title="Размер по фладера">&#8741;</div>
+                <div class="divTableCell fifth-col" title="Размер перпендикулярно на фладера">&#8869;</div>
+                <div class="divTableCell special-title sixth-col" title="0- без кант 1- тънък кант 2- дебел кант">Кантиране
+                  <!--
+                  <div class="divTableCell special">първа дълга</div>
+                  <div class="divTableCell special">втора дълга</div>
+                  <div class="divTableCell special">първа къса</div>
+                  <div class="divTableCell special">втора къса</div>
+                  -->
                 </div>
-              </div>
-            </div>
-
-            <div class="table-body">
-              <div class="divTableBody">
-                <div class="divTableRow tooltipster" data-tooltip-content="#visualization-tooltip-content0">
-                  <div class="divTableCell third-table-row first-col">0.</div>
-                  <div class="divTableCell third-table-row second-col">Врата</div>
-                  <div class="divTableCell third-table-row third-col">2</div>
-                  <div class="divTableCell third-table-row fourth-col">900</div>
-                  <div class="divTableCell third-table-row fifth-col">&nbsp;</div>
-                  <div class="divTableCell third-table-row sixth-col">
-                    <div class="divTableCell special">2</div>
-                    <div class="divTableCell special">0</div>
-                    <div class="divTableCell special">1</div>
-                    <div class="divTableCell special">1</div>
-                  </div>
-<!--                  <div class="divTableCell third-table-row seventh-col">
-                    <div class="custom-div-two">
-                      <span class="no-3"><p>30</p></span>
-                      <span class="no-4">880</span>
-                    </div>
-                  </div>
--->
-                  <div class="divTableCell third-table-row center-y-n eighth-col">не</div>
-                  <div class="divTableCell third-table-row ninth-col">&nbsp;</div>
-                </div>
-
-                <div class="divTableRow tooltipster" data-tooltip-content="#visualization-tooltip-content1">
-                  <div class="divTableCell whitish first-col">1.</div>
-                  <div class="divTableCell whitish second-col">Страница</div>
-                  <div class="divTableCell whitish third-col" type="text" id="exampleInputEmail1" placeholder="no."><input placeholder="no." class="form-control custom-placeholder"></div>
-                  <div class="divTableCell whitish fourth-col" type="text" id="exampleInputEmail1" placeholder="no."><input placeholder="no." class="form-control custom-placeholder"></div>
-                  <div class="divTableCell whitish fifth-col" type="text" id="exampleInputEmail1" placeholder="no."><input placeholder="no." class="form-control custom-placeholder"></div>
-                  <div class="divTableCell whitish sixth-col">
-                    <div class="divTableCell special">2</div>
-                    <div class="divTableCell special">2</div>
-                    <div class="divTableCell special">1</div>
-                    <div class="divTableCell special">0</div>
-                  </div>
-<!--
-                  <div class="divTableCell whitish seventh-col">
-                    <div class="outer-custom-div-one">
-                      <div class="custom-div-one">
-                        <span class="no-1">900</span>
-                        <span class="no-2"><p>580</p></span>
-                        <span class="no-3">стр.</span>
-                      </div>
-                    </div>
-                  </div>
--->
-                  <div class="divTableCell whitish center-y-n eighth-col">не</div>
-                  <div class="divTableCell whitish ninth-col">&nbsp;</div>
-                </div>
-
-                <div class="divTableRow tooltipster" data-tooltip-content="#visualization-tooltip-content2">
-                  <div class="divTableCell third-table-row first-col">2.</div>
-                  <div class="divTableCell third-table-row second-col">Врата</div>
-                  <div class="divTableCell third-table-row third-col">2</div>
-                  <div class="divTableCell third-table-row fourth-col">900</div>
-                  <div class="divTableCell third-table-row fifth-col">&nbsp;</div>
-                  <div class="divTableCell third-table-row sixth-col">
-                    <div class="divTableCell special">2</div>
-                    <div class="divTableCell special">0</div>
-                    <div class="divTableCell special">1</div>
-                    <div class="divTableCell special">1</div>
-                  </div>
-<!--
-                  <div class="divTableCell third-table-row seventh-col">
-                    <div class="custom-div-two">
-                      <span class="no-3"><p>30</p></span>
-                      <span class="no-4">880</span>
-                    </div>
-                  </div>
--->
-                  <div class="divTableCell third-table-row center-y-n eighth-col">не</div>
-                  <div class="divTableCell third-table-row ninth-col">&nbsp;</div>
-                </div>
-
-                <div class="divTableRow">
-                  <div class="divTableCell whitish first-col">3.</div>
-                  <div class="divTableCell whitish second-col">Дъно</div>
-                  <div class="divTableCell whitish third-col">1</div>
-                  <div class="divTableCell whitish fourth-col">900</div>
-                  <div class="divTableCell whitish fifth-col">&nbsp;</div>
-                  <div class="divTableCell whitish sixth-col">
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                  </div>
-<!--
-                  <div class="divTableCell whitish seventh-col">&nbsp;</div>
--->
-                  <div class="divTableCell whitish center-y-n eighth-col">не</div>
-                  <div class="divTableCell whitish ninth-col">&nbsp;</div>
-                </div>
-
-                <div class="divTableRow">
-                  <div class="divTableCell fourth-table-row first-col">4.</div>
-                  <div class="divTableCell fourth-table-row second-col">Таван</div>
-                  <div class="divTableCell fourth-table-row third-col">1</div>
-                  <div class="divTableCell fourth-table-row fourth-col">900</div>
-                  <div class="divTableCell fourth-table-row fifth-col">&nbsp;</div>
-                  <div class="divTableCell fourth-table-row sixth-col">
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                  </div>
-<!--
-                  <div class="divTableCell fourth-table-row seventh-col">&nbsp;</div>
--->
-                  <div class="divTableCell fourth-table-row center-y-n eighth-col">не</div>
-                  <div class="divTableCell fourth-table-row ninth-col">&nbsp;</div>
-                </div>
-
-                <div class="divTableRow">
-                  <div class="divTableCell whitish first-col">3.</div>
-                  <div class="divTableCell whitish second-col">Дъно</div>
-                  <div class="divTableCell whitish third-col">1</div>
-                  <div class="divTableCell whitish fourth-col">900</div>
-                  <div class="divTableCell whitish fifth-col">&nbsp;</div>
-                  <div class="divTableCell whitish sixth-col">
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                  </div>
-<!--
-                  <div class="divTableCell whitish seventh-col">&nbsp;</div>
--->
-                  <div class="divTableCell whitish center-y-n eighth-col">не</div>
-                  <div class="divTableCell whitish ninth-col">&nbsp;</div>
-                </div>
-
-                <div class="divTableRow">
-                  <div class="divTableCell fourth-table-row first-col">4.</div>
-                  <div class="divTableCell fourth-table-row second-col">Таван</div>
-                  <div class="divTableCell fourth-table-row third-col">1</div>
-                  <div class="divTableCell fourth-table-row fourth-col">900</div>
-                  <div class="divTableCell fourth-table-row fifth-col">&nbsp;</div>
-                  <div class="divTableCell fourth-table-row sixth-col">
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                  </div>
-<!--
-                  <div class="divTableCell fourth-table-row seventh-col">&nbsp;</div>
--->
-                  <div class="divTableCell fourth-table-row center-y-n eighth-col">не</div>
-                  <div class="divTableCell fourth-table-row ninth-col">&nbsp;</div>
-                </div>
-
-                <div class="divTableRow">
-                  <div class="divTableCell whitish first-col">3.</div>
-                  <div class="divTableCell whitish second-col">Дъно</div>
-                  <div class="divTableCell whitish third-col">1</div>
-                  <div class="divTableCell whitish fourth-col">900</div>
-                  <div class="divTableCell whitish fifth-col">&nbsp;</div>
-                  <div class="divTableCell whitish sixth-col">
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                  </div>
-<!--
-                  <div class="divTableCell whitish seventh-col">&nbsp;</div>
--->
-                  <div class="divTableCell whitish center-y-n eighth-col">не</div>
-                  <div class="divTableCell whitish ninth-col">&nbsp;</div>
-                </div>
-
-                <div class="divTableRow">
-                  <div class="divTableCell fourth-table-row first-col">4.</div>
-                  <div class="divTableCell fourth-table-row second-col">Таван</div>
-                  <div class="divTableCell fourth-table-row third-col">1</div>
-                  <div class="divTableCell fourth-table-row fourth-col">900</div>
-                  <div class="divTableCell fourth-table-row fifth-col">&nbsp;</div>
-                  <div class="divTableCell fourth-table-row sixth-col">
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                  </div>
-<!--
-                  <div class="divTableCell fourth-table-row seventh-col">&nbsp;</div>
--->
-                  <div class="divTableCell fourth-table-row center-y-n eighth-col">не</div>
-                  <div class="divTableCell fourth-table-row ninth-col">&nbsp;</div>
-                </div>
-
-                <div class="divTableRow">
-                  <div class="divTableCell whitish first-col">3.</div>
-                  <div class="divTableCell whitish second-col">Дъно</div>
-                  <div class="divTableCell whitish third-col">1</div>
-                  <div class="divTableCell whitish fourth-col">900</div>
-                  <div class="divTableCell whitish fifth-col">&nbsp;</div>
-                  <div class="divTableCell whitish sixth-col">
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                  </div>
-<!--
-                  <div class="divTableCell whitish seventh-col">&nbsp;</div>
--->
-                  <div class="divTableCell whitish center-y-n eighth-col">не</div>
-                  <div class="divTableCell whitish ninth-col">&nbsp;</div>
-                </div>
-
-                <div class="divTableRow">
-                  <div class="divTableCell fourth-table-row first-col">4.</div>
-                  <div class="divTableCell fourth-table-row second-col">Таван</div>
-                  <div class="divTableCell fourth-table-row third-col">1</div>
-                  <div class="divTableCell fourth-table-row fourth-col">900</div>
-                  <div class="divTableCell fourth-table-row fifth-col">&nbsp;</div>
-                  <div class="divTableCell fourth-table-row sixth-col">
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                    <div class="divTableCell special"></div>
-                  </div>
-<!--
-                  <div class="divTableCell fourth-table-row seventh-col">&nbsp;</div>
--->
-                  <div class="divTableCell fourth-table-row center-y-n eighth-col">не</div>
-                  <div class="divTableCell fourth-table-row ninth-col">&nbsp;</div>
-                </div>
+                <!--                  <div class="divTableCell seventh-col">Визуализация</div> -->
+                <div class="divTableCell eighth-col">да се върти</div>
+                <div class="divTableCell ninth-col"></div>
               </div>
             </div>
           </div>
+
+          <div class="table-body">
+            <div class="divTableBody">
+              <div class="divTableRow tooltipster" data-tooltip-content="#visualization-tooltip-content0">
+                <div class="divTableCell third-table-row first-col">0.</div>
+                <div class="divTableCell third-table-row second-col">Врата</div>
+                <div class="divTableCell third-table-row third-col">2</div>
+                <div class="divTableCell third-table-row fourth-col">900</div>
+                <div class="divTableCell third-table-row fifth-col">&nbsp;</div>
+                <div class="divTableCell third-table-row sixth-col">
+                  <div class="divTableCell special">2</div>
+                  <div class="divTableCell special">0</div>
+                  <div class="divTableCell special">1</div>
+                  <div class="divTableCell special">1</div>
+                </div>
+<!--                  <div class="divTableCell third-table-row seventh-col">
+                  <div class="custom-div-two">
+                    <span class="no-3"><p>30</p></span>
+                    <span class="no-4">880</span>
+                  </div>
+                </div>
+-->
+                <div class="divTableCell third-table-row center-y-n eighth-col">не</div>
+                <div class="divTableCell third-table-row ninth-col">&nbsp;</div>
+              </div>
+
+              <div class="divTableRow tooltipster" data-tooltip-content="#visualization-tooltip-content1">
+                <div class="divTableCell whitish first-col">1.</div>
+                <div class="divTableCell whitish second-col">Страница</div>
+                <div class="divTableCell whitish third-col divTableCellEditable" type="text" id="exampleInputEmail1" placeholder="no."><input placeholder="no." class="form-control custom-placeholder"></div>
+                <div class="divTableCell whitish fourth-col divTableCellEditable" type="text" id="exampleInputEmail1" placeholder="no."><input placeholder="no." class="form-control custom-placeholder"></div>
+                <div class="divTableCell whitish fifth-col divTableCellEditable" type="text" id="exampleInputEmail1" placeholder="no."><input placeholder="no." class="form-control custom-placeholder"></div>
+                <div class="divTableCell whitish sixth-col">
+                  <div class="divTableCell special">2</div>
+                  <div class="divTableCell special">2</div>
+                  <div class="divTableCell special">1</div>
+                  <div class="divTableCell special">0</div>
+                </div>
+<!--
+                <div class="divTableCell whitish seventh-col">
+                  <div class="outer-custom-div-one">
+                    <div class="custom-div-one">
+                      <span class="no-1">900</span>
+                      <span class="no-2"><p>580</p></span>
+                      <span class="no-3">стр.</span>
+                    </div>
+                  </div>
+                </div>
+-->
+                <div class="divTableCell whitish center-y-n eighth-col">не</div>
+                <div class="divTableCell whitish ninth-col">&nbsp;</div>
+              </div>
+
+              <div class="divTableRow tooltipster" data-tooltip-content="#visualization-tooltip-content2">
+                <div class="divTableCell third-table-row first-col">2.</div>
+                <div class="divTableCell third-table-row second-col">Врата</div>
+                <div class="divTableCell third-table-row third-col">2</div>
+                <div class="divTableCell third-table-row fourth-col">900</div>
+                <div class="divTableCell third-table-row fifth-col">&nbsp;</div>
+                <div class="divTableCell third-table-row sixth-col">
+                  <div class="divTableCell special">2</div>
+                  <div class="divTableCell special">0</div>
+                  <div class="divTableCell special">1</div>
+                  <div class="divTableCell special">1</div>
+                </div>
+<!--
+                <div class="divTableCell third-table-row seventh-col">
+                  <div class="custom-div-two">
+                    <span class="no-3"><p>30</p></span>
+                    <span class="no-4">880</span>
+                  </div>
+                </div>
+-->
+                <div class="divTableCell third-table-row center-y-n eighth-col">не</div>
+                <div class="divTableCell third-table-row ninth-col">&nbsp;</div>
+              </div>
+
+              <div class="divTableRow">
+                <div class="divTableCell whitish first-col">3.</div>
+                <div class="divTableCell whitish second-col">Дъно</div>
+                <div class="divTableCell whitish third-col">1</div>
+                <div class="divTableCell whitish fourth-col">900</div>
+                <div class="divTableCell whitish fifth-col">&nbsp;</div>
+                <div class="divTableCell whitish sixth-col">
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                </div>
+<!--
+                <div class="divTableCell whitish seventh-col">&nbsp;</div>
+-->
+                <div class="divTableCell whitish center-y-n eighth-col">не</div>
+                <div class="divTableCell whitish ninth-col">&nbsp;</div>
+              </div>
+
+              <div class="divTableRow">
+                <div class="divTableCell fourth-table-row first-col">4.</div>
+                <div class="divTableCell fourth-table-row second-col">Таван</div>
+                <div class="divTableCell fourth-table-row third-col">1</div>
+                <div class="divTableCell fourth-table-row fourth-col">900</div>
+                <div class="divTableCell fourth-table-row fifth-col">&nbsp;</div>
+                <div class="divTableCell fourth-table-row sixth-col">
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                </div>
+<!--
+                <div class="divTableCell fourth-table-row seventh-col">&nbsp;</div>
+-->
+                <div class="divTableCell fourth-table-row center-y-n eighth-col">не</div>
+                <div class="divTableCell fourth-table-row ninth-col">&nbsp;</div>
+              </div>
+
+              <div class="divTableRow">
+                <div class="divTableCell whitish first-col">3.</div>
+                <div class="divTableCell whitish second-col">Дъно</div>
+                <div class="divTableCell whitish third-col">1</div>
+                <div class="divTableCell whitish fourth-col">900</div>
+                <div class="divTableCell whitish fifth-col">&nbsp;</div>
+                <div class="divTableCell whitish sixth-col">
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                </div>
+<!--
+                <div class="divTableCell whitish seventh-col">&nbsp;</div>
+-->
+                <div class="divTableCell whitish center-y-n eighth-col">не</div>
+                <div class="divTableCell whitish ninth-col">&nbsp;</div>
+              </div>
+
+              <div class="divTableRow">
+                <div class="divTableCell fourth-table-row first-col">4.</div>
+                <div class="divTableCell fourth-table-row second-col">Таван</div>
+                <div class="divTableCell fourth-table-row third-col">1</div>
+                <div class="divTableCell fourth-table-row fourth-col">900</div>
+                <div class="divTableCell fourth-table-row fifth-col">&nbsp;</div>
+                <div class="divTableCell fourth-table-row sixth-col">
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                </div>
+<!--
+                <div class="divTableCell fourth-table-row seventh-col">&nbsp;</div>
+-->
+                <div class="divTableCell fourth-table-row center-y-n eighth-col">не</div>
+                <div class="divTableCell fourth-table-row ninth-col">&nbsp;</div>
+              </div>
+
+              <div class="divTableRow">
+                <div class="divTableCell whitish first-col">3.</div>
+                <div class="divTableCell whitish second-col">Дъно</div>
+                <div class="divTableCell whitish third-col">1</div>
+                <div class="divTableCell whitish fourth-col">900</div>
+                <div class="divTableCell whitish fifth-col">&nbsp;</div>
+                <div class="divTableCell whitish sixth-col">
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                </div>
+<!--
+                <div class="divTableCell whitish seventh-col">&nbsp;</div>
+-->
+                <div class="divTableCell whitish center-y-n eighth-col">не</div>
+                <div class="divTableCell whitish ninth-col">&nbsp;</div>
+              </div>
+
+              <div class="divTableRow">
+                <div class="divTableCell fourth-table-row first-col">4.</div>
+                <div class="divTableCell fourth-table-row second-col">Таван</div>
+                <div class="divTableCell fourth-table-row third-col">1</div>
+                <div class="divTableCell fourth-table-row fourth-col">900</div>
+                <div class="divTableCell fourth-table-row fifth-col">&nbsp;</div>
+                <div class="divTableCell fourth-table-row sixth-col">
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                </div>
+<!--
+                <div class="divTableCell fourth-table-row seventh-col">&nbsp;</div>
+-->
+                <div class="divTableCell fourth-table-row center-y-n eighth-col">не</div>
+                <div class="divTableCell fourth-table-row ninth-col">&nbsp;</div>
+              </div>
+
+              <div class="divTableRow">
+                <div class="divTableCell whitish first-col">3.</div>
+                <div class="divTableCell whitish second-col">Дъно</div>
+                <div class="divTableCell whitish third-col">1</div>
+                <div class="divTableCell whitish fourth-col">900</div>
+                <div class="divTableCell whitish fifth-col">&nbsp;</div>
+                <div class="divTableCell whitish sixth-col">
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                </div>
+<!--
+                <div class="divTableCell whitish seventh-col">&nbsp;</div>
+-->
+                <div class="divTableCell whitish center-y-n eighth-col">не</div>
+                <div class="divTableCell whitish ninth-col">&nbsp;</div>
+              </div>
+
+              <div class="divTableRow">
+                <div class="divTableCell fourth-table-row first-col">4.</div>
+                <div class="divTableCell fourth-table-row second-col">Таван</div>
+                <div class="divTableCell fourth-table-row third-col">1</div>
+                <div class="divTableCell fourth-table-row fourth-col">900</div>
+                <div class="divTableCell fourth-table-row fifth-col">&nbsp;</div>
+                <div class="divTableCell fourth-table-row sixth-col">
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                  <div class="divTableCell special"></div>
+                </div>
+<!--
+                <div class="divTableCell fourth-table-row seventh-col">&nbsp;</div>
+-->
+                <div class="divTableCell fourth-table-row center-y-n eighth-col">не</div>
+                <div class="divTableCell fourth-table-row ninth-col">&nbsp;</div>
+              </div>
+<!--              <div class="divTableExpanderRow">
+              </div>
+-->
+            </div>
+          </div>
+          <!-- Offset Sum -->
+          <div class="Sum-row">
+            <div class="container">
+              <div class="row">
+                <button class="col-sm-2 col-md-2 Summ">добави редове...</button>
+              </div>
+            </div>
+          </div>
+          <!-- /Offset Sum -->
         </div>
 
         <!-- /Middle Column -->
@@ -464,7 +476,7 @@
         <!-- Right Column -->
         <div class="col-md-2 col-sm-2 right-col">
 
-          <div class="right-col-title">
+          <div class="first-title">
             схема на
           </div>
 
@@ -506,13 +518,23 @@
             <div class="second-empty">&nbsp;</div>
           </div>
 
-          <button class="right-col-title zoom">
+          <button class="btn btn-default right-col-title zoom">
 											zoom 
 									</button>
 
-          <button class="right-col-title print">
+          <button class="btn btn-default right-col-title print">
 											print 
 									</button>
+
+          <!-- Checkout Orange -->
+          <div class="row-Check">
+            <div class="row">
+              <div class="col-sm-12 go-button-container">
+                <div class="Check btn btn-small">създай разкрой</div>
+              </div>
+            </div>
+          </div>
+          <!-- /Checkout Orange -->
 
         </div>
         <!-- /Right Column -->
@@ -524,35 +546,11 @@
 
   <!-- Main Body Area -->
 
-
-  <!-- Offset Sum -->
-  <div class="Sum-row">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-2 col-md-2"></div>
-        <button class="col-sm-2 col-md-2 Summ">добави редове...</button>
-        <div class="col-sm-8 col-md-8"></div>
-      </div>
-    </div>
-  </div>
-  <!-- /Offset Sum -->
-
-  <!-- Checkout Orange -->
-  <div class="container row-Check">
-    <div class="row">
-      <div class="col-sm-3 go-button-container">
-        <div class="Check btn btn-small">Създай разкрой</div>
-      </div>
-    </div>
-  </div>
-  <!-- /Checkout Orange -->
-
-
   <!--Footer area -->
 
   <div class="container footer-row">
     <div class="row footer-cont">
-      <div class="col-sm-3 col-md-3 col-sm-offset-1 col-md-offset-1 foot-col">начало / за нас / контакти <br>razkroi.com </div>
+      <div class="col-sm-3 col-md-3 col-sm-offset-1 col-md-offset-1 foot-col">начало / за нас / контакти <span>razkroi.com</span> </div>
     </div>
   </div>
   <!--/Footer area -->

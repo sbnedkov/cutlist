@@ -110,18 +110,12 @@ span.down-arrow {
 }
 
 
-.sub1 {
+.sub1, sub3 {
 /*	width: 90px; */
 /*	margin-right: 10px; */
 	padding-left: 5px;
   padding-right: 4px;
 /*  margin-left: 0; */
-}
-
-.sub2 {
-/*	width: 185px; */
-/*	margin-right: 10px; */
-  border: 1px solid black;
 }
 
 .sub3 {
@@ -130,7 +124,7 @@ span.down-arrow {
 }
 
 .sub4 {
-	background: url('../img/sub-header-bg.png') no-repeat;
+	background: url('../img/sub-header-bg.png') no-repeat center;
 	border:1px solid transparent;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -143,14 +137,26 @@ span.down-arrow {
 	font-size: 0.7em;
   padding-left: 8px;
   padding-right: 5px;
+  white-space: normal;
+  height: 34px;
 /*    width: 185px; */
 /*	margin-right: 20px; */
 }
 
 
-.sub6 {
+.sub2, .sub6 {
 /*	width: 185px; */
   border: 1px solid black;
+  padding-left: 5px;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.sub2 span, .sub6 span {
+/*	width: 185px; */
+/*  border: 1px solid black; */
+  font-size: 0.7em;
+  cursor: pointer;
 }
 
 span.x-1 {
@@ -196,7 +202,7 @@ ul.dropdown-menu {
   left: 0;
   right: 0;
   top: 190px;
-  bottom: 50px;
+  bottom: 25px;
 }
 
 .left-col {
@@ -207,31 +213,29 @@ ul.dropdown-menu {
 
 .first-title {
 	background-color: #ebbe70;
-    margin-left: -15px;
-    margin-right: -15px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: x-large;
-    text-align: center;
-    border-bottom: 1px solid;
-    height: 10%;
+  margin-left: -15px;
+  margin-right: -15px;
+  padding-bottom: 10px;
+  font-size: x-large;
+  text-align: center;
+  border-bottom: 1px solid;
+  height: 40px;
 }
 
 .second-empty,
 .third-empty,
 .fourth-empty {
 	background-color: white;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid;
 }
 
 .special-title {
-	padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
+  padding-bottom: 10px;
+  text-align: center;
 }
 
 .second-title,
@@ -257,18 +261,15 @@ ul.dropdown-menu {
 .right-col-title {
 	font-size: x-large;
 	background-color: #ebbe70;
-    margin-top: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
-    border: 1px solid;
-
+  padding-bottom: 10px;
+  text-align: center;
+  border: 1px solid;
   width: 100%;
   height: 10%;
 }
 
 .zoom {
-	margin-top: 0;
+	margin-top: 5px;
 	background-color: #f3d9ac;
 }
 
@@ -284,6 +285,9 @@ ul.dropdown-menu {
 /*	height: 82px; */
 
   height: 40px;
+}
+.divTableExpanderRow {
+  height: 100%;
 }
 .divTableHeading {
 	background-color: #EEE;
@@ -414,36 +418,35 @@ span.no-4 {
 
 .Summ {
 	border: 1px solid;
-    margin-left: 25px;
-    width: 297px;
-    text-align: center;
-    font-weight: bold;
-    z-index: 100;
+/*  margin-left: 25px; */
+  width: 297px;
+  text-align: center;
+  font-weight: bold;
+  z-index: 100;
 }
 
 .Sum-row {
-  position: absolute;
-  bottom: 80px;
-	height: 20px;
+  position: relative;
+  top: 0;
+	height: 4%;
   width: 100%;
 }
 
 .Check {
 	border: 1px solid;
-    float: right;
-    margin-right: 5px;
-    height: 40px;
-    background-color: #ff7e00;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    padding-top: 4px;
+  float: right;
+  height: 40px;
+  background-color: #ff7e00;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 4px;
 }
 
 .row-Check {
   position: absolute;
-  bottom: 50px;
-  right: 10%;
+  top: 105%;
+  right: 0;
 	height: 40px;
 }
 
@@ -458,14 +461,18 @@ span.no-4 {
 }
 
 .foot-col {
-	background-color: white;
-    color: black;
-    height: 40px;
-    -webkit-transform: skew(-20deg);
-    -moz-transform: skew(-20deg);
-    -o-transform: skew(-20deg);
+  background-color: white;
+  color: black;
+  height: 20px;
+  -webkit-transform: skew(-20deg);
+  -moz-transform: skew(-20deg);
+  -o-transform: skew(-20deg);
+  font-size: 0.8em;
 }
 
+.foot-col span {
+  float: right;
+}
 
 /* CSS Fix ups */
 
@@ -477,13 +484,18 @@ span.no-4 {
 }
 
 .custom-placeholder {
-/*	border: none; */
-/*	width: 100%; */
+	border: none;
+	width: 100%;
+  height: 100%;
 }
 
 .custom-placeholder:focus {
 	-webkit-box-shadow: none;
     outline: -webkit-focus-ring-color auto 0px;
+}
+
+.divTableCell.divTableCellEditable {
+  padding: 0;
 }
 
 .custom-p {
@@ -499,29 +511,28 @@ span.no-4 {
 }
 
 /* Added by me */
-.rz-dropdown {
-  cursor: pointer;
-}
 .go-button-container {
   float: right;
-  margin-right: 16px;
 }
 .result-outlook-container {
   overflow-y: scroll;
+  margin: 0 -15px;
+  padding: 0 15px;
 }
 .middle-col {
-  height: 86%;
+  height: 100%;
 }
 .left-col-container {
 /*  height: 315px; */
   height: 88%;
+  overflow-y: scroll;
 }
 .middle-col-container {
 /*  height: 280px; */
 }
 .right-col-container {
 /*  height: 180px; */
-  height: 62%;
+  height: 60%;
 }
 .table-header {
   display: block;
@@ -535,10 +546,9 @@ span.no-4 {
 
 .table-body {
   display: block;
+/*  border-bottom: 1px solid black; */
   overflow-y: scroll;
-  height: 78%;
-/*  border: 1px solid black; */
-
+  height: 76%;
 }
 .first-col {
   width: 5%;
