@@ -161,21 +161,23 @@ span.down-arrow {
 
 span.x-1 {
 	font-weight: bolder;
-    font-size: 18px;
-    display:inline-block;
-    -webkit-transform: rotate(-90deg); 
-    -moz-transform: rotate(-90deg); 
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-    margin-top: 15px;
-
+  text-align: center;
+  margin-left: -100px; /* image is 144px */
+  white-space: initial;
+  font-size: 18px;
+  display: block;
+  -webkit-transform: rotate(-90deg); 
+  -moz-transform: rotate(-90deg); 
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  margin-top: 15px;
 }
 
 span.x-2 {
 	font-weight: bolder;
-    font-size: 18px;
-    display: block;
-    margin-top: -40px;
-    margin-left: 40px;
+  font-size: 18px;
+  text-align: center;
+  display: block;
+  margin-top: -40px;
 }
 
 .dropdown-menu {
