@@ -613,4 +613,7 @@ span.no-4 {
 .tooltip-templates {
   display: none;
 }
-/* END Added by me */
+
+.left-col-container .form-group {
+  margin-bottom: 35px;
+}
