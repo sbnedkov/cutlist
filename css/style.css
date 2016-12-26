@@ -239,7 +239,7 @@ ul.dropdown-menu {
 }
 
 .special-title {
-  padding-bottom: 10px;
+/*  padding-bottom: 10px; */
   text-align: center;
 }
 
@@ -605,7 +605,7 @@ span.Check {
 .sixth-col {
   width: 20%;
 }
-.seventh-col {
+.seventh-col { /* Hidden visualization */
   width: 20%;
 }
 .eighth-col {
