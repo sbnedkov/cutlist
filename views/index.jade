@@ -2,36 +2,23 @@ doctype html
 html
   head
     title Razkroi.com
-    |   
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    |   
     meta(charset='UTF-8')
-    |   
     link(href='css/bootstrap.min.css', rel='stylesheet', media='screen')
-    |   
     link(href='css/style.css', rel='stylesheet', media='screen')
-    |   
     link(rel='stylesheet', href='css/font-awesome.min.css')
-    |   
     script(type='application/javascript', src='https://code.jquery.com/jquery.js')
-    |   
     script(type='application/javascript', src='js/bootstrap.min.js')
-    |   
     script(type='application/javascript', src='js/style.js')
-    |   
     link(rel='stylesheet', type='text/css', href='/node_modules/tooltipster/dist/css/tooltipster.bundle.min.css')
-    |   
     link(rel='stylesheet', type='text/css', href='/node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css')
-    |   
     script(type='text/javascript', src='http://code.jquery.com/jquery-1.10.0.min.js')
-    |   
     script(type='text/javascript', src='/node_modules/tooltipster/dist/js/tooltipster.bundle.min.js')
-    |   
     script.
       $(document).ready(function() {
-      $('.tooltipster').tooltipster({
-      theme: 'tooltipster-noir'
-      });
+          $('.tooltipster').tooltipster({
+              theme: 'tooltipster-noir'
+          });
       });
   body
     // Master Header
@@ -40,31 +27,24 @@ html
         .col-sm-5.col-md-5.col-sm-offset-1.col-md-offset-1.logo-area
           p
             img(src='img/main-logo.png')
-          |         
           h2 office@razkroi.com
-        |       
         .col-sm-4.col-md-4.col-sm-offset-1.col-md-offset-1.header-right-info
           .col-sm-12.col-md-12
             .col-sm-6.col-md-6
               label.inside-info
                 p.xtitle &Vcy;&khcy;&ocy;&dcy; &zcy;&acy; &rcy;&iecy;&gcy;&icy;&scy;&tcy;&rcy;&icy;&rcy;&acy;&ncy;&icy;
-            |           
             .col-sm-6.col-md-6.username-input
               input#exampleInputEmail1.form-control(type='text', placeholder='потребител')
-          |         
           .col-sm-12.col-md-12
             .col-sm-6.col-md-6
               label.inside-info
                 button.xletters.rz-button-small &Zcy;&acy;&bcy;&rcy;&acy;&vcy;&iecy;&ncy;&acy; &pcy;&acy;&rcy;&ocy;&lcy;&acy;
-            |           
             .col-sm-6.col-md-6
               input#exampleInputEmail1.form-control(type='text', placeholder='парола')
-          |         
           .col-sm-12.col-md-12
             .col-sm-6.col-md-6
               label.inside-info
                 button.xletters.rz-button-small &Ncy;&ocy;&vcy;&acy; &rcy;&iecy;&gcy;&icy;&scy;&tcy;&rcy;&acy;&tscy;&icy;&yacy;
-            |           
             .col-sm-6.col-md-6
               button.btn2.rz-button-small(type='button') &vcy;&khcy;&ocy;&dcy;
     // /Master Header
@@ -73,46 +53,35 @@ html
       .row.sub-header-cont
         #exampleInputEmail1.col-md-1.col-sm-1.col-md-offset-1.col-sm-offset-1.sub1(type='text', placeholder='въведи размер плоча')
           input.form-control(placeholder='дължина', type='number')
-        |       
         #exampleInputEmail1.col-md-1.col-sm-1.sub1(type='text', placeholder='въведи размер плоча')
           input.form-control(placeholder='ширина', type='number')
-        |       
         .col-md-1.col-sm-1.sub2
           button(data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
-            | &rcy;&acy;&zcy;&mcy;&iecy;&rcy;&icy; 
+            | размери
             i.fa.fa-angle-down(aria-hidden='true')
-          |         
           ul.dropdown-menu(aria-labelledby='dropdownMenu1')
             li
-              a(href='#') - &dcy;&iecy;&bcy;&iecy;&lcy;&icy;&ncy;&acy; &ncy;&acy; &ncy;&ocy;&zhcy;&acy;
-            |           
+              a(href='#') - опция 1
             li
-              a(href='#') - &ocy;&bcy;&rcy;&iecy;&zcy;&kcy;&icy;
-        |       
+              a(href='#') - опция 2
         #exampleInputEmail1.col-md-1.col-sm-1.sub3(type='text', placeholder='брой')
           input.form-control(placeholder='брой', type='number')
-        |       
         .col-md-2.col-sm-2.sub4
           span.x-1 1780
-          |         
           span.x-2 2800
-        |       
         .col-md-2.col-sm-2.sub5
           .btn
-            p
-              | &dcy;&ocy;&bcy;&acy;&vcy;&icy; &kcy;&hardcy;&mcy; &ncy;&acy;&lcy;&icy;&chcy;&ncy;&ocy;&scy;&tcy; &pcy;&lcy;&ocy;&chcy;&icy;
-        |       
+            p.rz-button-primary
+              | добави към наличност плочи
         .col-md-1.col-sm-1.sub6
           button(data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
-            | &ncy;&acy;&scy;&tcy;&rcy;&ocy;&jcy;&kcy;&icy; 
+            | настройки
             i.fa.fa-angle-down(aria-hidden='true')
-          |         
           ul.dropdown-menu(aria-labelledby='dropdownMenu1')
             li
-              a(href='#') - &dcy;&iecy;&bcy;&iecy;&lcy;&icy;&ncy;&acy; &ncy;&acy; &ncy;&ocy;&zhcy;&acy;
-            |           
+              a(href='#') - дебелина на ножа
             li
-              a(href='#') - &ocy;&bcy;&rcy;&iecy;&zcy;&kcy;&icy;
+              a(href='#') - обрезки
     // /Sub Header
     // Main Body Area
     .master-body-row
@@ -122,68 +91,47 @@ html
           .col-sm-2.col-md-2.left-col
             .first-title
               | &ncy;&acy;&lcy;&icy;&chcy;&ncy;&ocy;&scy;&tcy;&icy;
-            |           
             .left-col-container.result-outlook-container
               .form-group
                 .second-empty &nbsp;
-                |               
                 button.second-title.rz-button-small
                   | 3 &bcy;&rcy;. &rcy;&iecy;&dcy;&acy;&kcy;&tcy;&icy;&rcy;&acy;&jcy;
-              |             
               .form-group
                 .third-empty &nbsp;
-                |               
                 button.third-title.rz-button-small
                   | 1 &bcy;&rcy;. &rcy;&iecy;&dcy;&acy;&kcy;&tcy;&icy;&rcy;&acy;&jcy;
-              |             
               .form-group
                 .fourth-empty &nbsp;
-                |               
                 button.fourth-title.rz-button-small
                   | 1 &bcy;&rcy;. &rcy;&iecy;&dcy;&acy;&kcy;&tcy;&icy;&rcy;&acy;&jcy;
-              |             
               .form-group
                 .fourth-empty &nbsp;
-                |               
                 button.fourth-title.rz-button-small
                   | 1 &bcy;&rcy;. &rcy;&iecy;&dcy;&acy;&kcy;&tcy;&icy;&rcy;&acy;&jcy;
-              |             
               .form-group
                 .fourth-empty &nbsp;
-                |               
                 button.fourth-title.rz-button-small
                   | 1 &bcy;&rcy;. &rcy;&iecy;&dcy;&acy;&kcy;&tcy;&icy;&rcy;&acy;&jcy;
-              |             
               .form-group
                 .fourth-empty &nbsp;
-                |               
                 button.fourth-title.rz-button-small
                   | 1 &bcy;&rcy;. &rcy;&iecy;&dcy;&acy;&kcy;&tcy;&icy;&rcy;&acy;&jcy;
-              |             
               .form-group
                 .fourth-empty &nbsp;
-                |               
                 button.fourth-title.rz-button-small
                   | 1 &bcy;&rcy;. &rcy;&iecy;&dcy;&acy;&kcy;&tcy;&icy;&rcy;&acy;&jcy;
-              |             
               .form-group
                 .fourth-empty &nbsp;
-                |               
                 button.fourth-title.rz-button-small
                   | 1 &bcy;&rcy;. &rcy;&iecy;&dcy;&acy;&kcy;&tcy;&icy;&rcy;&acy;&jcy;
-              |             
               .form-group
                 .fourth-empty &nbsp;
-                |               
                 button.fourth-title.rz-button-small
                   | 1 &bcy;&rcy;. &rcy;&iecy;&dcy;&acy;&kcy;&tcy;&icy;&rcy;&acy;&jcy;
-              |             
               .form-group
                 .fourth-empty &nbsp;
-                |               
                 button.fourth-title.rz-button-small
                   | 1 &bcy;&rcy;. &rcy;&iecy;&dcy;&acy;&kcy;&tcy;&icy;&rcy;&acy;&jcy;
-              |             
               .form-group
                 .fourth-empty &nbsp;
                 |               
@@ -567,23 +515,23 @@ html
               .second-empty &nbsp;
             |           
             button.btn.right-col-title.zoom
-              | &pcy;&ocy;&kcy;&acy;&zhcy;&icy;
+              | покажи
             |           
             button.btn.right-col-title.print
-              | &pcy;&iecy;&chcy;&acy;&tcy;
+              | печат
             // Checkout Orange
             .row-Check
               .row
                 .col-sm-12.go-button-container
-                  .Check.btn.btn-small &scy;&hardcy;&zcy;&dcy;&acy;&jcy; &rcy;&acy;&zcy;&kcy;&rcy;&ocy;&jcy;
-            // /Checkout Orange
-          // /Right Column
+                  span.Check.btn.btn-small.rz-button-primary създай разкрой
+            // Checkout Orange
+          // Right Column
     // Main Body Area
     // Footer area
     .container.footer-row
       .row.footer-cont
         .col-sm-3.col-md-3.col-sm-offset-1.col-md-offset-1.foot-col
-          | &ncy;&acy;&chcy;&acy;&lcy;&ocy; / &zcy;&acy; &ncy;&acy;&scy; / &kcy;&ocy;&ncy;&tcy;&acy;&kcy;&tcy;&icy; 
+          | добави редове...
           span razkroi.com
     // /Footer area
     .tooltip-templates
@@ -595,7 +543,7 @@ html
             span.no-2
               p 580
             |           
-            span.no-3 &scy;&tcy;&rcy;.
+            span.no-3 стр.
       |     
       #visualization-tooltip-content1
         .custom-div-two

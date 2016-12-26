@@ -254,12 +254,19 @@ ul.dropdown-menu {
   font-weight: bold;
   border: 1px solid;
   text-align: center;
+  line-height: normal;
   width: 100%;
 }
 
 .rz-button-small:hover,
 .rz-button-small:active{
   background-color: white;
+}
+
+.rz-button-primary{
+  vertical-align: middle;
+  line-height: normal;
+  display: inline-block;
 }
 
 .first-title-row {
@@ -285,7 +292,6 @@ ul.dropdown-menu {
 }
 
 .zoom {
-  padding-top: 5px;
 	margin-top: 5px;
   background-color: #ff7e00;
 /*	background-color: #f3d9ac; */
@@ -293,7 +299,6 @@ ul.dropdown-menu {
 
 
 .print {
-  padding-top: 5px;
   background-color: #ff7e00;
 }
 
@@ -459,19 +464,20 @@ span.no-4 {
 .Check {
 	border: 1px solid;
   float: right;
-  height: 40px;
   background-color: #ff7e00;
-  font-size: 24px;
+  font-size: 2em;
   font-weight: bold;
   text-align: center;
-  padding-top: 4px;
 }
 
 .row-Check {
   position: absolute;
   top: 105%;
   right: 0;
-	height: 40px;
+}
+
+span.Check {
+  height: inherit;
 }
 
 .footer-row {
@@ -537,6 +543,8 @@ span.no-4 {
 /* Added by me */
 .go-button-container {
   float: right;
+  line-height: 35px;
+	height: 35px;
 }
 .result-outlook-container {
   overflow-y: scroll;
