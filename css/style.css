@@ -242,6 +242,11 @@ ul.dropdown-menu {
 /*  padding-bottom: 10px; */
   text-align: center;
 }
+.special-title .row {
+  line-height: 20px;
+  height: 20px;
+  margin: 0;
+}
 
 .second-title,
 .third-title,
@@ -327,7 +332,7 @@ ul.dropdown-menu {
 .divTableCell, .divTableHead {
 	border-left: 1px solid #000;
 	border-bottom: 1px solid #000;
-	padding: 0 10px;
+/*	padding: 0 10px; */
   display: block;
   float: left;
   height: 40px;
@@ -382,6 +387,7 @@ span.rotate-letters .p2 {
 .special {
 	border: none;
 /*	width: 35%; */
+  text-align: center;
 }
 
 
@@ -660,6 +666,14 @@ span.Check {
 
 .table-body .sixth-col .special {
   cursor: pointer;
+}
+
+.divTableCell.special {
+  height: 20px;
+}
+
+.sixth-col .special {
+  width: 25%;
 }
 
 .table-body .eighth-col span {
