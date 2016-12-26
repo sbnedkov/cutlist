@@ -285,6 +285,7 @@ ul.dropdown-menu {
 }
 
 .zoom {
+  padding-top: 5px;
 	margin-top: 5px;
   background-color: #ff7e00;
 /*	background-color: #f3d9ac; */
@@ -292,6 +293,7 @@ ul.dropdown-menu {
 
 
 .print {
+  padding-top: 5px;
   background-color: #ff7e00;
 }
 
