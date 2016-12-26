@@ -259,7 +259,9 @@ ul.dropdown-menu {
 }
 
 .rz-button-small:hover,
-.rz-button-small:active{
+.rz-button-small:active,
+.whitish .rz-button-small:hover,
+.whitish .rz-button-small:active {
   background-color: white;
 }
 
@@ -623,6 +625,9 @@ span.Check {
   display: inline;
   padding: 0;
   background-color: #f3d9ac;
+}
+.ninth-col.whitish button {
+	background-color: #ffffed;
 }
 .master-body-cont {
 
