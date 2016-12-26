@@ -628,3 +628,21 @@ span.Check {
 .left-col-container .form-group {
   margin-bottom: 35px;
 }
+
+.divTableCell select {
+  width: 100%;
+  height: 100%;
+}
+
+.table-body .divTableCell.second-col {
+  margin: 0;
+  padding: 0;
+}
+
+.table-body .sixth-col .special {
+  cursor: pointer;
+}
+
+.table-body .eighth-col span {
+  cursor: pointer;
+}
