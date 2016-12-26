@@ -564,6 +564,7 @@ span.no-4 {
 
 .table-header .divTableRow {
   border-top: 1px solid black;
+  text-align: center;
 }
 
 .table-body {
