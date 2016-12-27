@@ -1,5 +1,5 @@
 doctype html
-html
+html(ng-app="cutlist")
   head
     title Razkroi.com
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
@@ -7,20 +7,9 @@ html
     link(href='css/bootstrap.min.css', rel='stylesheet', media='screen')
     link(href='css/style.css', rel='stylesheet', media='screen')
     link(rel='stylesheet', href='css/font-awesome.min.css')
-    script(type='application/javascript', src='https://code.jquery.com/jquery.js')
-    script(type='application/javascript', src='js/bootstrap.min.js')
-    script(type='application/javascript', src='js/style.js')
     link(rel='stylesheet', type='text/css', href='/node_modules/tooltipster/dist/css/tooltipster.bundle.min.css')
     link(rel='stylesheet', type='text/css', href='/node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css')
-    script(type='text/javascript', src='http://code.jquery.com/jquery-1.10.0.min.js')
-    script(type='text/javascript', src='/node_modules/tooltipster/dist/js/tooltipster.bundle.min.js')
-    script.
-      $(document).ready(function() {
-          $('.tooltipster').tooltipster({
-              theme: 'tooltipster-noir'
-          });
-      });
-  body
+  body(ng-controller="CutListCtrl")
     // Master Header
     .container.master-row
       .row.master-cont
@@ -156,7 +145,6 @@ html
                         .divTableCell.special(title="втора къса") IIк
                   .divTableCell.eighth-col върти
                   .divTableCell.ninth-col &nbsp;
-            |           
             .table-body
               .divTableBody
                 .divTableRow.tooltipster(data-tooltip-content='#visualization-tooltip-content0')
@@ -177,24 +165,24 @@ html
                 .divTableRow.tooltipster(data-tooltip-content='#visualization-tooltip-content1')
                   .divTableCell.whitish.first-col 1.
                   .divTableCell.whitish.second-col
-                    select
-                        option Врата
-                        option Страница
-                        option Таван
-                        option Дъно
+                    rz-editable-select(value="selectedOption", values="detailsOptions")
                   #exampleInputEmail1.divTableCell.whitish.third-col.divTableCellEditable(type='text', placeholder='no.')
-                    input.form-control.custom-placeholder(placeholder='no.')
+                    rz-editable-input(value="selectedNumber")
                   #exampleInputEmail1.divTableCell.whitish.fourth-col.divTableCellEditable(type='text', placeholder='no.')
-                    input.form-control.custom-placeholder(placeholder='no.')
+                    rz-editable-input(value="selectedWidth")
                   #exampleInputEmail1.divTableCell.whitish.fifth-col.divTableCellEditable(type='text', placeholder='no.')
-                    input.form-control.custom-placeholder(placeholder='no.')
+                    rz-editable-input(value="selectedHeight")
                   .divTableCell.whitish.sixth-col
-                    .divTableCell.special 2
-                    .divTableCell.special 2
-                    .divTableCell.special 1
-                    .divTableCell.special 0
+                    .divTableCell.special
+                        rz-editable-toggle(value="2", values="toggleValues")
+                    .divTableCell.special
+                        rz-editable-toggle(value="0", values="toggleValues")
+                    .divTableCell.special
+                        rz-editable-toggle(value="1", values="toggleValues")
+                    .divTableCell.special
+                        rz-editable-toggle(value="1", values="toggleValues")
                   .divTableCell.whitish.center-y-n.eighth-col
-                    span не
+                    rz-editable-toggle(value="toggleValue2", values="toggleValues2")
                   .divTableCell.whitish.ninth-col &nbsp;
                     button.rz-button-small.fa.fa-2x.fa-trash
                 .divTableRow.tooltipster(data-tooltip-content='#visualization-tooltip-content2')
@@ -400,3 +388,15 @@ html
             span.no-1 900
             span.no-2
               p 580
+    script(type='application/javascript', src='https://code.jquery.com/jquery.js')
+    script(type='application/javascript', src='/js/bootstrap.min.js')
+    script(type="application/javascript", src="/node_modules/angular/angular.js")
+    script(type="application/javascript", src="/node_modules/angular-fontawesome/dist/angular-fontawesome.min.js")
+    script(type='application/javascript', src='/node_modules/tooltipster/dist/js/tooltipster.bundle.min.js')
+    script(type="application/javascript", src="/dist/public/cutlist.js")
+    script.
+      $(document).ready(function() {
+          $('.tooltipster').tooltipster({
+              theme: 'tooltipster-noir'
+          });
+      });

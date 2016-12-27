@@ -1,0 +1,7 @@
+<div class="rz-editable" ng-click="click()">
+  <select ng-model="value" ng-show="hasFocus" ng-blur="blur()" ng-change="change()" ng-options="option for option in values">
+  </select>
+  <span ng-hide="hasFocus">
+    {{value}}
+  </span>
+</div>

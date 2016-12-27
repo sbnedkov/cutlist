@@ -1,6 +1,22 @@
 var app = angular.module('cutlist', ['picardy.fontawesome']);
 
 app.controller('CutListCtrl', ['$scope', '$http', '$timeout', ($scope, $http, $timeout) => {
+    // For new design, more work on that needed
+    $scope.detailsOptions = [
+        'Врата',
+        'Страница',
+        'Таван',
+        'Дъно'
+    ];
+    $scope.selectedOption = 'Врата';
+    $scope.selectedNumber = 5;
+    $scope.selectedWidth = 500;
+    $scope.selectedHeight = 652;
+    $scope.toggleValues = [0, 1, 2];
+    $scope.toggleValue2 = 'не';
+    $scope.toggleValues2 = ['да', 'не'];
+    // End for new design
+
     $scope.changeLang = (lang) => {
         $http.post('/lang', {lang: lang}).success(() => {
             window.location.reload();

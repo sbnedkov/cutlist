@@ -664,10 +664,6 @@ span.Check {
   padding: 0;
 }
 
-.table-body .sixth-col .special {
-  cursor: pointer;
-}
-
 .divTableCell.special {
   height: 20px;
 }
@@ -676,6 +672,16 @@ span.Check {
   width: 25%;
 }
 
-.table-body .eighth-col span {
+/* Directives */
+.rz-editable {
+  width: 100%;
+  height: 100%;
+}
+.rz-editable input {
+  width: 100%;
+  height: 100%;
+}
+.rz-toggle {
   cursor: pointer;
 }
+/* END Directives */

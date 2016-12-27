@@ -10,7 +10,12 @@ var babelify = require('babelify');
 
 gulp.task('browserify', function () {
     return browserify({
-        entries: './public/cutlist.js',
+        entries: [
+            './public/cutlist.js',
+            './public/editable-select.js',
+            './public/editable-input.js',
+            './public/editable-toggle.js'
+        ],
         debug: true
     }).transform(babelify)
         .bundle()
