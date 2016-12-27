@@ -534,16 +534,8 @@ span.Check {
     outline: -webkit-focus-ring-color auto 0px;
 }
 
-.divTableCell.divTableCellEditable {
-  padding: 0;
-}
-
 .custom-p {
 	padding-left: 30px;
-}
-
-.center-y-n {
-	text-align: center;
 }
 
 .size-custom {
@@ -632,7 +624,7 @@ span.Check {
   padding: 0;
   background-color: #f3d9ac;
 }
-.ninth-col.whitish button {
+.whitish .ninth-col button {
 	background-color: #ffffed;
 }
 .master-body-cont {
@@ -676,6 +668,7 @@ span.Check {
 .rz-editable {
   width: 100%;
   height: 100%;
+  padding: 0;
 }
 .rz-editable input {
   width: 100%;

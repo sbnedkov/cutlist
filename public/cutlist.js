@@ -8,13 +8,77 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', ($scope, $http, $t
         'Таван',
         'Дъно'
     ];
+    $scope.toggleValues = [0, 1, 2];
+    $scope.toggleValues2 = ['не', 'да'];
+
+    $scope.testData = [{
+        name: 'Bрата',
+        number: 2,
+        width: 500,
+        height: 900,
+        edgefl: 2,
+        edgefs: 0,
+        edgesl: 1,
+        edgess: 1,
+        rotate: 'не'
+    }, {
+        name: 'Страница',
+        number: 5,
+        width: 500,
+        height: 900,
+        edgefl: 2,
+        edgefs: 0,
+        edgesl: 1,
+        edgess: 1,
+        rotate: 'не'
+    }, {
+        name: 'Дъно',
+        number: 2,
+        width: 500,
+        height: 652,
+        edgefl: 1,
+        edgefs: 1,
+        edgesl: 2,
+        edgess: 2,
+        rotate: 'не'
+    }, {
+        name: 'Таван',
+        number: 1,
+        width: 500,
+        height: 652,
+        edgefl: 1,
+        edgefs: 1,
+        edgesl: 2,
+        edgess: 2,
+        rotate: 'не'
+    }, {
+        name: 'Bрата'
+    }, {
+        name: 'Bрата'
+    }, {
+        name: 'Bрата'
+    }, {
+        name: 'Bрата'
+    }, {
+        name: 'Bрата'
+    }, {
+        name: 'Bрата'
+    }, {
+        name: 'Bрата'
+    }, {
+        name: 'Bрата'
+    }, {
+        name: 'Bрата'
+    }, {
+        name: 'Bрата'
+    }, {
+        name: 'Bрата'
+    }];
     $scope.selectedOption = 'Врата';
     $scope.selectedNumber = 5;
     $scope.selectedWidth = 500;
     $scope.selectedHeight = 652;
-    $scope.toggleValues = [0, 1, 2];
     $scope.toggleValue2 = 'не';
-    $scope.toggleValues2 = ['да', 'не'];
     // End for new design
 
     $scope.changeLang = (lang) => {
