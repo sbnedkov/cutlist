@@ -132,12 +132,12 @@ html(ng-app="cutlist")
               .divTableBody
                 .divTableRow
                   .divTableCell.first-col №
-                  .divTableCell.second-col Име на детайл
+                  .divTableCell.second-col име на детайл
                   .divTableCell.third-col бр.
                   .divTableCell.fourth-col(title='Размер по фладера') &par;
                   .divTableCell.fifth-col(title='Размер перпендикулярно на фладера') &bot;
                   .divTableCell.special-title.sixth-col(title='0-без кант 1-тънък кант 2-дебел кант')
-                    .row Кантиране
+                    .row кантиране
                     .row
                         .divTableCell.special(title="първа дълга") Iд
                         .divTableCell.special(title="първа къса") Iк
@@ -145,7 +145,7 @@ html(ng-app="cutlist")
                         .divTableCell.special(title="втора къса") IIк
                   .divTableCell.eighth-col върти
                   .divTableCell.ninth-col &nbsp;
-            .table-body
+            .table-body(ng-cloak)
               .divTableBody
                 .divTableRow.tooltipster(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2}" data-tooltip-content='#visualization-tooltip-content{{$index}}', ng-repeat="value in testData")
                   .divTableCell.first-col {{$index + 1}}.
@@ -169,12 +169,12 @@ html(ng-app="cutlist")
                   .divTableCell.center-y-n.eighth-col
                     rz-editable-toggle(value="value.rotate", values="toggleValues2")
                   .divTableCell.ninth-col
-                    button.rz-button-small.fa.fa-2x.fa-trash
+                    button.rz-button-small.fa.fa-2x.fa-trash(ng-click="deleteRow($index)")
             // Offset Sum
             .Sum-row
               .container
                 .row
-                  button.col-sm-2.col-md-2.Summ.rz-button-small добави редове...
+                  button.col-sm-2.col-md-2.Summ.rz-button-small(ng-click="addRow()") добави редове...
             // /Offset Sum
           // /Middle Column
           // Right Column

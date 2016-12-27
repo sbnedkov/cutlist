@@ -74,11 +74,19 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', ($scope, $http, $t
     }, {
         name: 'Bрата'
     }];
-    $scope.selectedOption = 'Врата';
-    $scope.selectedNumber = 5;
-    $scope.selectedWidth = 500;
-    $scope.selectedHeight = 652;
-    $scope.toggleValue2 = 'не';
+
+    $scope.addRow = () => {
+        $scope.testData.push({
+            name: $scope.detailsOptions[0],
+            number: 1,
+            width: 0,
+            height: 0,
+            rotate: 0
+        });
+    };
+    $scope.deleteRow = index => {
+        $scope.testData.splice(index, 1);
+    };
     // End for new design
 
     $scope.changeLang = (lang) => {

@@ -18,9 +18,13 @@ angular.module('cutlist')
                 $scope.hasFocus = false;
             };
 
-            $scope.change = () => {
-                $scope.hasFocus = false;
-            };
+            el.on('keypress', function (ev) {
+                if (ev.keyCode === 13) {
+                    $scope.$apply(function () {
+                        $scope.hasFocus = false;
+                    });
+                }
+            });
         },
         templateUrl: '/views/partials/editable-input.html'
     };
