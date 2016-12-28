@@ -186,14 +186,6 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     }
     // END new design
 
-    $scope.changeLang = (lang) => {
-        $http.post('/lang', {lang: lang}).success(() => {
-            window.location.reload();
-        }).error((err) => {
-            alert(JSON.stringify(err));
-        });
-    };
-
     $scope.submit = () => {
         $http.post('/cutlist', {
             slates: $scope.slates.map(slate => {
@@ -229,6 +221,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                             }
                         })
                         .error(err => {
+                            $scope.processing = false;
                             alert(JSON.stringify(err));
                         });
                 }, 1000);
@@ -238,6 +231,13 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         });
     };
 
+    function handleError (err) {
+        alert(JSON.stringify(err));
+        console.log(err);
+    }
+
+    $scope.cutType = 'h';
+
 //    $scope.addPart = () => {
 //        $scope.parts.push({});
 //    };
@@ -245,9 +245,6 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 //    $scope.addSlate = () => {
 //        $scope.slates.push({});
 //    };
-
-    $scope.cutType = 'h';
-
 //    $http.get('/data/tests.json')
 //        .success(function (tests) {
 //            $scope.tests = tests;
@@ -261,18 +258,19 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 //            console.log(err);
 //            alert(JSON.stringify(err));
 //        });
-
 //    $scope.$watch('testsIdx', (idx) => {
 //        if (idx) {
 //            $scope.slates = $scope.testsMap[idx].slates;
 //            $scope.parts = $scope.testsMap[idx].parts;
 //        }
 //    });
-
-    function handleError (err) {
-        alert(JSON.stringify(err));
-        console.log(err);
-    }
+//    $scope.changeLang = (lang) => {
+//        $http.post('/lang', {lang: lang}).success(() => {
+//            window.location.reload();
+//        }).error((err) => {
+//            alert(JSON.stringify(err));
+//        });
+//    };
 }]).directive('rzResultStocks', [function () {
     const MAX_WIDTH = 120;
 
@@ -362,15 +360,6 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 }
             });
         },
-        template:
-            '<div style="visibility: hidden;">' +
-                '<div style="position: fixed; top: 0; bottom: 0; opacity: 0.25; background: black; width: 100%; z-index: 100;">' +
-                '</div>' +
-                '<div style="position: fixed; top: 0; width: 100%; height: 100%; z-index: 100;">' +
-                    '<div style="top: 50%; height: 100%; width: 100%; text-align: center; position: absolute;">' +
-                        '<i style="opacity: 1;" class="fa fa-cog fa-spin fa-3x" style="color: blue;"></i>' +
-                    '</div>' +
-                '</div>' +
-            '</div>'
+        templateUrl: '/views/partials/loading-overlay.html'
     };
 });
