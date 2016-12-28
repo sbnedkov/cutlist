@@ -2,7 +2,7 @@ var app = angular.module('cutlist', ['picardy.fontawesome', 'ui.bootstrap']);
 
 app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$sce', ($scope, $http, $timeout, $interpolate, $sce) => {
     // For new design, more work on that needed
-    const VISUALIZATION_DIMENTION_FACTOR = 4;
+    const VISUALIZATION_DIMENTION_FACTOR = 10;
     $scope.detailsOptions = [
         'Врата',
         'Страница',
@@ -145,8 +145,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     };
 
     $scope.subtractStock = function (index) {
-        if (!--$scope.testStocks[index].number) {
-            $scope.testStocks.splice(index, 1);
+        if (!--$scope.slates[index].number) {
+            $scope.slates.splice(index, 1);
         }
     };
 
@@ -157,17 +157,17 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     $scope.addedStockNumber = 1;
 
     $scope.addSelectedStock = function () {
-        var thisStock = $scope.testStocks.find(stock => {
+        var thisStock = $scope.slates.find(stock => {
             return stock.width === $scope.selectedStock.width && stock.height === $scope.selectedStock.height;
         });
 
         if (thisStock) {
-            thisStock.number++;
+            thisStock.number += $scope.addedStockNumber;
         } else {
-            $scope.testStocks.push({
+            $scope.slates.push({
                 width: $scope.selectedStock.width,
                 height: $scope.selectedStock.height,
-                number: 1
+                number: $scope.addedStockNumber
             });
         }
     };
