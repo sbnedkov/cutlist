@@ -337,7 +337,11 @@ ul.dropdown-menu {
   float: left;
   height: 40px;
   text-align: center;
+  text-decoration: inherit;
   vertical-align: middle;
+}
+.divTableRow.divTableCellDisabled {
+  text-decoration: line-through;
 }
 .divTableHeading {
 	background-color: #EEE;
@@ -407,7 +411,6 @@ span.rotate-letters .p2 {
 	margin: 3px;
 	background-color: white;
 }
-
 
 span.no-1 {
 	margin-right: 20px;
@@ -671,3 +674,10 @@ span.Check {
   cursor: pointer;
 }
 /* END Directives */
+
+.divTableCell .red-cross {
+  margin: 0;
+  padding: 0;
+  color: firebrick;
+  vertical-align: middle;
+}

@@ -90,6 +90,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         $scope.testData.forEach((ign, idx) => idx >= index && $scope.recompileTooltip(idx));
     };
 
+    $scope.deactivateRow = index => {
+        $scope.testData[index].disabled = !$scope.testData[index].disabled;
+    };
+
     $scope.tooltipContents = [];
 
     $scope.recompileTooltip = idx => {

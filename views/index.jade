@@ -145,8 +145,10 @@ html(ng-app="cutlist")
                   .divTableCell.ninth-col &nbsp;
             .table-body(ng-cloak)
               .divTableBody
-                .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="left", ng-repeat="value in testData")
-                  .divTableCell.first-col {{$index + 1}}.
+                .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="left", ng-repeat="value in testData")
+                  .divTableCell.first-col(ng-show="!value.disabled") {{$index + 1}}.
+                  .divTableCell.first-col(ng-show="value.disabled")
+                    i.fa.fa-times.fa-2x.red-cross
                   .divTableCell.second-col
                     rz-editable-select(value="value.name", values="detailsOptions", callback="editableChanged", rowidx="$index")
                   .divTableCell.third-col
@@ -166,8 +168,16 @@ html(ng-app="cutlist")
                         rz-editable-toggle(value="value.edgess", values="toggleValues", callback="editableChanged", rowidx="$index")
                   .divTableCell.center-y-n.eighth-col
                     rz-editable-toggle(value="value.rotate", values="toggleValues2", callback="editableChanged", rowidx="$index")
-                  .divTableCell.ninth-col
-                    button.rz-button-small.fa.fa-2x.fa-trash(ng-click="deleteRow($index)")
+                  .divTableCell.dropdown.ninth-col
+                    button(data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
+                        | опции 
+                        i.fa.fa-angle-down(aria-hidden="true")
+                    ul.dropdown-menu.pull-right(append-to="parent", aria-labelledby="dropdownMenu1")
+                      li
+                        a(ng-show="value.disabled", ng-click="deactivateRow($index)") - активирай
+                        a(ng-show="!value.disabled", ng-click="deactivateRow($index)") - деактивирай
+                      li
+                        a(ng-click="deleteRow($index)") - изтрий
             // Offset Sum
             .Sum-row
               .container
