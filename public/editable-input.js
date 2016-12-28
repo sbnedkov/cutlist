@@ -13,7 +13,7 @@ angular.module('cutlist')
                 $scope.hasFocus = true;
                 $timeout(() => {
                     el.find('input')[0].focus(true);
-                });
+                }, 100);
             };
 
             $scope.blur = () => {
