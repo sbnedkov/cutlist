@@ -238,6 +238,10 @@ ul.dropdown-menu {
   text-align: center;
 }
 
+.second-empty {
+  padding-top: 0;
+}
+
 .special-title {
 /*  padding-bottom: 10px; */
   text-align: center;
@@ -680,4 +684,14 @@ span.Check {
   padding: 0;
   color: firebrick;
   vertical-align: middle;
+}
+
+.result-stock-number {
+  padding: 0 5px;
+  border-right: 1px solid darkgray;
+  border-bottom: 1px solid darkgray;
+  float: left;
+}
+.result-stock-size {
+  margin-top: 10px;
 }

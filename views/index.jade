@@ -43,11 +43,11 @@ html(ng-app="cutlist")
         #exampleInputEmail1.col-md-1.col-sm-1.sub1(type="text", placeholder="въведи размер плоча")
           input.form-control(placeholder="ширина", type="number", ng-model="selectedStock.height")
         .col-md-1.col-sm-1.sub2
-          button(ng-show="selectedStock", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true", ng-init="selectedStock = testStocks[0]")
+          button(ng-show="selectedStock", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true", ng-init="selectedStock = slates[0]")
             | {{selectedStock.width}}x{{selectedStock.height}}
             i.fa.fa-angle-down(ng-show="selectedStock", aria-hidden="true")
           ul.dropdown-menu(aria-labelledby="dropdownMenu1")
-            li(ng-repeat="stock in testStocks")
+            li(ng-repeat="stock in slates")
               a(href, ng-click="changeSelectedStock(stock)") - {{stock.width}}x{{stock.height}}
         #exampleInputEmail1.col-md-1.col-sm-1.sub3(type="text", placeholder="брой")
           input.form-control(placeholder="брой", type="number", ng-model="addedStockNumber")
@@ -77,7 +77,7 @@ html(ng-app="cutlist")
             .first-title
               | наличности
             .left-col-container.result-outlook-container
-              .form-group(ng-repeat="stock in testStocks")
+              .form-group(ng-repeat="stock in slates")
                 .fourth-empty
                   | {{stock.width}}x{{stock.height}}
                 button.fourth-title.rz-button-small(ng-click="subtractStock($index)")
@@ -104,7 +104,7 @@ html(ng-app="cutlist")
                   .divTableCell.ninth-col &nbsp;
             .table-body
               .divTableBody
-                .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="left", ng-repeat="value in testData")
+                .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="left", ng-repeat="value in items")
                   .divTableCell.first-col(ng-show="!value.disabled") {{$index + 1}}.
                   .divTableCell.first-col(ng-show="value.disabled")
                     i.fa.fa-times.fa-2x.red-cross
@@ -149,24 +149,7 @@ html(ng-app="cutlist")
             .first-title
               | разкрой
             .right-col-container.result-outlook-container
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
-              .second-empty &nbsp;
+              rz-result-stocks(cutlist="cutlist")
             button.btn.right-col-title.zoom
               | покажи
             button.btn.right-col-title.print
@@ -175,7 +158,7 @@ html(ng-app="cutlist")
             .row-Check
               .row
                 .col-sm-12.go-button-container
-                  span.Check.btn.btn-small.rz-button-primary създай разкрой
+                  span.Check.btn.btn-small.rz-button-primary(ng-click="submit()") създай разкрой
             // Checkout Orange
           // Right Column
     // Main Body Area

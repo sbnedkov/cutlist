@@ -12,7 +12,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     $scope.toggleValues = [0, 1, 2];
     $scope.toggleValues2 = ['не', 'да'];
 
-    $scope.testData = [{
+    $scope.items = [{
         name: 'Врата',
         number: 2,
         width: 500,
@@ -76,7 +76,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         name: 'Врата'
     }];
 
-    $scope.testStocks = [{
+    $scope.slates = [{
         width: 2800,
         height: 2070,
         number: 3
@@ -87,7 +87,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     }];
 
     $scope.addRow = () => {
-        $scope.testData.push({
+        $scope.items.push({
             name: $scope.detailsOptions[0],
             number: 1,
             width: 0,
@@ -96,18 +96,18 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         });
     };
     $scope.deleteRow = index => {
-        $scope.testData.splice(index, 1);
-        $scope.testData.forEach((ign, idx) => idx >= index && $scope.recompileTooltip(idx));
+        $scope.items.splice(index, 1);
+        $scope.items.forEach((ign, idx) => idx >= index && $scope.recompileTooltip(idx));
     };
 
     $scope.deactivateRow = index => {
-        $scope.testData[index].disabled = !$scope.testData[index].disabled;
+        $scope.items[index].disabled = !$scope.items[index].disabled;
     };
 
     $scope.tooltipContents = [];
 
     $scope.recompileTooltip = idx => {
-        var value = $scope.testData[idx];
+        var value = $scope.items[idx];
 
         var pixelWidth = Math.round(value.width / VISUALIZATION_DIMENTION_FACTOR);
         var pixelHeight = Math.round(value.height / VISUALIZATION_DIMENTION_FACTOR);
@@ -132,7 +132,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     $http.get('/views/partials/visualization-tooltip.html')
         .success(tmpl => {
             $scope.tooltipTemplate = $interpolate(tmpl);
-            $scope.testData.forEach((ign, idx) => $scope.recompileTooltip(idx));
+            $scope.items.forEach((ign, idx) => $scope.recompileTooltip(idx));
         })
         .error(handleError);
 
@@ -196,8 +196,21 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
     $scope.submit = () => {
         $http.post('/cutlist', {
-            slates: $scope.slates,
-            parts: $scope.parts,
+            slates: $scope.slates.map(slate => {
+                return {
+                    w: slate.width,
+                    h: slate.height
+                };
+            }),
+            parts: $scope.items.filter(i => !i.disabled).map(item => {
+                return {
+                    w: item.width,
+                    h: item.height,
+                    q: item.number,
+                    ref: item.name,
+                    canRotate: item.rotate === 'да'
+                };
+            }),
             cutType: $scope.cutType
         }).success(key => {
             $scope.processing = true;
@@ -225,41 +238,73 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         });
     };
 
-    $scope.addPart = () => {
-        $scope.parts.push({});
-    };
-
-    $scope.addSlate = () => {
-        $scope.slates.push({});
-    };
+//    $scope.addPart = () => {
+//        $scope.parts.push({});
+//    };
+//
+//    $scope.addSlate = () => {
+//        $scope.slates.push({});
+//    };
 
     $scope.cutType = 'h';
 
-    $http.get('/data/tests.json')
-        .success(function (tests) {
-            $scope.tests = tests;
-            $scope.testsMap = {};
-            tests.forEach(function (test) {
-                $scope.testsMap[test.name] = test;
-            });
-            $scope.testsIdx = 'Test 1';
-        })
-        .error(function (err) {
-            console.log(err);
-            alert(JSON.stringify(err));
-        });
+//    $http.get('/data/tests.json')
+//        .success(function (tests) {
+//            $scope.tests = tests;
+//            $scope.testsMap = {};
+//            tests.forEach(function (test) {
+//                $scope.testsMap[test.name] = test;
+//            });
+//            $scope.testsIdx = 'Test 1';
+//        })
+//        .error(function (err) {
+//            console.log(err);
+//            alert(JSON.stringify(err));
+//        });
 
-    $scope.$watch('testsIdx', (idx) => {
-        if (idx) {
-            $scope.slates = $scope.testsMap[idx].slates;
-            $scope.parts = $scope.testsMap[idx].parts;
-        }
-    });
+//    $scope.$watch('testsIdx', (idx) => {
+//        if (idx) {
+//            $scope.slates = $scope.testsMap[idx].slates;
+//            $scope.parts = $scope.testsMap[idx].parts;
+//        }
+//    });
 
     function handleError (err) {
         alert(JSON.stringify(err));
         console.log(err);
     }
+}]).directive('rzResultStocks', [function () {
+    const MAX_WIDTH = 120;
+
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            cutlist: '='
+        },
+        link: function ($scope) {
+            $scope.$watch('cutlist', function (cutlist) {
+                if (!cutlist) {
+                    return;
+                }
+
+                var maxWidth = cutlist.arr.reduce((acc, stock) => {
+                    return Math.max(acc, stock.W);
+                }, 0);
+
+                var factor = maxWidth / MAX_WIDTH;
+                $scope.stockSizes = cutlist.arr.map(stock => {
+                    return {
+                        W: stock.W,
+                        L: stock.L,
+                        displayW: Math.floor(stock.W / factor) + 'px',
+                        displayL: Math.floor(stock.L / factor) + 'px'
+                    };
+                });
+            });
+        },
+        templateUrl: '/views/partials/result-stocks.html'
+    };
 }]).directive('cutlistCanvas', function () {
     return {
         restrict: 'E',

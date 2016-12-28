@@ -1,0 +1,6 @@
+<div class="second-empty" ng-repeat="stockSolution in stockSizes" ng-style="{width: stockSolution.displayW, height: stockSolution.displayL}">
+  <span class="result-stock-number">{{$index + 1}}</span>
+  <div class="result-stock-size">
+    {{stockSolution.W}}x{{stockSolution.L}}
+  </div>
+</div>
