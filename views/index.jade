@@ -7,7 +7,7 @@ html(ng-app="cutlist")
     link(rel="stylesheet", href="/node_modules/bootstrap/dist/css/bootstrap.min.css", media="screen")
     link(rel="stylesheet", href="/node_modules/font-awesome/css/font-awesome.min.css")
     link(rel="stylesheet", href="/css/style.css", media="screen")
-  body(ng-controller="CutListCtrl")
+  body(ng-controller="CutListCtrl", ng-cloak)
     // Master Header
     .container.master-row
       .row.master-cont
@@ -39,25 +39,23 @@ html(ng-app="cutlist")
     .container.sub-header-row
       .row.sub-header-cont
         #exampleInputEmail1.col-md-1.col-sm-1.col-md-offset-1.col-sm-offset-1.sub1(type="text", placeholder="въведи размер плоча")
-          input.form-control(placeholder="дължина", type="number")
+          input.form-control(placeholder="дължина", type="number", ng-model="selectedStock.width")
         #exampleInputEmail1.col-md-1.col-sm-1.sub1(type="text", placeholder="въведи размер плоча")
-          input.form-control(placeholder="ширина", type="number")
+          input.form-control(placeholder="ширина", type="number", ng-model="selectedStock.height")
         .col-md-1.col-sm-1.sub2
-          button(data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
-            | размери
-            i.fa.fa-angle-down(aria-hidden="true")
+          button(ng-show="selectedStock", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true", ng-init="selectedStock = testStocks[0]")
+            | {{selectedStock.width}}x{{selectedStock.height}}
+            i.fa.fa-angle-down(ng-show="selectedStock", aria-hidden="true")
           ul.dropdown-menu(aria-labelledby="dropdownMenu1")
-            li
-              a(href="#") - опция 1
-            li
-              a(href="#") - опция 2
+            li(ng-repeat="stock in testStocks")
+              a(href, ng-click="changeSelectedStock(stock)") - {{stock.width}}x{{stock.height}}
         #exampleInputEmail1.col-md-1.col-sm-1.sub3(type="text", placeholder="брой")
-          input.form-control(placeholder="брой", type="number")
+          input.form-control(placeholder="брой", type="number", ng-model="addedStockNumber")
         .col-md-2.col-sm-2.sub4
           span.x-1 1780
           span.x-2 2800
         .col-md-2.col-sm-2.sub5
-          .btn
+          .btn(ng-click="addSelectedStock()")
             p.rz-button-primary
               | добави към наличност плочи
         .col-md-1.col-sm-1.sub6
@@ -79,50 +77,11 @@ html(ng-app="cutlist")
             .first-title
               | наличности
             .left-col-container.result-outlook-container
-              .form-group
-                .second-empty &nbsp;
-                button.second-title.rz-button-small
-                  | 3 бр. намали
-              .form-group
-                .third-empty &nbsp;
-                button.third-title.rz-button-small
-                  | 1 бр. намали
-              .form-group
-                .fourth-empty &nbsp;
-                button.fourth-title.rz-button-small
-                  | 1 бр. намали
-              .form-group
-                .fourth-empty &nbsp;
-                button.fourth-title.rz-button-small
-                  | 1 бр. намали
-              .form-group
-                .fourth-empty &nbsp;
-                button.fourth-title.rz-button-small
-                  | 1 бр. намали
-              .form-group
-                .fourth-empty &nbsp;
-                button.fourth-title.rz-button-small
-                  | 1 бр. намали
-              .form-group
-                .fourth-empty &nbsp;
-                button.fourth-title.rz-button-small
-                  | 1 бр. намали
-              .form-group
-                .fourth-empty &nbsp;
-                button.fourth-title.rz-button-small
-                  | 1 бр. намали
-              .form-group
-                .fourth-empty &nbsp;
-                button.fourth-title.rz-button-small
-                  | 1 бр. намали
-              .form-group
-                .fourth-empty &nbsp;
-                button.fourth-title.rz-button-small
-                  | 1 бр. намали
-              .form-group
-                .fourth-empty &nbsp;
-                button.fourth-title.rz-button-small
-                  | 1 бр. намали
+              .form-group(ng-repeat="stock in testStocks")
+                .fourth-empty
+                  | {{stock.width}}x{{stock.height}}
+                button.fourth-title.rz-button-small(ng-click="subtractStock($index)")
+                  | {{stock.number}} бр. намали
           // /Left Column
           // Middle Column
           .col-sm-8.col-md-8.middle-col
@@ -143,7 +102,7 @@ html(ng-app="cutlist")
                         .divTableCell.special(title="втора къса") IIк
                   .divTableCell.eighth-col върти
                   .divTableCell.ninth-col &nbsp;
-            .table-body(ng-cloak)
+            .table-body
               .divTableBody
                 .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="left", ng-repeat="value in testData")
                   .divTableCell.first-col(ng-show="!value.disabled") {{$index + 1}}.

@@ -228,7 +228,6 @@ ul.dropdown-menu {
 }
 
 .second-empty,
-.third-empty,
 .fourth-empty {
 	background-color: white;
   padding-top: 10px;
@@ -236,6 +235,7 @@ ul.dropdown-menu {
   margin-top: 10px;
   margin-bottom: 10px;
   border: 1px solid;
+  text-align: center;
 }
 
 .special-title {

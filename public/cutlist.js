@@ -76,6 +76,16 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         name: 'Врата'
     }];
 
+    $scope.testStocks = [{
+        width: 2800,
+        height: 2070,
+        number: 3
+    }, {
+        width: 2440,
+        height: 1830,
+        number: 2
+    }];
+
     $scope.addRow = () => {
         $scope.testData.push({
             name: $scope.detailsOptions[0],
@@ -130,6 +140,34 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         if ($scope.tooltipTemplate) {
             $timeout(() => {
                 $scope.recompileTooltip(idx);
+            });
+        }
+    };
+
+    $scope.subtractStock = function (index) {
+        if (!--$scope.testStocks[index].number) {
+            $scope.testStocks.splice(index, 1);
+        }
+    };
+
+    $scope.changeSelectedStock = function (stock) {
+        $scope.selectedStock = stock;
+    };
+
+    $scope.addedStockNumber = 1;
+
+    $scope.addSelectedStock = function () {
+        var thisStock = $scope.testStocks.find(stock => {
+            return stock.width === $scope.selectedStock.width && stock.height === $scope.selectedStock.height;
+        });
+
+        if (thisStock) {
+            thisStock.number++;
+        } else {
+            $scope.testStocks.push({
+                width: $scope.selectedStock.width,
+                height: $scope.selectedStock.height,
+                number: 1
             });
         }
     };
