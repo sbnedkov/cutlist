@@ -396,40 +396,13 @@ span.rotate-letters .p2 {
 }
 
 .outer-custom-div-one {
-	width: 118px;
-  height: 64px;
+	min-width: 30px;
+  min-height: 30px;
   padding-top: 1px;
   margin-bottom: 5px;
 }
 
-.custom-div-border-thick-top {
-  border-top: 3px solid #9d4103;
-}
-.custom-div-border-thick-right {
-  border-right: 3px solid #9d4103;
-}
-.custom-div-border-thick-bottom {
-  border-bottom: 3px solid #9d4103;
-}
-.custom-div-border-thick-left {
-  border-left: 3px solid #9d4103;
-}
-.custom-div-border-thin-top {
-  border-top: 1px solid #ebbe70;
-}
-.custom-div-border-thin-right {
-  border-right: 1px solid #ebbe70;
-}
-.custom-div-border-thin-bottom {
-  border-bottom: 1px solid #ebbe70;
-}
-.custom-div-border-thin-left {
-  border-left: 1px solid #ebbe70;
-}
-
 .custom-div-one {
-	width: 110px;
-	height: 50px;
 	border: 2px solid black;
 	margin: 3px;
 	background-color: white;
@@ -450,7 +423,7 @@ span.no-3 {
   margin-right: 15px;
 }
 
-
+/*
 .custom-div-two {
 	width: 110px;
 	height: 50px;
@@ -469,6 +442,7 @@ span.no-4 {
   margin-right: -80px;
   margin-left: -40px
 }
+*/
 
 
 /* Tables all about in here*/

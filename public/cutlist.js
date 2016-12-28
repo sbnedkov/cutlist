@@ -2,6 +2,7 @@ var app = angular.module('cutlist', ['picardy.fontawesome', 'ui.bootstrap']);
 
 app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$sce', ($scope, $http, $timeout, $interpolate, $sce) => {
     // For new design, more work on that needed
+    const VISUALIZATION_DIMENTION_FACTOR = 4;
     $scope.detailsOptions = [
         'Врата',
         'Страница',
@@ -94,11 +95,17 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     $scope.recompileTooltip = idx => {
         var value = $scope.testData[idx];
 
+        var pixelWidth = Math.round(value.width / VISUALIZATION_DIMENTION_FACTOR);
+        var pixelHeight = Math.round(value.height / VISUALIZATION_DIMENTION_FACTOR);
         var tooltip = {
             tooltip: {
                 width: value.width,
                 height: value.height,
                 label: value.name.toLowerCase().substring(0, 3) + '.',
+                pxWidth: pixelWidth + 'px',
+                pxHeight: pixelHeight + 'px',
+                innerPxWidth: pixelWidth - 9 + 'px',
+                innerPxHeight: pixelHeight - 9 + 'px',
                 borderTop: getBorder(value.edgefl),
                 borderRight: getBorder(value.edgefs),
                 borderBottom: getBorder(value.edgesl),
@@ -132,7 +139,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             case 2:
                 return '3px solid #9d4103';
             default:
-                throw new Error('Unknown border value: ' + val);
+                return 'none';
         }
     }
     // END new design
