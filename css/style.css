@@ -395,18 +395,37 @@ span.rotate-letters .p2 {
 	background-color: #ffffed;
 }
 
-
 .outer-custom-div-one {
 	width: 118px;
   height: 64px;
   padding-top: 1px;
   margin-bottom: 5px;
-  border-top: 3px solid #9d4103;
-  border-bottom: 3px solid #9d4103;
-  border-left: 1px solid #ebbe70;
-  border-right: 1px solid #ebbe70;
 }
 
+.custom-div-border-thick-top {
+  border-top: 3px solid #9d4103;
+}
+.custom-div-border-thick-right {
+  border-right: 3px solid #9d4103;
+}
+.custom-div-border-thick-bottom {
+  border-bottom: 3px solid #9d4103;
+}
+.custom-div-border-thick-left {
+  border-left: 3px solid #9d4103;
+}
+.custom-div-border-thin-top {
+  border-top: 1px solid #ebbe70;
+}
+.custom-div-border-thin-right {
+  border-right: 1px solid #ebbe70;
+}
+.custom-div-border-thin-bottom {
+  border-bottom: 1px solid #ebbe70;
+}
+.custom-div-border-thin-left {
+  border-left: 1px solid #ebbe70;
+}
 
 .custom-div-one {
 	width: 110px;

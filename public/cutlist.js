@@ -1,6 +1,6 @@
-var app = angular.module('cutlist', ['picardy.fontawesome']);
+var app = angular.module('cutlist', ['picardy.fontawesome', 'ui.bootstrap']);
 
-app.controller('CutListCtrl', ['$scope', '$http', '$timeout', ($scope, $http, $timeout) => {
+app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$sce', ($scope, $http, $timeout, $interpolate, $sce) => {
     // For new design, more work on that needed
     $scope.detailsOptions = [
         'Врата',
@@ -12,7 +12,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', ($scope, $http, $t
     $scope.toggleValues2 = ['не', 'да'];
 
     $scope.testData = [{
-        name: 'Bрата',
+        name: 'Врата',
         number: 2,
         width: 500,
         height: 900,
@@ -52,27 +52,27 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', ($scope, $http, $t
         edgess: 2,
         rotate: 'не'
     }, {
-        name: 'Bрата'
+        name: 'Врата'
     }, {
-        name: 'Bрата'
+        name: 'Врата'
     }, {
-        name: 'Bрата'
+        name: 'Врата'
     }, {
-        name: 'Bрата'
+        name: 'Врата'
     }, {
-        name: 'Bрата'
+        name: 'Врата'
     }, {
-        name: 'Bрата'
+        name: 'Врата'
     }, {
-        name: 'Bрата'
+        name: 'Врата'
     }, {
-        name: 'Bрата'
+        name: 'Врата'
     }, {
-        name: 'Bрата'
+        name: 'Врата'
     }, {
-        name: 'Bрата'
+        name: 'Врата'
     }, {
-        name: 'Bрата'
+        name: 'Врата'
     }];
 
     $scope.addRow = () => {
@@ -86,8 +86,56 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', ($scope, $http, $t
     };
     $scope.deleteRow = index => {
         $scope.testData.splice(index, 1);
+        $scope.testData.forEach((ign, idx) => idx >= index && $scope.recompileTooltip(idx));
     };
-    // End for new design
+
+    $scope.tooltipContents = [];
+
+    $scope.recompileTooltip = idx => {
+        var value = $scope.testData[idx];
+
+        var tooltip = {
+            tooltip: {
+                width: value.width,
+                height: value.height,
+                label: value.name.toLowerCase().substring(0, 3) + '.',
+                borderTop: getBorder(value.edgefl),
+                borderRight: getBorder(value.edgefs),
+                borderBottom: getBorder(value.edgesl),
+                borderLeft: getBorder(value.edgess)
+            }
+        };
+        $scope.tooltipContents[idx] = $sce.trustAsHtml($scope.tooltipTemplate(tooltip));
+    };
+
+    $http.get('/views/partials/visualization-tooltip.html')
+        .success(tmpl => {
+            $scope.tooltipTemplate = $interpolate(tmpl);
+            $scope.testData.forEach((ign, idx) => $scope.recompileTooltip(idx));
+        })
+        .error(handleError);
+
+    $scope.editableChanged = (idx) => {
+        if ($scope.tooltipTemplate) {
+            $timeout(() => {
+                $scope.recompileTooltip(idx);
+            });
+        }
+    };
+
+    function getBorder (val) {
+        switch (val) {
+            case 0:
+                return 'none';
+            case 1:
+                return '1px solid #ebbe70';
+            case 2:
+                return '3px solid #9d4103';
+            default:
+                throw new Error('Unknown border value: ' + val);
+        }
+    }
+    // END new design
 
     $scope.changeLang = (lang) => {
         $http.post('/lang', {lang: lang}).success(() => {
@@ -158,6 +206,11 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', ($scope, $http, $t
             $scope.parts = $scope.testsMap[idx].parts;
         }
     });
+
+    function handleError (err) {
+        alert(JSON.stringify(err));
+        console.log(err);
+    }
 }]).directive('cutlistCanvas', function () {
     return {
         restrict: 'E',
@@ -217,9 +270,9 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', ($scope, $http, $t
         },
         template:
             '<div style="visibility: hidden;">' +
-                '<div style="position: fixed; top: 0; bottom: 0; opacity: 0.25; background: black; width: 100%; z-index=100;">' +
+                '<div style="position: fixed; top: 0; bottom: 0; opacity: 0.25; background: black; width: 100%; z-index: 100;">' +
                 '</div>' +
-                '<div style="position: fixed; top: 0; width: 100%; height: 100%; z-index=100;">' +
+                '<div style="position: fixed; top: 0; width: 100%; height: 100%; z-index: 100;">' +
                     '<div style="top: 50%; height: 100%; width: 100%; text-align: center; position: absolute;">' +
                         '<i style="opacity: 1;" class="fa fa-cog fa-spin fa-3x" style="color: blue;"></i>' +
                     '</div>' +

@@ -4,7 +4,9 @@ angular.module('cutlist')
         restrict: 'E',
         replace: true,
         scope: {
-            value: '='
+            value: '=',
+            callback: '=',
+            rowidx: '='
         },
         link: ($scope, el) => {
             $scope.click = () => {
@@ -25,6 +27,10 @@ angular.module('cutlist')
                     });
                 }
             });
+
+            $scope.change = () => {
+                $scope.callback($scope.rowidx);
+            };
         },
         templateUrl: '/views/partials/editable-input.html'
     };

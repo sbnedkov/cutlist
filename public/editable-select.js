@@ -5,7 +5,9 @@ angular.module('cutlist')
         replace: true,
         scope: {
             value: '=',
-            values: '='
+            values: '=',
+            callback: '=',
+            rowidx: '='
         },
         link: ($scope, el) => {
             $scope.click = () => {
@@ -21,6 +23,7 @@ angular.module('cutlist')
 
             $scope.change = () => {
                 $scope.hasFocus = false;
+                $scope.callback($scope.rowidx);
             };
         },
         templateUrl: '/views/partials/editable-select.html'

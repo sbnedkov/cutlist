@@ -2,20 +2,18 @@ doctype html
 html(ng-app="cutlist")
   head
     title Razkroi.com
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(charset='UTF-8')
-    link(href='css/bootstrap.min.css', rel='stylesheet', media='screen')
-    link(href='css/style.css', rel='stylesheet', media='screen')
-    link(rel='stylesheet', href='css/font-awesome.min.css')
-    link(rel='stylesheet', type='text/css', href='/node_modules/tooltipster/dist/css/tooltipster.bundle.min.css')
-    link(rel='stylesheet', type='text/css', href='/node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css')
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="/node_modules/bootstrap/dist/css/bootstrap.min.css", media="screen")
+    link(rel="stylesheet", href="/node_modules/font-awesome/css/font-awesome.min.css")
+    link(rel="stylesheet", href="/css/style.css", media="screen")
   body(ng-controller="CutListCtrl")
     // Master Header
     .container.master-row
       .row.master-cont
         .col-sm-5.col-md-5.col-sm-offset-1.col-md-offset-1.logo-area
           p
-            img(src='img/main-logo.png')
+            img(src="img/main-logo.png")
           h2 office@razkroi.com
         .col-sm-4.col-md-4.col-sm-offset-1.col-md-offset-1.header-right-info
           .col-sm-12.col-md-12
@@ -23,38 +21,38 @@ html(ng-app="cutlist")
               label.inside-info
                 p.xtitle вход за регистрирани
             .col-sm-6.col-md-6.username-input
-              input#exampleInputEmail1.form-control(type='text', placeholder='потребител')
+              input#exampleInputEmail1.form-control(type="text", placeholder="потребител")
           .col-sm-12.col-md-12
             .col-sm-6.col-md-6
               label.inside-info
                 button.xletters.rz-button-small забравена парола
             .col-sm-6.col-md-6
-              input#exampleInputEmail1.form-control(type='text', placeholder='парола')
+              input#exampleInputEmail1.form-control(type="text", placeholder="парола")
           .col-sm-12.col-md-12
             .col-sm-6.col-md-6
               label.inside-info
                 button.xletters.rz-button-small нова регистрация
             .col-sm-6.col-md-6
-              button.btn2.rz-button-small(type='button') вход
+              button.btn2.rz-button-small(type="button") вход
     // /Master Header
     // Sub Header
     .container.sub-header-row
       .row.sub-header-cont
-        #exampleInputEmail1.col-md-1.col-sm-1.col-md-offset-1.col-sm-offset-1.sub1(type='text', placeholder='въведи размер плоча')
-          input.form-control(placeholder='дължина', type='number')
-        #exampleInputEmail1.col-md-1.col-sm-1.sub1(type='text', placeholder='въведи размер плоча')
-          input.form-control(placeholder='ширина', type='number')
+        #exampleInputEmail1.col-md-1.col-sm-1.col-md-offset-1.col-sm-offset-1.sub1(type="text", placeholder="въведи размер плоча")
+          input.form-control(placeholder="дължина", type="number")
+        #exampleInputEmail1.col-md-1.col-sm-1.sub1(type="text", placeholder="въведи размер плоча")
+          input.form-control(placeholder="ширина", type="number")
         .col-md-1.col-sm-1.sub2
-          button(data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+          button(data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
             | размери
-            i.fa.fa-angle-down(aria-hidden='true')
-          ul.dropdown-menu(aria-labelledby='dropdownMenu1')
+            i.fa.fa-angle-down(aria-hidden="true")
+          ul.dropdown-menu(aria-labelledby="dropdownMenu1")
             li
-              a(href='#') - опция 1
+              a(href="#") - опция 1
             li
-              a(href='#') - опция 2
-        #exampleInputEmail1.col-md-1.col-sm-1.sub3(type='text', placeholder='брой')
-          input.form-control(placeholder='брой', type='number')
+              a(href="#") - опция 2
+        #exampleInputEmail1.col-md-1.col-sm-1.sub3(type="text", placeholder="брой")
+          input.form-control(placeholder="брой", type="number")
         .col-md-2.col-sm-2.sub4
           span.x-1 1780
           span.x-2 2800
@@ -63,14 +61,14 @@ html(ng-app="cutlist")
             p.rz-button-primary
               | добави към наличност плочи
         .col-md-1.col-sm-1.sub6
-          button(data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+          button(data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
             | настройки
-            i.fa.fa-angle-down(aria-hidden='true')
-          ul.dropdown-menu(aria-labelledby='dropdownMenu1')
+            i.fa.fa-angle-down(aria-hidden="true")
+          ul.dropdown-menu(aria-labelledby="dropdownMenu1")
             li
-              a(href='#') - дебелина на ножа
+              a(href="#") - дебелина на ножа
             li
-              a(href='#') - обрезки
+              a(href="#") - обрезки
     // /Sub Header
     // Main Body Area
     .master-body-row
@@ -79,7 +77,7 @@ html(ng-app="cutlist")
           // Left Column
           .col-sm-2.col-md-2.left-col
             .first-title
-              | &ncy;&acy;&lcy;&icy;&chcy;&ncy;&ocy;&scy;&tcy;&icy;
+              | наличности
             .left-col-container.result-outlook-container
               .form-group
                 .second-empty &nbsp;
@@ -134,9 +132,9 @@ html(ng-app="cutlist")
                   .divTableCell.first-col №
                   .divTableCell.second-col име на детайл
                   .divTableCell.third-col бр.
-                  .divTableCell.fourth-col(title='Размер по фладера') &par;
-                  .divTableCell.fifth-col(title='Размер перпендикулярно на фладера') &bot;
-                  .divTableCell.special-title.sixth-col(title='0-без кант 1-тънък кант 2-дебел кант')
+                  .divTableCell.fourth-col(title="Размер по фладера") &par;
+                  .divTableCell.fifth-col(title="Размер перпендикулярно на фладера") &bot;
+                  .divTableCell.special-title.sixth-col(title="0-без кант 1-тънък кант 2-дебел кант")
                     .row кантиране
                     .row
                         .divTableCell.special(title="първа дълга") Iд
@@ -147,27 +145,27 @@ html(ng-app="cutlist")
                   .divTableCell.ninth-col &nbsp;
             .table-body(ng-cloak)
               .divTableBody
-                .divTableRow.tooltipster(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2}" data-tooltip-content='#visualization-tooltip-content{{$index}}', ng-repeat="value in testData")
+                .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="left", ng-repeat="value in testData")
                   .divTableCell.first-col {{$index + 1}}.
                   .divTableCell.second-col
-                    rz-editable-select(value="value.name", values="detailsOptions")
+                    rz-editable-select(value="value.name", values="detailsOptions", callback="editableChanged", rowidx="$index")
                   .divTableCell.third-col
-                    rz-editable-input(value="value.number")
+                    rz-editable-input(value="value.number", callback="editableChanged", rowidx="$index")
                   .divTableCell.fourth-col
-                    rz-editable-input(value="value.width")
+                    rz-editable-input(value="value.width", callback="editableChanged", rowidx="$index")
                   .divTableCell.fifth-col
-                    rz-editable-input(value="value.height")
+                    rz-editable-input(value="value.height", callback="editableChanged", rowidx="$index")
                   .divTableCell.sixth-col
                     .divTableCell.special
-                        rz-editable-toggle(value="value.edgefl", values="toggleValues")
+                        rz-editable-toggle(value="value.edgefl", values="toggleValues", callback="editableChanged", rowidx="$index")
                     .divTableCell.special
-                        rz-editable-toggle(value="value.edgefs", values="toggleValues")
+                        rz-editable-toggle(value="value.edgefs", values="toggleValues", callback="editableChanged", rowidx="$index")
                     .divTableCell.special
-                        rz-editable-toggle(value="value.edgesl", values="toggleValues")
+                        rz-editable-toggle(value="value.edgesl", values="toggleValues", callback="editableChanged", rowidx="$index")
                     .divTableCell.special
-                        rz-editable-toggle(value="value.edgess", values="toggleValues")
+                        rz-editable-toggle(value="value.edgess", values="toggleValues", callback="editableChanged", rowidx="$index")
                   .divTableCell.center-y-n.eighth-col
-                    rz-editable-toggle(value="value.rotate", values="toggleValues2")
+                    rz-editable-toggle(value="value.rotate", values="toggleValues2", callback="editableChanged", rowidx="$index")
                   .divTableCell.ninth-col
                     button.rz-button-small.fa.fa-2x.fa-trash(ng-click="deleteRow($index)")
             // Offset Sum
@@ -216,37 +214,13 @@ html(ng-app="cutlist")
     .container.footer-row
       .row.footer-cont
         .col-sm-3.col-md-3.col-sm-offset-1.col-md-offset-1.foot-col
-          | добави редове...
+          | начало / за нас / контакти
           span razkroi.com
     // /Footer area
-    .tooltip-templates
-      #visualization-tooltip-content0
-        .outer-custom-div-one
-          .custom-div-one
-            span.no-1 900
-            span.no-2
-              p 580
-            span.no-3 стр.
-      #visualization-tooltip-content1
-        .custom-div-two
-          span.no-3
-            p 30
-          span.no-4 880
-      #visualization-tooltip-content2
-        .outer-custom-div-one
-          .custom-div-one
-            span.no-1 900
-            span.no-2
-              p 580
-    script(type='application/javascript', src='https://code.jquery.com/jquery.js')
-    script(type='application/javascript', src='/js/bootstrap.min.js')
+
+    script(type="application/javascript", src="/node_modules/jquery/dist/jquery.min.js")
     script(type="application/javascript", src="/node_modules/angular/angular.js")
+    script(type="application/javascript", src="/node_modules/bootstrap/dist/js/bootstrap.min.js")
+    script(type="application/javascript", src="/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js")
     script(type="application/javascript", src="/node_modules/angular-fontawesome/dist/angular-fontawesome.min.js")
-    script(type='application/javascript', src='/node_modules/tooltipster/dist/js/tooltipster.bundle.min.js')
     script(type="application/javascript", src="/dist/public/cutlist.js")
-    script.
-      $(document).ready(function() {
-          $('.tooltipster').tooltipster({
-              theme: 'tooltipster-noir'
-          });
-      });
