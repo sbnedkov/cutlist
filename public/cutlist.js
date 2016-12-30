@@ -305,21 +305,32 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         },
         templateUrl: '/views/partials/result-stocks.html'
     };
-}]).directive('rzResult', function () {
+}]).directive('rzResult', [function () {
     return {
         restrict: 'E',
         replace: true,
         link: function ($scope, element, attributes) {
+//            const DEFAULT_CANVAS_WIDTH = 300;
+//            const DEFAULT_CANVAS_HEIGHT = 150;
+
             $scope.idx = parseInt(attributes.idx);
             var canvas = element.find('canvas')[0];
             $scope.$watch('cutlist', function (cutlist) {
                 var ctx = canvas.getContext('2d');
 
+                var slateW = $scope.slateSolution.W;
+                var slateL =  $scope.slateSolution.L;
+
+                canvas.width = window.innerWidth * 0.66666667;
+                canvas.height = (canvas.width / slateW) * slateL + 10;
+
+//                ctx.setTransform(DEFAULT_CANVAS_WIDTH / canvas.width, 0, 0, DEFAULT_CANVAS_HEIGHT / canvas.height, 0, 0);
+//                ctx.setTransform(canvas.width / DEFAULT_CANVAS_WIDTH, 0, 0, canvas.height / DEFAULT_CANVAS_HEIGHT, 0, 0);
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.textAlign = 'center';
                 ctx.font = '45px Verdana';
-                ctx.canvas.width = canvas.width;
-                ctx.canvas.height = canvas.height;
+//                ctx.canvas.width = canvas.width;
+//                ctx.canvas.height = canvas.height;
 
                 if (!cutlist) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -346,7 +357,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         },
         templateUrl: '/views/partials/cutlist-canvas.html'
     };
-}).directive('loadingOverlay', function () {
+}]).directive('loadingOverlay', function () {
     return {
         restrict: 'E',
         replace: true,
