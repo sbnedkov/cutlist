@@ -303,7 +303,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         },
         templateUrl: '/views/partials/result-stocks.html'
     };
-}]).directive('cutlistCanvas', function () {
+}]).directive('rzResult', function () {
     return {
         restrict: 'E',
         replace: true,
@@ -316,6 +316,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.textAlign = 'center';
                 ctx.font = '45px Verdana';
+                ctx.canvas.width = canvas.width;
+                ctx.canvas.height = canvas.height;
 
                 if (!cutlist) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);

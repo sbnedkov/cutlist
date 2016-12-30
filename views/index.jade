@@ -69,7 +69,7 @@ html(ng-app="cutlist")
               a(href="#") - обрезки
     // /Sub Header
     // Main Body Area
-    .master-body-row
+    .master-body-row(ng-hide="showResult")
       .container.master-body-cont
         .row
           // Left Column
@@ -150,7 +150,7 @@ html(ng-app="cutlist")
               | разкрой
             .right-col-container.result-outlook-container
               rz-result-stocks(cutlist="cutlist")
-            button.btn.right-col-title.zoom
+            button.btn.right-col-title.zoom(ng-click="showResult = true")
               | покажи
             button.btn.right-col-title.print
               | печат
@@ -170,6 +170,12 @@ html(ng-app="cutlist")
           span razkroi.com
     // /Footer area
 
+    .master-body-row(ng-show="showResult")
+      .container.master-body-cont
+        .row
+          button.btn.right-col-title.backbtn.col-sm-offset-2.col-sm-2(ng-click="showResult = false")
+            | назад
+          rz-result(ng-repeat="slateSolution in cutlist.arr", idx="{{$index}}")
     x-loading-overlay(processing="processing")
 
     script(type="application/javascript", src="/node_modules/jquery/dist/jquery.min.js")

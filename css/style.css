@@ -695,3 +695,8 @@ span.Check {
 .result-stock-size {
   margin-top: 10px;
 }
+
+.backbtn {
+  width: inherit;
+  padding-bottom: inherit;
+}
