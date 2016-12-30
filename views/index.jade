@@ -152,7 +152,7 @@ html(ng-app="cutlist")
               rz-result-stocks(cutlist="cutlist")
             button.btn.right-col-title.zoom(ng-click="showResult = true")
               | покажи
-            button.btn.right-col-title.print
+            button.btn.right-col-title.print(ng-click="createPdf()")
               | печат
             // Checkout Orange
             .row-Check
@@ -175,7 +175,7 @@ html(ng-app="cutlist")
         .row
           button.btn.right-col-title.backbtn.col-sm-offset-2.col-sm-2(ng-click="showResult = false")
             | назад
-          rz-result(ng-repeat="slateSolution in cutlist.arr", idx="{{$index}}")
+          rz-result-container(register-pdf-listener="registerPdfListener")
     x-loading-overlay(processing="processing")
 
     script(type="application/javascript", src="/node_modules/jquery/dist/jquery.min.js")
@@ -183,4 +183,5 @@ html(ng-app="cutlist")
     script(type="application/javascript", src="/node_modules/bootstrap/dist/js/bootstrap.min.js")
     script(type="application/javascript", src="/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js")
     script(type="application/javascript", src="/node_modules/angular-fontawesome/dist/angular-fontawesome.min.js")
+    script(type="application/javascript", src="/node_modules/jspdf/dist/jspdf.min.js")
     script(type="application/javascript", src="/dist/public/cutlist.js")

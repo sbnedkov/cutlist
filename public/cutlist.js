@@ -233,6 +233,15 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         });
     };
 
+    var pdfListener;
+    $scope.registerPdfListener = function (listener) {
+        pdfListener = listener;
+    };
+
+    $scope.createPdf = function () {
+        pdfListener();
+    };
+
     function handleError (err) {
         alert(JSON.stringify(err));
         console.log(err);
@@ -273,6 +282,31 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 //            alert(JSON.stringify(err));
 //        });
 //    };
+}]).directive('rzResultContainer', [function () {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: true,
+        link: function ($scope) {
+            var canvasListeners = [];
+            $scope.registerPdfListener(() => {
+                var doc = new window.jsPDF();
+//                doc.fromHTML(el.html());
+                canvasListeners.forEach((listener, idx) => {
+                    doc.addImage(listener(), 'png', 0, 20);
+                    if (idx < canvasListeners.length - 1) {
+                        doc.addPage();
+                    }
+                });
+                doc.save('razkroi-' + new Date().toDateString() + '.pdf');
+            });
+
+            $scope.registerCanvasListener = (listener) => {
+                canvasListeners.push(listener);
+            };
+        },
+        templateUrl: '/views/partials/result-container.html'
+    };
 }]).directive('rzResultStocks', [function () {
     const MAX_WIDTH = 120;
 
@@ -301,6 +335,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                         displayL: Math.floor(stock.L / factor) + 'px'
                     };
                 });
+
             });
         },
         templateUrl: '/views/partials/result-stocks.html'
@@ -309,10 +344,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     return {
         restrict: 'E',
         replace: true,
+        scope: true,
         link: function ($scope, element, attributes) {
-//            const DEFAULT_CANVAS_WIDTH = 300;
-//            const DEFAULT_CANVAS_HEIGHT = 150;
-
             $scope.idx = parseInt(attributes.idx);
             var canvas = element.find('canvas')[0];
             $scope.$watch('cutlist', function (cutlist) {
@@ -324,13 +357,9 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 canvas.width = window.innerWidth * 0.66666667;
                 canvas.height = (canvas.width / slateW) * slateL + 10;
 
-//                ctx.setTransform(DEFAULT_CANVAS_WIDTH / canvas.width, 0, 0, DEFAULT_CANVAS_HEIGHT / canvas.height, 0, 0);
-//                ctx.setTransform(canvas.width / DEFAULT_CANVAS_WIDTH, 0, 0, canvas.height / DEFAULT_CANVAS_HEIGHT, 0, 0);
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.textAlign = 'center';
                 ctx.font = '45px Verdana';
-//                ctx.canvas.width = canvas.width;
-//                ctx.canvas.height = canvas.height;
 
                 if (!cutlist) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -352,6 +381,12 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
                     ctx.strokeRect(x, y, w, h);
                     ctx.fillText(part.ref, x + w / 2, y + h / 2);
+                });
+
+                $scope.registerCanvasListener(() => {
+                    var image = new Image();
+                    image.src = canvas.toDataURL('image/png');
+                    return image;
                 });
             });
         },
