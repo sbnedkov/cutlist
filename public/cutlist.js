@@ -142,6 +142,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 $scope.recompileTooltip(idx);
             });
         }
+
+        $scope.cutlist = null;
     };
 
     $scope.subtractStock = function (index) {
