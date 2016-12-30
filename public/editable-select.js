@@ -25,6 +25,14 @@ angular.module('cutlist')
                 $scope.hasFocus = false;
                 $scope.callback($scope.rowidx);
             };
+
+            el.on('keypress', function (ev) {
+                if (ev.keyCode === 13) {
+                    $scope.$apply(function () {
+                        $scope.click();
+                    });
+                }
+            });
         },
         templateUrl: '/views/partials/editable-select.html'
     };

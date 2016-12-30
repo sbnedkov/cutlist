@@ -16,20 +16,24 @@ angular.module('cutlist')
                 }, 100);
             };
 
-            $scope.blur = () => {
+            el.find('input').on('blur', () => {
                 $scope.hasFocus = false;
-            };
+            });
 
             el.on('keypress', function (ev) {
                 if (ev.keyCode === 13) {
                     $scope.$apply(function () {
-                        $scope.hasFocus = false;
+                        $scope.hasFocus = !$scope.hasFocus;
                     });
                 }
             });
 
             $scope.change = () => {
                 $scope.callback($scope.rowidx);
+            };
+
+            $scope.setFocus = () => {
+//                $scope.click();
             };
         },
         templateUrl: '/views/partials/editable-input.html'
