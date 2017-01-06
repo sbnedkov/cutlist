@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -77,6 +79,12 @@ app.post('/check-finished/:key', (req, res) => {
     }
 
     res.json(false);
+});
+
+var robotsTxt = fs.readFileSync('./robots.txt');
+app.get('/robots.txt', (req, res) => {
+    res.write(robotsTxt);
+    res.end();
 });
 
 var port = process.env.PORT || 31314;
