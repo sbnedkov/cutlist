@@ -253,39 +253,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
     $scope.cutType = 'h';
 
-//    $scope.addPart = () => {
-//        $scope.parts.push({});
-//    };
-//
-//    $scope.addSlate = () => {
-//        $scope.slates.push({});
-//    };
-//    $http.get('/data/tests.json')
-//        .success(function (tests) {
-//            $scope.tests = tests;
-//            $scope.testsMap = {};
-//            tests.forEach(function (test) {
-//                $scope.testsMap[test.name] = test;
-//            });
-//            $scope.testsIdx = 'Test 1';
-//        })
-//        .error(function (err) {
-//            console.log(err);
-//            alert(JSON.stringify(err));
-//        });
-//    $scope.$watch('testsIdx', (idx) => {
-//        if (idx) {
-//            $scope.slates = $scope.testsMap[idx].slates;
-//            $scope.parts = $scope.testsMap[idx].parts;
-//        }
-//    });
-//    $scope.changeLang = (lang) => {
-//        $http.post('/lang', {lang: lang}).success(() => {
-//            window.location.reload();
-//        }).error((err) => {
-//            alert(JSON.stringify(err));
-//        });
-//    };
+    window.document.body.style.visibility = 'visible';
 }]).directive('rzResultContainer', [function () {
     return {
         restrict: 'E',
