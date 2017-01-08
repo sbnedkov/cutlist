@@ -154,21 +154,25 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
     $scope.changeSelectedStock = function (stock) {
         $scope.selectedStock = stock;
+        $scope.selectedStockToAdd = {
+            width: stock.width,
+            height: stock.height
+        };
     };
 
     $scope.addedStockNumber = 1;
 
     $scope.addSelectedStock = function () {
         var thisStock = $scope.slates.find(stock => {
-            return stock.width === $scope.selectedStock.width && stock.height === $scope.selectedStock.height;
+            return stock.width === $scope.selectedStockToAdd.width && stock.height === $scope.selectedStockToAdd.height;
         });
 
         if (thisStock) {
             thisStock.number += $scope.addedStockNumber;
         } else {
             $scope.slates.push({
-                width: $scope.selectedStock.width,
-                height: $scope.selectedStock.height,
+                width: $scope.selectedStockToAdd.width,
+                height: $scope.selectedStockToAdd.height,
                 number: $scope.addedStockNumber
             });
         }

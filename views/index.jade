@@ -39,9 +39,9 @@ html(ng-app="cutlist")
     .container.sub-header-row
       .row.sub-header-cont
         #exampleInputEmail1.col-md-1.col-sm-1.col-md-offset-1.col-sm-offset-1.sub1(type="text", placeholder="въведи размер плоча")
-          input.form-control(placeholder="дължина", type="number", ng-model="selectedStock.width")
+          input.form-control(placeholder="дължина", type="number", ng-model="selectedStockToAdd.width")
         #exampleInputEmail1.col-md-1.col-sm-1.sub1(type="text", placeholder="въведи размер плоча")
-          input.form-control(placeholder="ширина", type="number", ng-model="selectedStock.height")
+          input.form-control(placeholder="ширина", type="number", ng-model="selectedStockToAdd.height")
         .col-md-1.col-sm-1.sub2
           button(ng-show="selectedStock", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true", ng-init="selectedStock = slates[0]")
             | {{selectedStock.width}}x{{selectedStock.height}}
