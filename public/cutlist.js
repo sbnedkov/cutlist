@@ -295,7 +295,6 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             var canvasListeners = [];
             $scope.registerPdfListener(() => {
                 var doc = new window.jsPDF();
-//                doc.fromHTML(el.html());
                 canvasListeners.forEach((listener, idx) => {
                     doc.addImage(listener(), 'png', 0, 20);
                     if (idx < canvasListeners.length - 1) {
@@ -351,6 +350,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         scope: true,
         link: function ($scope, element, attributes) {
             $scope.idx = parseInt(attributes.idx);
+            $scope.waste = JSON.parse(attributes.waste);
+
             var canvas = element.find('canvas')[0];
             $scope.$watch('cutlist', function (cutlist) {
                 var ctx = canvas.getContext('2d');
@@ -370,18 +371,25 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     return;
                 }
 
+
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.strokeStyle = 'black';
+
 
                 var ratio = canvas.width / Math.max(...$scope.cutlist.arr.map(slate => slate.W));
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-                ctx.strokeRect(0, 0, $scope.slateSolution.W, $scope.slateSolution.L);
+                var textWidth = 500;
+                var textHeight = 50;
+                var textYOffset = textHeight + 20;
+
+                ctx.fillText(`повърхност: ${$scope.waste.area}, употреба: ${$scope.waste.usage}`, textWidth, textHeight);
+                ctx.strokeRect(0, textYOffset, $scope.slateSolution.W, $scope.slateSolution.L);
                 $scope.slateSolution.result.forEach(part => {
                     var w = part.item.w;
                     var h = part.item.h;
                     var x = part.x;
-                    var y = part.y;
+                    var y = part.y + textYOffset;
 
                     ctx.strokeRect(x, y, w, h);
                     ctx.fillText(part.ref, x + w / 2, y + h / 2);

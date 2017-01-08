@@ -1,4 +1,4 @@
 <div>
-  <rz-result ng-repeat="slateSolution in cutlist.arr" idx="{{$index}}" register-canvas-listener="registerCanvasListener">
+  <rz-result ng-repeat="slateSolution in cutlist.arr" waste="{{cutlist.wasteVsUsage[$index]}}" idx="{{$index}}" register-canvas-listener="registerCanvasListener">
   </rz-result>
 </div>
