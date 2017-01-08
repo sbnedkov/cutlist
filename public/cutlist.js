@@ -296,7 +296,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             $scope.registerPdfListener(() => {
                 var doc = new window.jsPDF();
                 canvasListeners.forEach((listener, idx) => {
-                    doc.addImage(listener(), 'png', 0, 20);
+                    var image = listener();
+                    doc.addImage(image, 'png', 0, 20, 192, 0);
                     if (idx < canvasListeners.length - 1) {
                         doc.addPage();
                     }
@@ -381,7 +382,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
                 var textWidth = 500;
                 var textHeight = 50;
-                var textYOffset = textHeight + 20;
+                var textYOffset = textHeight + 30;
 
                 ctx.fillText(`повърхност: ${$scope.waste.area}, употреба: ${$scope.waste.usage}`, textWidth, textHeight);
                 ctx.strokeRect(0, textYOffset, $scope.slateSolution.W, $scope.slateSolution.L);
