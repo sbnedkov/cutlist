@@ -706,3 +706,7 @@ span.Check {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.tab-heading {
+  font-size: 0.7em;
+}

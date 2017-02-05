@@ -74,14 +74,23 @@ html(ng-app="cutlist")
         .row
           // Left Column
           .col-sm-2.col-md-2.left-col
-            .first-title
-              | наличности
-            .left-col-container.result-outlook-container
-              .form-group(ng-repeat="stock in slates")
-                .fourth-empty
-                  | {{stock.width}}x{{stock.height}}
-                button.fourth-title.rz-button-small(ng-click="subtractStock($index)")
-                  | {{stock.number}} бр. намали
+            uib-tabset(active="loggedIn ? 0: 1")
+              uib-tab(ng-show="loggedIn")
+                uib-tab-heading
+                  span.tab-heading проекти
+                .first-title
+                  | проекти
+              uib-tab
+                uib-tab-heading
+                  span.tab-heading наличности
+                .first-title
+                  | наличности
+                .left-col-container.result-outlook-container
+                  .form-group(ng-repeat="stock in slates")
+                    .fourth-empty
+                      | {{stock.width}}x{{stock.height}}
+                    button.fourth-title.rz-button-small(ng-click="subtractStock($index)")
+                      | {{stock.number}} бр. намали
           // /Left Column
           // Middle Column
           .col-sm-8.col-md-8.middle-col
