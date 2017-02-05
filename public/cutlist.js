@@ -246,6 +246,17 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         pdfListener();
     };
 
+    $scope.login = function (username, password) {
+        $http.post('/login', {
+            username,
+            password
+        }).success(function () {
+            window.location.reload();
+        }).error(function (err) {
+            alert(JSON.stringify(err));
+        });
+    };
+
     function handleError (err) {
         alert(JSON.stringify(err));
         console.log(err);

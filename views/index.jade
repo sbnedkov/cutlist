@@ -21,19 +21,19 @@ html(ng-app="cutlist")
               label.inside-info
                 p.xtitle вход за регистрирани
             .col-sm-6.col-md-6.username-input
-              input#exampleInputEmail1.form-control(type="text", placeholder="потребител")
+              input#exampleInputEmail1.form-control(ng-model="username", type="text", placeholder="потребител")
           .col-sm-12.col-md-12
             .col-sm-6.col-md-6
               label.inside-info
                 button.xletters.rz-button-small забравена парола
             .col-sm-6.col-md-6
-              input#exampleInputEmail1.form-control(type="text", placeholder="парола")
+              input#exampleInputEmail1.form-control(ng-model="password", type="password", placeholder="парола")
           .col-sm-12.col-md-12
             .col-sm-6.col-md-6
               label.inside-info
                 button.xletters.rz-button-small нова регистрация
             .col-sm-6.col-md-6
-              button.btn2.rz-button-small(type="button") вход
+              button.btn2.rz-button-small(type="button", ng-click="login(username, password)") вход
     // /Master Header
     // Sub Header
     .container.sub-header-row
@@ -74,8 +74,8 @@ html(ng-app="cutlist")
         .row
           // Left Column
           .col-sm-2.col-md-2.left-col
-            uib-tabset(active="loggedIn ? 0: 1")
-              uib-tab(ng-show="loggedIn")
+            uib-tabset(active="#{loggedIn} ? 0 : 1")
+              uib-tab(ng-show="#{loggedIn}")
                 uib-tab-heading
                   span.tab-heading проекти
                 .first-title

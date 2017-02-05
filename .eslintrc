@@ -14,12 +14,19 @@
         ],
         "no-console": [
             0
+        ],
+        "no-unused-vars": [
+            2,
+            {
+                "args": "after-used", "argsIgnorePattern": "^_"
+            }
         ]
     },
     "env": {
         "es6": true,
         "node": true,
         "browser": true,
+        "phantomjs": true,
         "mocha": true
     },
     "extends": "eslint:recommended",

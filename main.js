@@ -1,18 +1,29 @@
-import fs from 'fs';
-
 import express from 'express';
+import session from 'express-session';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import i18n from 'i18n-2';
-import solve from 'guillotine-solver';
+import mongoose from 'mongoose';
 
 import middleware from './src/middleware';
-import translate from './src/adapter';
+import routes from './src/routes';
+
+const MONGODB_URI = 'mongodb://heroku_5m8jj5r8:9a3nt7d80tkjpvi9do8v9scht7@ds143539.mlab.com:43539/heroku_5m8jj5r8';
+mongoose.connect(MONGODB_URI);
 
 var app = express();
 
 app.use(cookieParser());
 app.use(bodyParser.json());
+
+app.use(session({
+    secret: '35on0y46zgowc',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: null
+    }
+}));
 
 app.use('/dist', express.static(`${__dirname}/dist`));
 app.use('/views/partials', express.static(`${__dirname}/views/partials`));
@@ -31,61 +42,15 @@ i18n.expressBind(app, {
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'jade');
 
-app.get('/', middleware.setLanguage, (req, res) => {
-    res.render('index.jade');
-});
+var wrap = fn => (...args) => fn(...args).catch(args[2]);
 
-app.post('/lang', (req, res) => {
-    res.cookie('cutlistlang', req.body.lang);
-    res.status(200).end();
-});
-
-var cutlists = {};
-
-app.post('/cutlist', (req, res) => {
-    var stocks = req.body.slates;
-    var parts = req.body.parts;
-    var type = req.body.cutType;
-    var itemsw = [];
-    var itemsh = [];
-    var demands = [];
-    var names = [];
-    var canRotate = [];
-
-    parts.forEach(item => {
-        if (item.ref && item.q) {
-            itemsw.push(item.w);
-            itemsh.push(item.h);
-            demands.push(item.q);
-            names.push(item.ref);
-            canRotate.push(item.canRotate);
-        }
-    });
-
-    var key = (Math.random() * 1e18).toString(36);
-
-    res.send(key).end();
-
-    solve(stocks.map(s => s.w), stocks.map(s => s.h), itemsw, itemsh, canRotate, demands, type, (_, result) => {
-        cutlists[key] = translate(result, names, type);
-    });
-});
-
-app.post('/check-finished/:key', (req, res) => {
-    var result = cutlists[req.params.key];
-    if (result) {
-        delete cutlists[req.params.key];
-        return res.json(result);
-    }
-
-    res.json(false);
-});
-
-var robotsTxt = fs.readFileSync('./robots.txt');
-app.get('/robots.txt', (req, res) => {
-    res.write(robotsTxt);
-    res.end();
-});
+app.get('/', middleware.setLanguage, wrap(routes.root));
+app.post('/lang', wrap(routes.lang));
+app.post('/cutlist', wrap(routes.cutlist));
+app.post('/check-finished/:key', wrap(routes.checkFinished));
+app.post('/login', wrap(routes.login));
+app.get('/robots.txt', wrap(routes.robots));
+app.use(routes.error);
 
 var port = process.env.PORT || 31314;
 
