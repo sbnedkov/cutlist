@@ -130,11 +130,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     };
 
     $http.get('/views/partials/visualization-tooltip.html')
-        .success(tmpl => {
+        .then(tmpl => {
             $scope.tooltipTemplate = $interpolate(tmpl);
             $scope.items.forEach((ign, idx) => $scope.recompileTooltip(idx));
-        })
-        .error(handleError);
+        }, handleError);
 
     $scope.editableChanged = (idx) => {
         if ($scope.tooltipTemplate) {
@@ -210,7 +209,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 };
             }),
             cutType: $scope.cutType
-        }).success(key => {
+        }).then(key => {
             $scope.processing = true;
 
             checkFinished();
@@ -218,23 +217,17 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             function checkFinished () {
                 $timeout(() => {
                     $http.post('/check-finished/' + key)
-                        .success(res => {
+                        .then(res => {
                             if (res) {
                                 $scope.cutlist = res;
                                 $scope.processing = false;
                             } else {
                                 checkFinished();
                             }
-                        })
-                        .error(err => {
-                            $scope.processing = false;
-                            alert(JSON.stringify(err));
-                        });
+                        }, handleError);
                 }, 1000);
             }
-        }).error(err => {
-            alert(JSON.stringify(err));
-        });
+        }, handleError);
     };
 
     var pdfListener;
@@ -250,11 +243,9 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         $http.post('/login', {
             username,
             password
-        }).success(function () {
+        }).then(function () {
             window.location.reload();
-        }).error(function (err) {
-            alert(JSON.stringify(err));
-        });
+        }, handleError);
     };
 
     function handleError (err) {
