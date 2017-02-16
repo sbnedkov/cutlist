@@ -130,8 +130,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     };
 
     $http.get('/views/partials/visualization-tooltip.html')
-        .then(tmpl => {
-            $scope.tooltipTemplate = $interpolate(tmpl);
+        .then(({data}) => {
+            $scope.tooltipTemplate = $interpolate(data);
             $scope.items.forEach((ign, idx) => $scope.recompileTooltip(idx));
         }, handleError);
 
@@ -209,7 +209,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 };
             }),
             cutType: $scope.cutType
-        }).then(key => {
+        }).then(({data: key}) => {
             $scope.processing = true;
 
             checkFinished();
@@ -217,7 +217,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             function checkFinished () {
                 $timeout(() => {
                     $http.post('/check-finished/' + key)
-                        .then(res => {
+                        .then(({data: res}) => {
                             if (res) {
                                 $scope.cutlist = res;
                                 $scope.processing = false;
