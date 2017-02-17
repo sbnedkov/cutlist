@@ -7,7 +7,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         'Врата',
         'Страница',
         'Таван',
-        'Дъно'
+        'Дъно',
+        'Рафт'
     ];
     $scope.toggleValues = [0, 1, 2];
     $scope.toggleValues2 = ['не', 'да'];
