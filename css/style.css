@@ -411,7 +411,7 @@ span.rotate-letters .p2 {
 }
 
 .custom-div-one {
-	border: 2px solid black;
+	border: 1px dotted black;
 	margin: 3px;
 	background-color: white;
 }

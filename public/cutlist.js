@@ -2,7 +2,7 @@ var app = angular.module('cutlist', ['picardy.fontawesome', 'ui.bootstrap']);
 
 app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$sce', ($scope, $http, $timeout, $interpolate, $sce) => {
     // For new design, more work on that needed
-    const VISUALIZATION_DIMENTION_FACTOR = 10;
+    const VISUALIZATION_DIMENTION_FACTOR = 3;
     $scope.detailsOptions = [
         'Врата',
         'Страница',
