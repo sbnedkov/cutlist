@@ -183,9 +183,9 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             case 0:
                 return 'none';
             case 1:
-                return '1px solid #9d4103';
+                return '2px solid #9d4103';
             case 2:
-                return '3px solid #9d4103';
+                return '4px solid #9d4103';
             default:
                 return 'none';
         }
