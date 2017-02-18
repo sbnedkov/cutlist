@@ -710,3 +710,9 @@ span.Check {
 .tab-heading {
   font-size: 0.7em;
 }
+
+.bottom-col-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
