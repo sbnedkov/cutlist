@@ -119,7 +119,7 @@ html(ng-app="cutlist")
                   .divTableCell.ninth-col &nbsp;
             .table-body
               .divTableBody
-                .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="left", ng-repeat="value in items")
+                .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="{{value.width > value.height ? 'bottom': 'left'}}", ng-repeat="value in items")
                   .divTableCell.first-col(tabindex="0", ng-show="!value.disabled") {{$index + 1}}.
                   .divTableCell.first-col(tabindex="0", ng-show="value.disabled")
                     i.fa.fa-times.fa-2x.red-cross
