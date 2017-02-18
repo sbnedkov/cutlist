@@ -408,6 +408,7 @@ span.rotate-letters .p2 {
   min-height: 30px;
   padding-top: 1px;
   margin-bottom: 5px;
+  box-sizing: content-box;
 }
 
 .custom-div-one {
@@ -715,4 +716,9 @@ span.Check {
   position: absolute;
   bottom: 0;
   left: 0;
+}
+
+/* The max width is dependant on the container */
+.popover{
+    max-width: 100%; /* Max Width of the popover (depending on the container!) */
 }
