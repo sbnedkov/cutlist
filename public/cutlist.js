@@ -1,6 +1,6 @@
 var app = angular.module('cutlist', ['picardy.fontawesome', 'ui.bootstrap']);
 
-app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$sce', ($scope, $http, $timeout, $interpolate, $sce) => {
+app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$sce','$uibModal', ($scope, $http, $timeout, $interpolate, $sce, $uibModal) => {
     // For new design, more work on that needed
     const VISUALIZATION_DIMENTION_FACTOR = 3;
     $scope.detailsOptions = [
@@ -249,6 +249,57 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         }, handleError);
     };
 
+    $scope.savePlan = function () {
+    };
+
+    $scope.newPlan = function () {
+        var modalInstance = $uibModal.open({
+            templateUrl: '/views/dialogs/create-project.html',
+            controller: 'CreateProjectCtrl'
+        });
+
+        modalInstance.result.then(function (name) {
+            var planId;
+            window.async.waterfall([
+                (cb) => {
+                    $http.post('/plans', {
+                        stocks: $scope.stocks,
+                        details: $scope.items.map(function (item) {
+                            return Object.assign({}, item, {
+                                rotate: item.rotate === 'да'
+                            });
+                        })
+                    }).then(cb.bind(null, null), cb);
+                },
+                ({data: {_id}}, cb) => {
+                    planId = _id;
+
+                    if ($scope.cutlist) {
+                        $http.post('/results', {
+                            stocks: $scope.stocks,
+                            details: $scope.items
+                        }).then(cb.bind(null, null), cb);
+                    } else {
+                        cb(null, {data: {_id: void 0}});
+                    }
+                },
+                ({data: {_id}}, cb) => {
+                    $http.post('/projects', {
+                        name: name,
+                        planId: planId,
+                        resultId: _id
+                    }).then(cb.bind(null, null), cb);
+                }
+            ], (err) => {
+                if (err) {
+                    return handleError(err);
+                }
+
+                alert('Запазен');
+            });
+        });
+    };
+
     function handleError (err) {
         alert(JSON.stringify(err));
         console.log(err);
@@ -396,4 +447,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         },
         templateUrl: '/views/partials/loading-overlay.html'
     };
-});
+}).controller('CreateProjectCtrl', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+    $scope.submit = function (ev) {
+        ev.preventDefault();
+
+        $uibModalInstance.close($scope.name);
+    };
+}]);

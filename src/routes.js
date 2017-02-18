@@ -7,6 +7,9 @@ import translate from './adapter';
 import utils from './utils';
 
 import User from './db/user';
+import Plan from './db/plan';
+import Result from './db/result';
+import Project from './db/project';
 
 const ROBOTS_TXT = fs.readFileSync(__dirname + '/../robots.txt');
 
@@ -82,6 +85,20 @@ export default {
         req.session.user = user._id;
 
         res.status(200).end();
+    },
+    postPlans: async (req, res) => {
+        var plan = await new Plan(req.body).save();
+        res.json(plan);
+    },
+    postResults: async (req, res) => {
+        var result = await new Result(req.body).save();
+        res.json(result);
+    },
+    postProjects: async (req, res) => {
+        req.body.userId = req.session.user;
+
+        var project = await new Project(req.body).save();
+        res.json(project);
     },
     robots: async (req, res) => {
         res.write(ROBOTS_TXT);

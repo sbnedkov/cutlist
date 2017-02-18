@@ -1,0 +1,21 @@
+<div class="inmodal modal-content animated">
+    <form name="couponForm">
+      <div class="modal-header">
+          <button type="button" class="close" ng-click="$dismiss()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title text-left">Създай нов проект</h4>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-lg-12">
+                  <div>
+                    <div class="form-group">
+                      <label for="project-name">Име</label>
+                      <input id="project-name" class="form-control" ng-model="name">
+                      <input class="form-control btn zoom" type="submit" value="Създай" ng-click="submit($event)">
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </form>
+</div>

@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 import middleware from './src/middleware';
 import routes from './src/routes';
 
-const MONGODB_URI = 'mongodb://heroku_5m8jj5r8:9a3nt7d80tkjpvi9do8v9scht7@ds143539.mlab.com:43539/heroku_5m8jj5r8';
+const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI);
 
 var app = express();
@@ -27,6 +27,7 @@ app.use(session({
 
 app.use('/dist', express.static(`${__dirname}/dist`));
 app.use('/views/partials', express.static(`${__dirname}/views/partials`));
+app.use('/views/dialogs', express.static(`${__dirname}/views/dialogs`));
 app.use('/data', express.static(`${__dirname}/data`));
 app.use('/node_modules', express.static(`${__dirname}/node_modules`));
 app.use('/fonts', express.static(`${__dirname}/fonts`));
@@ -49,6 +50,9 @@ app.post('/lang', wrap(routes.lang));
 app.post('/cutlist', wrap(routes.cutlist));
 app.post('/check-finished/:key', wrap(routes.checkFinished));
 app.post('/login', wrap(routes.login));
+app.post('/plans', wrap(routes.postPlans));
+app.post('/results', wrap(routes.postResults));
+app.post('/projects', wrap(routes.postProjects));
 app.get('/robots.txt', wrap(routes.robots));
 app.use(routes.error);
 
