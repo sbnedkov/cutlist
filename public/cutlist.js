@@ -314,7 +314,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 $http.get('/plans/' + project.planId)
                     .then(({data: plan}) => {
                         $scope.items = plan.details;
-                        $scope.stocks = plan.stocks;
+                        $scope.slates = plan.stocks;
                         cb();
                     }, cb);
             },
