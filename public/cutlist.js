@@ -268,7 +268,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             window.async.waterfall([
                 (cb) => {
                     $http.post('/plans', {
-                        stocks: $scope.stocks,
+                        stocks: $scope.slates,
                         details: $scope.items.map(function (item) {
                             return Object.assign({}, item, {
                                 rotate: item.rotate === 'да'

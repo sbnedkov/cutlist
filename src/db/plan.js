@@ -5,7 +5,7 @@ import creationDate from './creation-date';
 var planSchema = new mongoose.Schema({
     stocks: [{
         number: Number,
-        weight: Number,
+        width: Number,
         height: Number
     }],
     details: [{
