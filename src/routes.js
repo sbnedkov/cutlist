@@ -25,7 +25,7 @@ AccessDeniedError.prototype.constructor = AccessDeniedError;
 export default {
     root: async (req, res) => {
         res.render('index.jade', {
-            loggedIn: !!req.session.user
+            userId: req.session.user
         });
     },
     lang: async (req, res) => {
@@ -86,13 +86,25 @@ export default {
 
         res.status(200).end();
     },
+    getPlan: async (req, res) => {
+        var plan = await Plan.findOne({_id: req.params.id});
+        res.json(plan);
+    },
     postPlans: async (req, res) => {
         var plan = await new Plan(req.body).save();
         res.json(plan);
     },
+    getResult: async (req, res) => {
+        var result = await Result.findOne({_id: req.params.id});
+        res.json(result);
+    },
     postResults: async (req, res) => {
         var result = await new Result(req.body).save();
         res.json(result);
+    },
+    getProjects: async (req, res) => {
+        var projects = await Project.find({userId: req.session.user});
+        res.json(projects);
     },
     postProjects: async (req, res) => {
         req.body.userId = req.session.user;

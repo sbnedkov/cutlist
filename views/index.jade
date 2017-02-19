@@ -74,18 +74,7 @@ html(ng-app="cutlist")
         .row
           // Left Column
           .col-sm-2.col-md-2.left-col
-            uib-tabset(active="#{loggedIn} ? 0 : 1")
-              uib-tab(ng-show="#{loggedIn}")
-                uib-tab-heading
-                  span.tab-heading проекти
-                .first-title
-                  | проекти
-                .bottom-col-buttons
-                  button.btn.right-col-title.zoom(ng-click="newPlan()")
-                    | създай
-                  button.btn.right-col-title.zoom(ng-click="savePlan()")
-                    | запази
-
+            uib-tabset
               uib-tab
                 uib-tab-heading
                   span.tab-heading наличности
@@ -97,6 +86,20 @@ html(ng-app="cutlist")
                       | {{stock.width}}x{{stock.height}}
                     button.fourth-title.rz-button-small(ng-click="subtractStock($index)")
                       | {{stock.number}} бр. намали
+              uib-tab(ng-show="loggedIn")
+                uib-tab-heading
+                  span.tab-heading проекти
+                .first-title
+                  | проекти
+                .left-col-container.result-outlook-container
+                  div(ng-repeat="project in projects track by project.creation_date")
+                      a(href ng-click="loadProject(project)") {{project.name}}
+                .bottom-col-buttons
+                  button.btn.right-col-title.zoom(ng-click="newProject()")
+                    | създай
+                  button.btn.right-col-title.zoom(ng-click="saveProject()")
+                    | запази
+
           // /Left Column
           // Middle Column
           .col-sm-8.col-md-8.middle-col
@@ -209,3 +212,5 @@ html(ng-app="cutlist")
 
       ga('create', 'UA-89958206-1', 'auto');
       ga('send', 'pageview');
+    script.
+      var USER_ID = '#{userId}';

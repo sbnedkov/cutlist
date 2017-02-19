@@ -245,14 +245,19 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             username,
             password
         }).then(function () {
-            window.location.reload();
+            logInAndLoadProjects();
         }, handleError);
     };
 
-    $scope.savePlan = function () {
-    };
+    function logInAndLoadProjects () {
+        $scope.loggedIn = true;
+        $http.get('/projects')
+            .then(function ({data: projects}) {
+                $scope.projects = projects;
+            }, handleError);
+    }
 
-    $scope.newPlan = function () {
+    $scope.newProject = function () {
         var modalInstance = $uibModal.open({
             templateUrl: '/views/dialogs/create-project.html',
             controller: 'CreateProjectCtrl'
@@ -290,14 +295,52 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                         resultId: _id
                     }).then(cb.bind(null, null), cb);
                 }
-            ], (err) => {
+            ], (err, {data: project}) => {
                 if (err) {
                     return handleError(err);
                 }
 
-                alert('Запазен');
+                console.log(project);
+                $scope.projects.push(project);
+
+                alert('Създаден');
             });
         });
+    };
+
+    $scope.loadProject = function (project) {
+        window.async.waterfall([
+            cb => {
+                $http.get('/plans/' + project.planId)
+                    .then(({data: plan}) => {
+                        $scope.items = plan.details;
+                        $scope.stocks = plan.stocks;
+                        cb();
+                    }, cb);
+            },
+            cb => {
+                if (project.resultId) {
+                    $http.get('/results/' + project.resultId)
+                        .then(({data: result}) => {
+                            $scope.cutlist = result;
+                            cb();
+                        }, cb);
+                } else {
+                    cb();
+                }
+            }
+        ], err => {
+            if (err) {
+                return handleError(err);
+            }
+
+            alert('Зареден');
+        });
+    };
+
+    $scope.saveProject = function () {
+        alert('предстои');
+//        alert('Запазен');
     };
 
     function handleError (err) {
@@ -306,6 +349,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     }
 
     $scope.cutType = 'h';
+
+    if (window.USER_ID) {
+        logInAndLoadProjects();
+    }
 
     window.document.body.style.visibility = 'visible';
 }]).directive('rzResultContainer', [function () {
