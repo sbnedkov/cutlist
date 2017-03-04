@@ -408,7 +408,6 @@ span.rotate-letters .p2 {
   min-height: 30px;
   padding-top: 1px;
   margin-bottom: 5px;
-  box-sizing: content-box;
 }
 
 .custom-div-one {
@@ -416,6 +415,7 @@ span.rotate-letters .p2 {
 	margin: 3px;
 	background-color: #DEB887;
   background-image: url('/img/fladder-small.png');
+  box-sizing: content-box;
 }
 
 span.no-1 {
