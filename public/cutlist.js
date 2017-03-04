@@ -124,7 +124,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 borderTop: getBorder(value.edgefl),
                 borderRight: getBorder(value.edgefs),
                 borderBottom: getBorder(value.edgesl),
-                borderLeft: getBorder(value.edgess)
+                borderLeft: getBorder(value.edgess),
+                halfWidth: pixelWidth / 2 - 9 + 'px'
             }
         };
         $scope.tooltipContents[idx] = $sce.trustAsHtml($scope.tooltipTemplate(tooltip));

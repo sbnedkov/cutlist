@@ -418,18 +418,28 @@ span.rotate-letters .p2 {
   box-sizing: content-box;
 }
 
-span.no-1 {
-	margin-right: 20px;
+.no {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
 }
 
-span.no-2 p {
-	float: left;
-  transform: rotate(-90deg);
-  padding-right: 25px;
+span.no-1 {
+  width: 100%;
+}
+
+p.no-2 {
+  transform-origin: 50% 50%;
+  vertical-align: middle;
 }
 
 span.no-3 {
-  margin-right: 15px;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
 }
 
 /*
