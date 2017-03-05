@@ -162,6 +162,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         };
     };
 
+    $scope.changeSelectedStock($scope.stocks[0]);
+
     $scope.addedStockNumber = 1;
 
     $scope.addSelectedStock = function () {
