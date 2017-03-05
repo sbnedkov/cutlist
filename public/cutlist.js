@@ -274,7 +274,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     $http.post('/plans', {
                         stocks: $scope.stocks,
                         details: $scope.details
-                    }).then(plan => {
+                    }).then(({data: plan}) => {
                         $scope.plan = plan;
                         $scope.details = plan.details;
                         $scope.stocks = plan.stocks;
@@ -282,29 +282,29 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                         cb(null, plan);
                     }, cb);
                 },
-                ({data: {_id}}, cb) => {
+                ({_id}, cb) => {
                     planId = _id;
 
                     if ($scope.cutlist) {
                         $http.post('/results', {
                             stocks: $scope.cutlist
-                        }).then(result => {
+                        }).then(({data: result}) => {
                             $scope.result = result;
                             $scope.savedResult = cloneDeep(result);
                             cb(null, result);
                         }, cb);
                     } else {
-                        cb(null, {data: {_id: void 0}});
+                        cb(null, {_id: void 0});
                     }
                 },
-                ({data: {_id}}, cb) => {
+                ({_id}, cb) => {
                     $http.post('/projects', {
                         name: name,
                         planId: planId,
                         resultId: _id
-                    }).then(cb.bind(null, null), cb);
+                    }).then((_, project) => cb(null, project), cb);
                 }
-            ], (err, {data: project}) => {
+            ], (err, project) => {
                 if (err) {
                     return handleError(err);
                 }
