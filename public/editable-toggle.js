@@ -6,6 +6,7 @@ angular.module('cutlist')
         scope: {
             value: '=',
             values: '=',
+            visualValues: '=',
             callback: '=',
             rowidx: '='
         },

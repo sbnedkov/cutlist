@@ -12,6 +12,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     ];
     $scope.toggleValues = [0, 1, 2];
     $scope.toggleValues2 = [false, true];
+    $scope.toggleVisualValues2 = ['не', 'да'];
 
     $scope.details = [{
         name: 'Врата',

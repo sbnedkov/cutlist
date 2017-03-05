@@ -136,15 +136,15 @@ html(ng-app="cutlist")
                     rz-editable-input(tabindex="0", value="value.height", callback="editableChanged", rowidx="$index")
                   .divTableCell.sixth-col
                     .divTableCell.special
-                        rz-editable-toggle(tabindex="0", value="value.edgefl", values="toggleValues", callback="editableChanged", rowidx="$index")
+                        rz-editable-toggle(tabindex="0", value="value.edgefl", values="toggleValues", visual-values="toggleValues", callback="editableChanged", rowidx="$index")
                     .divTableCell.special
-                        rz-editable-toggle(tabindex="0", value="value.edgefs", values="toggleValues", callback="editableChanged", rowidx="$index")
+                        rz-editable-toggle(tabindex="0", value="value.edgefs", values="toggleValues", visual-values="toggleValues", callback="editableChanged", rowidx="$index")
                     .divTableCell.special
-                        rz-editable-toggle(tabindex="0", value="value.edgesl", values="toggleValues", callback="editableChanged", rowidx="$index")
+                        rz-editable-toggle(tabindex="0", value="value.edgesl", values="toggleValues", visual-values="toggleValues", callback="editableChanged", rowidx="$index")
                     .divTableCell.special
-                        rz-editable-toggle(tabindex="0", value="value.edgess", values="toggleValues", callback="editableChanged", rowidx="$index")
+                        rz-editable-toggle(tabindex="0", value="value.edgess", values="toggleValues", visual-values="toggleValues", callback="editableChanged", rowidx="$index")
                   .divTableCell.center-y-n.eighth-col
-                    rz-editable-toggle(tabindex="0", value="value.rotate", values="toggleValues2", callback="editableChanged", rowidx="$index")
+                    rz-editable-toggle(tabindex="0", value="value.rotate", values="toggleValues2", visual-values="toggleVisualValues2", callback="editableChanged", rowidx="$index")
                   .divTableCell.dropdown.ninth-col
                     button(tabindex="0", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
                         | опции 
