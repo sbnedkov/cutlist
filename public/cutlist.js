@@ -308,6 +308,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 }
 
                 $scope.projects.push(project);
+                $scope.project = project;
 
                 alert('Създаден');
             });
@@ -343,6 +344,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             if (err) {
                 return handleError(err);
             }
+
+            $scope.project = project;
 
             alert('Зареден');
         });
