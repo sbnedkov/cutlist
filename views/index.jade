@@ -21,13 +21,13 @@ html(ng-app="cutlist")
               label.inside-info
                 p.xtitle вход за регистрирани
             .col-sm-6.col-md-6.username-input
-              input#exampleInputEmail1.form-control(ng-model="username", type="text", placeholder="потребител", tabindex="0")
+              input#exampleInputEmail1.form-control(ng-model="username", type="text", placeholder="потребител", tabindex="0", name="username", ng-keypress="maybeLogin($event, username, password)")
           .col-sm-12.col-md-12
             .col-sm-6.col-md-6
               label.inside-info
                 button.xletters.rz-button-small(tabindex="-1") забравена парола
             .col-sm-6.col-md-6
-              input#exampleInputEmail1.form-control(ng-model="password", type="password", placeholder="парола", tabindex="0")
+              input#exampleInputEmail1.form-control(ng-model="password", type="password", placeholder="парола", tabindex="0", name="password", ng-keypress="maybeLogin($event, username, password)")
           .col-sm-12.col-md-12
             .col-sm-6.col-md-6
               label.inside-info

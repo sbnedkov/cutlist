@@ -426,6 +426,12 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         }
     };
 
+    $scope.maybeLogin = function (ev, username, password) {
+        if (ev.originalEvent.keyCode === 13) {
+            $scope.login(username, password);
+        }
+    };
+
     function cloneDeep (obj) {
         return JSON.parse(JSON.stringify(obj));
     }
