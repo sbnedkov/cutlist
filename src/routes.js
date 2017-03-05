@@ -94,12 +94,22 @@ export default {
         var plan = await new Plan(req.body).save();
         res.json(plan);
     },
+    patchPlan: async (req, res) => {
+        var plan = await Plan.findOne({_id: req.params.id});
+        plan.patch(req.body);
+        res.json(plan);
+    },
     getResult: async (req, res) => {
         var result = await Result.findOne({_id: req.params.id});
         res.json(result);
     },
     postResults: async (req, res) => {
         var result = await new Result(req.body).save();
+        res.json(result);
+    },
+    patchResult: async (req, res) => {
+        var result = await Result.findOne({_id: req.params.id});
+        result.patch(req.body);
         res.json(result);
     },
     getProjects: async (req, res) => {

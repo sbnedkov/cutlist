@@ -33,7 +33,7 @@
     "json8-patch": "^0.4.0",
     "jspdf": "^1.3.2",
     "lodash": "^4.13.1",
-    "mongoose": "^4.8.1",
+    "mongoose": "^4.8.5",
     "mongoose-json-patch": "^1.1.1",
     "source-map-support": "^0.4.0",
     "vinyl-source-stream": "^1.1.0",

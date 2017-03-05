@@ -272,7 +272,13 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     $http.post('/plans', {
                         stocks: $scope.stocks,
                         details: $scope.details
-                    }).then(cb.bind(null, null), cb);
+                    }).then(plan => {
+                        $scope.plan = plan;
+                        $scope.details = plan.details;
+                        $scope.stocks = plan.stocks;
+                        $scope.savedPlan = cloneDeep(plan);
+                        cb();
+                    }, cb);
                 },
                 ({data: {_id}}, cb) => {
                     planId = _id;
@@ -280,7 +286,11 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     if ($scope.cutlist) {
                         $http.post('/results', {
                             stocks: $scope.cutlist
-                        }).then(cb.bind(null, null), cb);
+                        }).then(result => {
+                            $scope.result = result;
+                            $scope.savedResult = cloneDeep(result);
+                            cb();
+                        }, cb);
                     } else {
                         cb(null, {data: {_id: void 0}});
                     }
@@ -310,7 +320,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 $http.get('/plans/' + project.planId)
                     .then(({data: plan}) => {
                         $scope.plan = plan;
-                        $scope.savedPlan = plan;
+                        $scope.savedPlan = cloneDeep(plan);
+                        $scope.details = plan.details;
+                        $scope.stocks = plan.stocks;
+                        console.log(plan);
                         cb();
                     }, cb);
             },
@@ -319,6 +332,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     $http.get('/results/' + project.resultId)
                         .then(({data: result}) => {
                             $scope.cutlist = result;
+                            $scope.savedResult = cloneDeep(result);
                             cb();
                         }, cb);
                 } else {
@@ -335,11 +349,16 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     };
 
     $scope.saveProject = function () {
+        if (!$scope.project) {
+            return alert('Първо създайте проект');
+        }
+
         window.async.waterfall([
             cb => {
                 var patch = window.JSON8Patch.diff($scope.savedPlan, $scope.plan);
                 $http.patch('/plans/' + $scope.project.planId, patch)
-                    .then(_ => {
+                    .then(plan => {
+                        $scope.savedPlan = cloneDeep(plan);
                         cb();
                     }, cb);
             },
@@ -347,7 +366,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 var patch = window.JSON8Patch.diff($scope.savedResult, $scope.cutlist);
                 if ($scope.project.resultId) {
                     $http.patch('/results/' + $scope.project.resultId, patch)
-                        .then(_ => {
+                        .then(result => {
+                            $scope.savedResult = cloneDeep(result);
                             cb();
                         }, cb);
                 } else {
@@ -362,6 +382,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             alert('Запазен');
         });
     };
+
+    function cloneDeep (obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
 
     function handleError (err) {
         alert(JSON.stringify(err));
