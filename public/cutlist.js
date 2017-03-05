@@ -277,7 +277,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                         $scope.details = plan.details;
                         $scope.stocks = plan.stocks;
                         $scope.savedPlan = cloneDeep(plan);
-                        cb();
+                        cb(null, plan);
                     }, cb);
                 },
                 ({data: {_id}}, cb) => {
@@ -289,7 +289,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                         }).then(result => {
                             $scope.result = result;
                             $scope.savedResult = cloneDeep(result);
-                            cb();
+                            cb(null, result);
                         }, cb);
                     } else {
                         cb(null, {data: {_id: void 0}});
@@ -414,8 +414,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 delete $scope.project;
                 delete $scope.plan;
                 delete $scope.savedPlan;
-                delete $scope.details;
-                delete $scope.stocks;
+                $scope.details.splice(0, $scope.details.length);
+                $scope.stocks.splice(0, $scope.stocks.length);
                 delete $scope.cutlist;
                 delete $scope.savedResult;
 
