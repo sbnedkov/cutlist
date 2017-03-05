@@ -94,6 +94,8 @@ html(ng-app="cutlist")
                 .left-col-container.result-outlook-container
                   div(ng-repeat="project in projects track by project.creation_date")
                       a(href ng-click="loadProject(project)") {{project.name}}
+                      a.link-row-icon(href ng-click="deleteProject(project)")
+                        i.fa.fa-trash
                 .bottom-col-buttons
                   button.btn.right-col-title.zoom(ng-click="newProject()")
                     | създай

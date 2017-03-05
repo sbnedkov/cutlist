@@ -53,11 +53,14 @@ app.post('/login', wrap(routes.login));
 app.post('/plans', wrap(routes.postPlans));
 app.get('/plans/:id', wrap(routes.getPlan));
 app.patch('/plans/:id', wrap(routes.patchPlan));
+app.delete('/plans/:id', wrap(routes.deletePlan));
 app.post('/results', wrap(routes.postResults));
 app.get('/results/:id', wrap(routes.getResult));
 app.patch('/results/:id', wrap(routes.patchResult));
+app.delete('/results/:id', wrap(routes.deleteResult));
 app.get('/projects', wrap(routes.getProjects));
 app.post('/projects', wrap(routes.postProjects));
+app.delete('/projects/:id', wrap(routes.deleteProject));
 app.get('/robots.txt', wrap(routes.robots));
 app.use(routes.error);
 

@@ -731,5 +731,9 @@ span.Check {
 
 /* The max width is dependant on the container */
 .popover{
-    max-width: 100%; /* Max Width of the popover (depending on the container!) */
+  max-width: 100%; /* Max Width of the popover (depending on the container!) */
+}
+
+.link-row-icon {
+  float: right;
 }

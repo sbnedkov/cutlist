@@ -324,7 +324,6 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                         $scope.savedPlan = cloneDeep(plan);
                         $scope.details = plan.details;
                         $scope.stocks = plan.stocks;
-                        console.log(plan);
                         cb();
                     }, cb);
             },
@@ -353,7 +352,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
     $scope.saveProject = function () {
         if (!$scope.project) {
-            return alert('Първо създайте проект');
+            return alert('Първо създайте или заредете проект');
         }
 
         window.async.waterfall([
@@ -384,6 +383,46 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
             alert('Запазен');
         });
+    };
+
+    $scope.deleteProject = function (project) {
+        if (confirm('Моля потвърдете')) {
+            window.async.waterfall([
+                cb => {
+                    $http.delete('/plans/' + project.planId)
+                        .then(() => cb(), cb);
+                },
+                cb => {
+                    if (project.resultId) {
+                        $http.delete('/results/' + project.resultId)
+                            .then(() => cb(), cb);
+                    } else {
+                        cb();
+                    }
+                },
+                cb => {
+                    $http.delete('/projects/' + project._id)
+                        .then(() => cb(), cb);
+                }
+            ], err => {
+                if (err) {
+                    return handleError(err);
+                }
+
+                $scope.projects.splice($scope.projects.find(p => p === project), 1);
+
+                delete $scope.project;
+                delete $scope.plan;
+                delete $scope.savedPlan;
+                delete $scope.details;
+                delete $scope.stocks;
+                delete $scope.cutlist;
+                delete $scope.savedResult;
+
+                logInAndLoadProjects();
+                alert('Изтрит');
+            });
+        }
     };
 
     function cloneDeep (obj) {

@@ -99,6 +99,11 @@ export default {
         plan.patch(req.body);
         res.json(plan);
     },
+    deletePlan: async (req, res) => {
+        await Plan.remove({_id: req.params.id});
+        res.status(200);
+        res.end();
+    },
     getResult: async (req, res) => {
         var result = await Result.findOne({_id: req.params.id});
         res.json(result);
@@ -112,6 +117,11 @@ export default {
         result.patch(req.body);
         res.json(result);
     },
+    deleteResult: async (req, res) => {
+        await Result.remove({_id: req.params.id});
+        res.status(200);
+        res.end();
+    },
     getProjects: async (req, res) => {
         var projects = await Project.find({userId: req.session.user});
         res.json(projects);
@@ -121,6 +131,11 @@ export default {
 
         var project = await new Project(req.body).save();
         res.json(project);
+    },
+    deleteProject: async (req, res) => {
+        await Project.remove({_id: req.params.id});
+        res.status(200);
+        res.end();
     },
     robots: async (req, res) => {
         res.write(ROBOTS_TXT);
