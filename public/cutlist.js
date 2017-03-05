@@ -13,7 +13,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     $scope.toggleValues = [0, 1, 2];
     $scope.toggleValues2 = ['не', 'да'];
 
-    $scope.items = [{
+    $scope.details = [{
         name: 'Врата',
         number: 2,
         width: 500,
@@ -77,7 +77,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         name: 'Врата'
     }];
 
-    $scope.slates = [{
+    $scope.stocks = [{
         width: 2800,
         height: 2070,
         number: 3
@@ -88,7 +88,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     }];
 
     $scope.addRow = () => {
-        $scope.items.push({
+        $scope.details.push({
             name: $scope.detailsOptions[0],
             number: 1,
             width: 0,
@@ -97,18 +97,18 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         });
     };
     $scope.deleteRow = index => {
-        $scope.items.splice(index, 1);
-        $scope.items.forEach((ign, idx) => idx >= index && $scope.recompileTooltip(idx));
+        $scope.details.splice(index, 1);
+        $scope.details.forEach((ign, idx) => idx >= index && $scope.recompileTooltip(idx));
     };
 
     $scope.deactivateRow = index => {
-        $scope.items[index].disabled = !$scope.items[index].disabled;
+        $scope.details[index].disabled = !$scope.details[index].disabled;
     };
 
     $scope.tooltipContents = [];
 
     $scope.recompileTooltip = idx => {
-        var value = $scope.items[idx];
+        var value = $scope.details[idx];
 
         var pixelWidth = Math.round(value.width / VISUALIZATION_DIMENTION_FACTOR);
         var pixelHeight = Math.round(value.height / VISUALIZATION_DIMENTION_FACTOR);
@@ -134,7 +134,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     $http.get('/views/partials/visualization-tooltip.html')
         .then(({data}) => {
             $scope.tooltipTemplate = $interpolate(data);
-            $scope.items.forEach((ign, idx) => $scope.recompileTooltip(idx));
+            $scope.details.forEach((ign, idx) => $scope.recompileTooltip(idx));
         }, handleError);
 
     $scope.editableChanged = (idx) => {
@@ -148,8 +148,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     };
 
     $scope.subtractStock = function (index) {
-        if (!--$scope.slates[index].number) {
-            $scope.slates.splice(index, 1);
+        if (!--$scope.stocks[index].number) {
+            $scope.stocks.splice(index, 1);
         }
     };
 
@@ -164,14 +164,14 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     $scope.addedStockNumber = 1;
 
     $scope.addSelectedStock = function () {
-        var thisStock = $scope.slates.find(stock => {
+        var thisStock = $scope.stocks.find(stock => {
             return stock.width === $scope.selectedStockToAdd.width && stock.height === $scope.selectedStockToAdd.height;
         });
 
         if (thisStock) {
             thisStock.number += $scope.addedStockNumber;
         } else {
-            $scope.slates.push({
+            $scope.stocks.push({
                 width: $scope.selectedStockToAdd.width,
                 height: $scope.selectedStockToAdd.height,
                 number: $scope.addedStockNumber
@@ -195,13 +195,13 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
     $scope.submit = () => {
         $http.post('/cutlist', {
-            slates: $scope.slates.map(slate => {
+            stocks: $scope.stocks.map(slate => {
                 return {
                     w: slate.width,
                     h: slate.height
                 };
             }),
-            parts: $scope.items.filter(i => !i.disabled).map(item => {
+            parts: $scope.details.filter(i => !i.disabled).map(item => {
                 return {
                     w: item.width,
                     h: item.height,
@@ -269,8 +269,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             window.async.waterfall([
                 (cb) => {
                     $http.post('/plans', {
-                        stocks: $scope.slates,
-                        details: $scope.items.map(function (item) {
+                        stocks: $scope.stocks,
+                        details: $scope.details.map(function (item) {
                             return Object.assign({}, item, {
                                 rotate: item.rotate === 'да'
                             });
@@ -283,7 +283,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     if ($scope.cutlist) {
                         $http.post('/results', {
                             stocks: $scope.stocks,
-                            details: $scope.items
+                            details: $scope.details
                         }).then(cb.bind(null, null), cb);
                     } else {
                         cb(null, {data: {_id: void 0}});
@@ -314,8 +314,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             cb => {
                 $http.get('/plans/' + project.planId)
                     .then(({data: plan}) => {
-                        $scope.items = plan.details;
-                        $scope.slates = plan.stocks;
+                        $scope.plan = plan;
                         cb();
                     }, cb);
             },
@@ -340,8 +339,32 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     };
 
     $scope.saveProject = function () {
-        alert('предстои');
-//        alert('Запазен');
+        window.async.waterfall([
+            cb => {
+                var patch = window.jsonpatch.diff($scope.savedPlan, $scope.plan);
+                $http.patch('/plans/' + $scope.project.planId, patch)
+                    .then(_ => {
+                        cb();
+                    }, cb);
+            },
+            cb => {
+                var patch = window.jsonpatch.diff($scope.savedCutlist, $scope.cutlist);
+                if ($scope.project.resultId) {
+                    $http.patch('/results/' + $scope.project.resultId, patch)
+                        .then(_ => {
+                            cb();
+                        }, cb);
+                } else {
+                    cb();
+                }
+            }
+        ], err => {
+            if (err) {
+                return handleError(err);
+            }
+
+            alert('Запазен');
+        });
     };
 
     function handleError (err) {

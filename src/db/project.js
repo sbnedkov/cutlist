@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import patcher from 'mongoose-json-patch';
 
 import creationDate from './creation-date';
 
@@ -13,5 +14,7 @@ var projectSchema = new mongoose.Schema({
         default: Date.now()
     }
 });
+
+projectSchema.plugin(patcher);
 
 export default mongoose.model('Project', projectSchema);

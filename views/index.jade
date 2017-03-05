@@ -43,11 +43,11 @@ html(ng-app="cutlist")
         #exampleInputEmail1.col-md-1.col-sm-1.sub1(type="text", placeholder="въведи размер плоча")
           input.form-control(placeholder="ширина", type="number", ng-model="selectedStockToAdd.height")
         .col-md-1.col-sm-1.sub2
-          button(ng-show="selectedStock", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true", ng-init="selectedStock = slates[0]")
+          button(ng-show="selectedStock", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true", ng-init="selectedStock = stocks[0]")
             | {{selectedStock.width}}x{{selectedStock.height}}
             i.fa.fa-angle-down(ng-show="selectedStock", aria-hidden="true")
           ul.dropdown-menu(aria-labelledby="dropdownMenu1")
-            li(ng-repeat="stock in slates")
+            li(ng-repeat="stock in stocks")
               a(href, ng-click="changeSelectedStock(stock)") - {{stock.width}}x{{stock.height}}
         #exampleInputEmail1.col-md-1.col-sm-1.sub3(type="text", placeholder="брой")
           input.form-control(placeholder="брой", type="number", ng-model="addedStockNumber")
@@ -81,7 +81,7 @@ html(ng-app="cutlist")
                 .first-title
                   | наличности
                 .left-col-container.result-outlook-container
-                  .form-group(ng-repeat="stock in slates")
+                  .form-group(ng-repeat="stock in stocks")
                     .fourth-empty
                       | {{stock.width}}x{{stock.height}}
                     button.fourth-title.rz-button-small(ng-click="subtractStock($index)")
@@ -122,7 +122,7 @@ html(ng-app="cutlist")
                   .divTableCell.ninth-col &nbsp;
             .table-body
               .divTableBody
-                .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="{{value.width > value.height ? 'bottom': 'left'}}", ng-repeat="value in items")
+                .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="{{value.width > value.height ? 'bottom': 'left'}}", ng-repeat="value in details")
                   .divTableCell.first-col(tabindex="0", ng-show="!value.disabled") {{$index + 1}}.
                   .divTableCell.first-col(tabindex="0", ng-show="value.disabled")
                     i.fa.fa-times.fa-2x.red-cross

@@ -33,7 +33,7 @@ export default {
         res.status(200).end();
     },
     cutlist: async (req, res) => {
-        var stocks = req.body.slates;
+        var stocks = req.body.stocks;
         var parts = req.body.parts;
         var type = req.body.cutType;
         var itemsw = [];
