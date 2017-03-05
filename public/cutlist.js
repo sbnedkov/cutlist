@@ -11,7 +11,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         'Рафт'
     ];
     $scope.toggleValues = [0, 1, 2];
-    $scope.toggleValues2 = ['не', 'да'];
+    $scope.toggleValues2 = [false, true];
 
     $scope.details = [{
         name: 'Врата',
@@ -22,7 +22,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         edgefs: 0,
         edgesl: 1,
         edgess: 1,
-        rotate: 'не'
+        rotate: false
     }, {
         name: 'Страница',
         number: 5,
@@ -32,7 +32,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         edgefs: 0,
         edgesl: 1,
         edgess: 1,
-        rotate: 'не'
+        rotate: false
     }, {
         name: 'Дъно',
         number: 2,
@@ -42,7 +42,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         edgefs: 1,
         edgesl: 2,
         edgess: 2,
-        rotate: 'не'
+        rotate: false
     }, {
         name: 'Таван',
         number: 1,
@@ -52,7 +52,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         edgefs: 1,
         edgesl: 2,
         edgess: 2,
-        rotate: 'не'
+        rotate: false
     }, {
         name: 'Врата'
     }, {
@@ -93,7 +93,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             number: 1,
             width: 0,
             height: 0,
-            rotate: 0
+            rotate: false
         });
     };
     $scope.deleteRow = index => {
@@ -207,7 +207,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     h: item.height,
                     q: item.number,
                     ref: item.name,
-                    canRotate: item.rotate === 'да'
+                    canRotate: item.rotate
                 };
             }),
             cutType: $scope.cutType
@@ -270,11 +270,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 (cb) => {
                     $http.post('/plans', {
                         stocks: $scope.stocks,
-                        details: $scope.details.map(function (item) {
-                            return Object.assign({}, item, {
-                                rotate: item.rotate === 'да'
-                            });
-                        })
+                        details: $scope.details
                     }).then(cb.bind(null, null), cb);
                 },
                 ({data: {_id}}, cb) => {
@@ -282,8 +278,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
                     if ($scope.cutlist) {
                         $http.post('/results', {
-                            stocks: $scope.stocks,
-                            details: $scope.details
+                            stocks: $scope.cutlist
                         }).then(cb.bind(null, null), cb);
                     } else {
                         cb(null, {data: {_id: void 0}});
@@ -301,7 +296,6 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     return handleError(err);
                 }
 
-                console.log(project);
                 $scope.projects.push(project);
 
                 alert('Създаден');
@@ -315,6 +309,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 $http.get('/plans/' + project.planId)
                     .then(({data: plan}) => {
                         $scope.plan = plan;
+                        $scope.savedPlan = plan;
                         cb();
                     }, cb);
             },
@@ -341,14 +336,14 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     $scope.saveProject = function () {
         window.async.waterfall([
             cb => {
-                var patch = window.jsonpatch.diff($scope.savedPlan, $scope.plan);
+                var patch = window.JSON8Patch.diff($scope.savedPlan, $scope.plan);
                 $http.patch('/plans/' + $scope.project.planId, patch)
                     .then(_ => {
                         cb();
                     }, cb);
             },
             cb => {
-                var patch = window.jsonpatch.diff($scope.savedCutlist, $scope.cutlist);
+                var patch = window.JSON8Patch.diff($scope.savedResult, $scope.cutlist);
                 if ($scope.project.resultId) {
                     $http.patch('/results/' + $scope.project.resultId, patch)
                         .then(_ => {
