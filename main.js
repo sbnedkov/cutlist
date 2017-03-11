@@ -59,8 +59,8 @@ app.set('view engine', 'jade');
 var wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 // Certbot
-app.get('/.well-known/acme-challenge/lk_msQJLgHW3M6QXiaz3otORyjNAH_COXR7WJf2zuXg', wrap(async (req, res) => {
-    res.write('lk_msQJLgHW3M6QXiaz3otORyjNAH_COXR7WJf2zuXg.TUnHNwa3rWgjWtaik-RTE82R5yXjE0N3Gc8iC7sD4vE');
+app.get('/.well-known/acme-challenge/:id', wrap(async (req, res) => {
+    res.write(req.params.id + '.TUnHNwa3rWgjWtaik-RTE82R5yXjE0N3Gc8iC7sD4vE');
     res.end();
 }));
 
