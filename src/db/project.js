@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import patcher from 'mongoose-json-patch';
+var mongoose = require('mongoose');
+var patcher = require('mongoose-json-patch');
 
-import creationDate from './creation-date';
+var creationDate = require('./creation-date');
 
 var projectSchema = new mongoose.Schema({
     userId: mongoose.Schema.ObjectId,
@@ -17,4 +17,4 @@ var projectSchema = new mongoose.Schema({
 
 projectSchema.plugin(patcher);
 
-export default mongoose.model('Project', projectSchema);
+module.exports = mongoose.model('Project', projectSchema);

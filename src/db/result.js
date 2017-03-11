@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import patcher from 'mongoose-json-patch';
+var mongoose = require('mongoose');
+var patcher = require('mongoose-json-patch');
 
-import creationDate from './creation-date';
+var creationDate = require('./creation-date');
 
 var resultSchema = new mongoose.Schema({
     arr: [{
@@ -27,4 +27,4 @@ var resultSchema = new mongoose.Schema({
 
 resultSchema.plugin(patcher);
 
-export default mongoose.model('Result', resultSchema);
+module.exports = mongoose.model('Result', resultSchema);

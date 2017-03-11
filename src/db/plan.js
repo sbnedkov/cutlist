@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import patcher from 'mongoose-json-patch';
+var mongoose = require('mongoose');
+var patcher = require('mongoose-json-patch');
 
-import creationDate from './creation-date';
+var creationDate = require('./creation-date');
 
 var planSchema = new mongoose.Schema({
     stocks: [{
@@ -29,4 +29,4 @@ var planSchema = new mongoose.Schema({
 
 planSchema.plugin(patcher);
 
-export default mongoose.model('Plan', planSchema);
+module.exports = mongoose.model('Plan', planSchema);

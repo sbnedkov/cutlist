@@ -1,4 +1,4 @@
-export default function translate (solution, names/*, cutType*/) {
+module.exports = function translate (solution, names/*, cutType*/) {
     return {
         arr: mapActivities(solution.activities),
         wasteVsUsage: solution.losses.map(({area, usage}) => {

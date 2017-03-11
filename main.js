@@ -1,18 +1,18 @@
 // For certbot
-import http from 'http';
-//import https from 'https';
-//import fs from 'fs';
-//import path from 'path';
+var http = require('http');
+//var https = require('https';
+//var fs = require('fs';
+//var path = require('path';
 
-import express from 'express';
-import session from 'express-session';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import i18n from 'i18n-2';
-import mongoose from 'mongoose';
+var express = require('express');
+var session = require('express-session');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var i18n = require('i18n-2');
+var mongoose = require('mongoose');
 
-import middleware from './src/middleware';
-import routes from './src/routes';
+var middleware = require('./src/middleware');
+var routes = require('./src/routes');
 
 //const cert = {
 //    cert: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.crt')),

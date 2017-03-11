@@ -1,15 +1,15 @@
-import fs from 'fs';
+var fs = require('fs');
 
-import logger from 'winston';
-import solve from 'guillotine-solver';
+var logger = require('winston');
+var solve = require('guillotine-solver');
 
-import translate from './adapter';
-import utils from './utils';
+var translate = require('./adapter');
+var utils = require('./utils');
 
-import User from './db/user';
-import Plan from './db/plan';
-import Result from './db/result';
-import Project from './db/project';
+var User = require('./db/user');
+var Plan = require('./db/plan');
+var Result = require('./db/result');
+var Project = require('./db/project');
 
 const ROBOTS_TXT = fs.readFileSync(__dirname + '/../robots.txt');
 
@@ -22,7 +22,7 @@ function AccessDeniedError () {
 AccessDeniedError.prototype = Object.create(Error.prototype);
 AccessDeniedError.prototype.constructor = AccessDeniedError;
 
-export default {
+module.exports = {
     root: async (req, res) => {
         res.render('index.jade', {
             userId: req.session.user

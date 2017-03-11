@@ -24,16 +24,16 @@ gulp.task('browserify', function () {
 });
 
 gulp.task('dev', ['browserify'], function () {
-    return nodemon({exec: './node_modules/babel-cli/bin/babel-node.js main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'local'}/*, verbose: true*/}).on('restart', function () {
+    return nodemon({exec: '/usr/bin/node main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'local'}/*, verbose: true*/}).on('restart', function () {
         console.log('restart');
         gulp.run('browserify');
     });
 });
 
-gulp.task('prod', ['babel-node']);
+gulp.task('prod', ['node']);
 
-gulp.task('babel-node', ['browserify'], function () {
-    var server = spawn('./node_modules/babel-cli/bin/babel-node.js', ['main.js'], {
+gulp.task('node', ['browserify'], function () {
+    var server = spawn('/usr/bin/node', ['main.js'], {
         env: {
             NODE_ENV: 'production'
         }

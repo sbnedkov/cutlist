@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import patcher from 'mongoose-json-patch';
+var mongoose = require('mongoose');
+var patcher = require('mongoose-json-patch');
 
 var userSchema = new mongoose.Schema({
     firstname: String,
@@ -11,4 +11,4 @@ var userSchema = new mongoose.Schema({
 
 userSchema.plugin(patcher);
 
-export default mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema);
