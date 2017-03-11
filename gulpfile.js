@@ -36,7 +36,8 @@ gulp.task('node', ['browserify'], function () {
     var server = fork('./main.js', {
         env: {
             NODE_ENV: 'production',
-            MONGODB_URI: process.env.MONGODB_URI
+            MONGODB_URI: process.env.MONGODB_URI,
+            PORT: process.env.PORT
         }
     });
 
