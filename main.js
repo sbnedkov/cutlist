@@ -48,6 +48,20 @@ app.use('/css', express.static(`${__dirname}/css`));
 app.use('/img', express.static(`${__dirname}/img`));
 app.use('/js', express.static(`${__dirname}/js`));
 
+
+app.use((req, res, next) => {
+///    res.setHeader('Strict-Transport-Security', 'max-age=8640000; includeSubDomains');
+///    if (req.headers['x-forwarded-proto'] !== 'https') {
+///        return res.redirect(301, `https://${req.headers.host}/`);
+///    }
+
+    if (req.headers.host === 'razkroi.com') {
+        return res.redirect(301, 'http://www.razkroi.com/');
+    }
+
+    next();
+});
+
 i18n.expressBind(app, {
     locales: ['en', 'bg'],
     cookieName: 'cutlistlang'
