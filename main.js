@@ -1,8 +1,8 @@
 // For certbot
 import http from 'http';
-import https from 'https';
-import fs from 'fs';
-import path from 'path';
+//import https from 'https';
+//import fs from 'fs';
+//import path from 'path';
 
 import express from 'express';
 import session from 'express-session';
@@ -14,10 +14,10 @@ import mongoose from 'mongoose';
 import middleware from './src/middleware';
 import routes from './src/routes';
 
-const cert = {
-    cert: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.crt')),
-    key: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.key'))
-};
+//const cert = {
+//    cert: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.crt')),
+//    key: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.key'))
+//};
 
 const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI);
