@@ -8,7 +8,7 @@
     "angular-ui-bootstrap": "^2.3.2",
     "async": "^2.1.4",
     "babel": "^6.5.2",
-    "babel-cli": "^6.10.1",
+    "babel-cli": "^6.23.0",
     "babel-plugin-transform-object-assign": "^6.8.0",
     "babel-plugin-transform-regenerator": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",
