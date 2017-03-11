@@ -58,5 +58,8 @@
     "url": "https://github.com/sbnedkov/cutlist/issues"
   },
   "homepage": "https://github.com/sbnedkov/cutlist",
-  "private": true
+  "private": true,
+  "engines": {
+    "node": ">=5.0"
+  }
 }
