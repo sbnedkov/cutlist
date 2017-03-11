@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 ///        return res.redirect(301, `https://${req.headers.host}/`);
 ///    }
 
-    console.log(req.headers.host);
+    console.log(req.url);
     if (req.headers.host === 'razkroi.com') {
         return res.redirect(301, 'http://www.razkroi.com/');
     }
