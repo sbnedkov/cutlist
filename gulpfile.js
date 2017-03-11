@@ -1,4 +1,4 @@
-var spawn = require('child_process').spawn;
+var fork = require('child_process').fork;
 
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
@@ -33,18 +33,14 @@ gulp.task('dev', ['browserify'], function () {
 gulp.task('prod', ['node']);
 
 gulp.task('node', ['browserify'], function () {
-    var server = spawn('/usr/bin/node', ['main.js'], {
+    var server = fork('./main.js', {
         env: {
             NODE_ENV: 'production'
         }
     });
 
-    server.stdout.on('data', function (data) {
+    server.on('data', function (data) {
           process.stdout.write(data.toString());
-    });
-
-    server.stderr.on('data', function (data) {
-          process.stderr.write(data.toString());
     });
 
     server.on('close', function (code) {
