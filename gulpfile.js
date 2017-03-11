@@ -33,7 +33,7 @@ gulp.task('dev', ['browserify'], function () {
 gulp.task('prod', ['babel-node']);
 
 gulp.task('babel-node', ['browserify'], function () {
-    var server = spawn('./node_modules/babel-cli/bin/babel-node.js', ['main.js'], {
+    var server = spawn('node', ['main.js'], {
         env: {
             NODE_ENV: 'production'
         }
