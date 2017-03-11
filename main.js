@@ -27,15 +27,14 @@ var app = express();
 const server = http.createServer(/*cert, */app);
 
 app.use((req, res, next) => {
-///    res.setHeader('Strict-Transport-Security', 'max-age=8640000; includeSubDomains');
-///    if (req.headers['x-forwarded-proto'] !== 'https') {
-///        return res.redirect(301, `https://${req.headers.host}/`);
-///    }
+   res.setHeader('Strict-Transport-Security', 'max-age=8640000; includeSubDomains');
+   if (req.headers['x-forwarded-proto'] !== 'https') {
+       return res.redirect(301, `https://${req.headers.host}/`);
+   }
 
-    console.log(req.url);
-    if (req.headers.host === 'razkroi.com') {
-        return res.redirect(301, 'http://www.razkroi.com/');
-    }
+//    if (req.headers.host === 'razkroi.com') {
+//        return res.redirect(301, 'http://www.razkroi.com/');
+//    }
 
     next();
 });
