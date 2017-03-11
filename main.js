@@ -1,3 +1,7 @@
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
+
 import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
@@ -8,10 +12,17 @@ import mongoose from 'mongoose';
 import middleware from './src/middleware';
 import routes from './src/routes';
 
+const cert = {
+    cert: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.crt')),
+    key: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.key'))
+};
+
 const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI);
 
 var app = express();
+
+const server = https.createServer(cert, app);
 
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -67,4 +78,4 @@ app.use(routes.error);
 var port = process.env.PORT || 31314;
 
 console.log(`Server listening on ${port}.`);
-app.listen(port);
+server.listen(port);

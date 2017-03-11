@@ -24,7 +24,7 @@ gulp.task('browserify', function () {
 });
 
 gulp.task('dev', ['browserify'], function () {
-    return nodemon({exec: './node_modules/babel-cli/bin/babel-node.js main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'development'}/*, verbose: true*/}).on('restart', function () {
+    return nodemon({exec: './node_modules/babel-cli/bin/babel-node.js main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'local'}/*, verbose: true*/}).on('restart', function () {
         console.log('restart');
         gulp.run('browserify');
     });
@@ -33,7 +33,11 @@ gulp.task('dev', ['browserify'], function () {
 gulp.task('prod', ['babel-node']);
 
 gulp.task('babel-node', ['browserify'], function () {
-    var server = spawn('./node_modules/babel-cli/bin/babel-node.js', ['main.js']);
+    var server = spawn('./node_modules/babel-cli/bin/babel-node.js', ['main.js'], {
+        env: {
+            NODE_ENV: 'production'
+        }
+    });
 
     server.stdout.on('data', function (data) {
           process.stdout.write(data.toString());
