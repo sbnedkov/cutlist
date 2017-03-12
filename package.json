@@ -20,7 +20,7 @@
     "express": "^4.13.4",
     "express-session": "^1.15.0",
     "font-awesome": "^4.7.0",
-    "guillotine-solver": "github:sbnedkov/guillotine-solver@5.0.14",
+    "guillotine-solver": "github:sbnedkov/guillotine-solver",
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.1.0",
     "gulp-sourcemap": "^1.0.1",
