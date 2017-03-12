@@ -12,27 +12,37 @@ angular.module('cutlist')
         link: ($scope, el) => {
             $scope.click = () => {
                 $scope.hasFocus = true;
-                $timeout(() => {
-                    el.find('select')[0].focus(true);
-                });
+                $timeout(() => $scope.isOpen = true);
+
+                el.find('input')[0].focus(true);
             };
 
-            $scope.blur = () => {
-                $scope.hasFocus = false;
-            };
+            $scope.change = (ev, option) => {
+                ev.preventDefault();
+                ev.stopPropagation();
 
-            $scope.change = () => {
                 $scope.hasFocus = false;
+                $scope.isOpen = false;
+
+                if (option && !~$scope.values.indexOf(option)) {
+                    $scope.values.push(option);
+                }
                 $scope.callback($scope.rowidx);
             };
 
-            el.on('keypress', function (ev) {
-                if (ev.keyCode === 13) {
-                    $scope.$apply(function () {
-                        $scope.click();
-                    });
+            $scope.changeValue = (ev, option) => {
+                $scope.value = option;
+                $scope.change(ev, option);
+            };
+
+            $scope.keypress = ev => {
+                if (ev.originalEvent.keyCode === 13) {
+                    $scope.change(ev, $scope.value);
+                } else if (ev.originalEvent.keyCode === 27) {
+                    $scope.hasFocus = false;
+                    $scope.isOpen = false;
                 }
-            });
+            };
         },
         templateUrl: '/views/partials/editable-select.html'
     };

@@ -1,6 +1,13 @@
 <div class="rz-editable" ng-click="click()">
-  <select ng-model="value" ng-show="hasFocus" ng-blur="blur()" ng-change="change()" ng-options="option for option in values">
-  </select>
+  <div ng-show="hasFocus" uib-dropdown is-open="isOpen">
+    <input type="text" ng-model="value" ng-keypress="keypress($event)" uib-dropdown-toggle>
+    <!--    <span uib-dropdown-toggle><i class="fa fa-caret-down"></i></span> -->
+    <ul uib-dropdown-menu>
+      <li ng-repeat="option in values">
+        <a href ng-click="changeValue($event, option)">{{option}}</a>
+      </li>
+    </ul>
+  </div>
   <span ng-hide="hasFocus">
     {{value}}
   </span>

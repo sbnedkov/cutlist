@@ -346,6 +346,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             }
 
             $scope.project = project;
+            $scope.detailsOptions = $scope.plan.details.map(detail => detail.name);
 
             alert('Зареден');
         });
