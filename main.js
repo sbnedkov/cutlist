@@ -13,17 +13,17 @@ var mongoose = require('mongoose');
 var middleware = require('./src/middleware');
 var routes = require('./src/routes');
 
-const cert = {
-    cert: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.crt')),
-    key: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.key'))
-};
-
 const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI);
 
 var app = express();
 
 const isDev = process.env.NODE_ENV === 'dev';
+
+const cert = isDev && {
+    cert: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.crt')),
+    key: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.key'))
+};
 const server = isDev ? https.createServer(cert, app) : http.createServer(app);
 
 if (!isDev) {
