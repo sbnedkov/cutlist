@@ -1,8 +1,7 @@
-// For certbot
 var http = require('http');
-//var https = require('https';
-//var fs = require('fs';
-//var path = require('path';
+var https = require('https');
+var fs = require('fs');
+var path = require('path');
 
 var express = require('express');
 var session = require('express-session');
@@ -14,30 +13,29 @@ var mongoose = require('mongoose');
 var middleware = require('./src/middleware');
 var routes = require('./src/routes');
 
-//const cert = {
-//    cert: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.crt')),
-//    key: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.key'))
-//};
+const cert = {
+    cert: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.crt')),
+    key: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.key'))
+};
 
 const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI);
 
 var app = express();
 
-const server = http.createServer(/*cert, */app);
+const isDev = process.env.NODE_ENV === 'dev';
+const server = isDev ? https.createServer(cert, app) : http.createServer(app);
 
-app.use((req, res, next) => {
-   res.setHeader('Strict-Transport-Security', 'max-age=8640000; includeSubDomains');
-   if (req.headers['x-forwarded-proto'] !== 'https') {
-       return res.redirect(301, `https://${req.headers.host}/`);
-   }
+if (!isDev) {
+    app.use((req, res, next) => {
+        res.setHeader('Strict-Transport-Security', 'max-age=8640000; includeSubDomains');
+        if (req.headers['x-forwarded-proto'] !== 'https') {
+            return res.redirect(301, `https://${req.headers.host}/`);
+        }
 
-//    if (req.headers.host === 'razkroi.com') {
-//        return res.redirect(301, 'http://www.razkroi.com/');
-//    }
-
-    next();
-});
+        next();
+    });
+}
 
 app.use(cookieParser());
 app.use(bodyParser.json());
