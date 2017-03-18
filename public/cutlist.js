@@ -219,6 +219,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     $http.post('/check-finished/' + key)
                         .then(({data: res}) => {
                             if (res) {
+                                if (res.err) {
+                                    return alert(JSON.stringify(res.err));
+                                }
+
                                 $scope.cutlist = res;
                                 $scope.processing = false;
                             } else {

@@ -7,20 +7,14 @@ module.exports = function translate (solution, names/*, cutType*/) {
                 usage: toPercent(usage)
             };
         })
-//        waste: solution.losses.map(loss => loss.map(toPercent)),
-//        wasteVsUsage: solution.losses.map((loss, idx) => calculateLossAndUsage(loss, solution.activities[idx]))
     };
 
     function mapActivities (allActivities) {
         var allStocksRes = [];
         var res = [];
 
-//        console.log(allActivities);
         allActivities.forEach(activities => {
             activities.forEach(activity => {
-//                console.log(activity);
-//                console.log(activity.locations);
-
                 activity.constituentsx.forEach((consx, conidx) => {
                     consx.forEach((n, idx) => {
                         if (n) {
@@ -88,53 +82,10 @@ module.exports = function translate (solution, names/*, cutType*/) {
                 res = res.concat(constructPart(n, 1, tmpLocation, rotated, name));
             }
         }
-        return res.map(flip);
-    }
-
-    function flip (result) {
-        return result;
-//        return {
-//            ref: result.ref,
-//            x: result.y,
-//            y: result.x,
-//            item: {
-//                w: result.item.h,
-//                h: result.item.w
-//            },
-//            rotated: result.rotated
-//        };
+        return res;
     }
 
     function toPercent (figure) {
         return (figure * 100).toFixed(2) + '%';
     }
-
-    // Can be used as ground truth for calculating waste and usage
-//    function calculateLossAndUsage (losses, activities) {
-//        var waste = 0;
-//        var area = 0;
-//
-//        activities.forEach((activity, aidx) => {
-//            var activityArea = 0;
-//            var activityWastePercent = losses[aidx];
-//
-//            activity.constituentsx.forEach((consx, conidx) => {
-//                consx.forEach((n, idx) => {
-//                    if (n) {
-//                        let l = activity.locations[conidx][idx];
-//
-//                        activityArea += (l.x2 - l.x1) * (l.y2 - l.y1);
-//                    }
-//                });
-//            });
-//
-//            area += activityArea;
-//            waste += activityWastePercent * (cutType === 'h' ? activity.W * activity.maxY : activity.L * activity.maxX); // TODO: optimal cuts
-//        });
-//
-//        return {
-//            usage: toPercent(1 - waste / area),
-//            area: toPercent(area / (activities[0].W * activities[0].L))
-//        };
-//    }
-}
+};

@@ -56,7 +56,11 @@ module.exports = {
 
         res.send(key).end();
 
-        solve(stocks, itemsw, itemsh, canRotate, demands, type, (_, result) => {
+        solve(stocks, itemsw, itemsh, canRotate, demands, type, (err, result) => {
+            if (err) {
+                return cutlists[key] = {err};
+            }
+
             cutlists[key] = translate(result, names, type);
         });
     },
