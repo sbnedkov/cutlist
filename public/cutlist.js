@@ -523,8 +523,12 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 var slateW = $scope.slateSolution.W;
                 var slateL =  $scope.slateSolution.L;
 
+                var textWidth = 500;
+                var textHeight = 50;
+                var textYOffset = textHeight + 30;
+
                 canvas.width = window.innerWidth * 0.66666667;
-                canvas.height = (canvas.width / slateW) * slateL + 10;
+                canvas.height = (canvas.width / slateW) * (slateL + textYOffset) + 30;
 
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.textAlign = 'center';
@@ -543,12 +547,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 var ratio = canvas.width / Math.max(...$scope.cutlist.arr.map(slate => slate.W));
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-                var textWidth = 500;
-                var textHeight = 50;
-                var textYOffset = textHeight + 30;
-
                 ctx.fillText(`повърхност: ${$scope.waste.area}, употреба: ${$scope.waste.usage}`, textWidth, textHeight);
-                ctx.strokeRect(0, textYOffset, $scope.slateSolution.W, $scope.slateSolution.L);
+                ctx.strokeRect(0, textYOffset, $scope.slateSolution.W, $scope.slateSolution.L + textYOffset);
                 $scope.slateSolution.result.forEach(part => {
                     var w = part.item.w;
                     var h = part.item.h;
