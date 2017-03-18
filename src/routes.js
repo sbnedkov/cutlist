@@ -56,7 +56,7 @@ module.exports = {
 
         res.send(key).end();
 
-        solve(stocks.map(s => s.w), stocks.map(s => s.h), itemsw, itemsh, canRotate, demands, type, (_, result) => {
+        solve(stocks, itemsw, itemsh, canRotate, demands, type, (_, result) => {
             cutlists[key] = translate(result, names, type);
         });
     },
