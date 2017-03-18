@@ -201,7 +201,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             stocks: $scope.stocks.map(slate => {
                 return {
                     w: slate.width,
-                    h: slate.height
+                    h: slate.height,
+                    q: slate.number
                 };
             }),
             parts: $scope.details.filter(i => !i.disabled).map(item => {
