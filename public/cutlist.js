@@ -465,7 +465,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                         doc.addPage();
                     }
                 });
-                doc.save('razkroi-' + new Date().toDateString() + '.pdf');
+                doc.save('Разкрой-' + new Date().toDateString() + '.pdf');
             });
 
             $scope.registerCanvasListener = (listener) => {
