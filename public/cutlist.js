@@ -528,7 +528,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 var textYOffset = textHeight + 30;
 
                 canvas.width = window.innerWidth * 0.66666667;
-                canvas.height = (canvas.width / slateW) * (slateL + textYOffset) + 30;
+                canvas.height = (canvas.width / slateW) * (slateL + textYOffset) + 1;
 
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.textAlign = 'center';
@@ -548,22 +548,29 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
                 ctx.fillText(`повърхност: ${$scope.waste.area}, употреба: ${$scope.waste.usage}`, textWidth, textHeight);
-                ctx.strokeRect(0, textYOffset, $scope.slateSolution.W, $scope.slateSolution.L + textYOffset);
-                $scope.slateSolution.result.forEach(part => {
-                    var w = part.item.w;
-                    var h = part.item.h;
-                    var x = part.x;
-                    var y = part.y + textYOffset;
+                ctx.strokeRect(0, textYOffset, $scope.slateSolution.W, $scope.slateSolution.L);
 
-                    ctx.strokeRect(x, y, w, h);
-                    ctx.fillText(part.ref, x + w / 2, y + h / 2);
-                });
+                var imageObj = new Image();
+                imageObj.onload = function() {
+                    ctx.drawImage(imageObj, 0, textYOffset, $scope.slateSolution.W, $scope.slateSolution.L);
 
-                $scope.registerCanvasListener(() => {
-                    var image = new Image();
-                    image.src = canvas.toDataURL('image/png');
-                    return image;
-                });
+                    $scope.slateSolution.result.forEach(part => {
+                        var w = part.item.w;
+                        var h = part.item.h;
+                        var x = part.x;
+                        var y = part.y + textYOffset;
+
+                        ctx.strokeRect(x, y, w, h);
+                        ctx.fillText(part.ref, x + w / 2, y + h / 2);
+                    });
+
+                    $scope.registerCanvasListener(() => {
+                        var image = new Image();
+                        image.src = canvas.toDataURL('image/png');
+                        return image;
+                    });
+                };
+                imageObj.src = '/img/fladder-small.png';
             });
         },
         templateUrl: '/views/partials/cutlist-canvas.html'
