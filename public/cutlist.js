@@ -198,13 +198,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
     $scope.submit = () => {
         $http.post('/cutlist', {
-            stocks: $scope.stocks.map(slate => {
-                return {
-                    w: slate.width,
-                    h: slate.height,
-                    q: slate.number
-                };
-            }),
+            stocks: $scope.stocks,
             parts: $scope.details.filter(i => !i.disabled).map(item => {
                 return {
                     w: item.width,
