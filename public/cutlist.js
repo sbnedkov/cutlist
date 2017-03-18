@@ -552,7 +552,13 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
                 var imageObj = new Image();
                 imageObj.onload = function() {
-                    ctx.drawImage(imageObj, 0, textYOffset, $scope.slateSolution.W, $scope.slateSolution.L);
+                    var imageScaledHeight = imageObj.height / ratio;
+                    var imageScaledWidth = imageObj.width / ratio;
+                    for (var i = 0; i < $scope.slateSolution.L / imageScaledHeight; i++) {
+                        for (var j = 0; j < $scope.slateSolution.W / imageScaledWidth; j++) {
+                            ctx.drawImage(imageObj, j * imageScaledWidth, textYOffset + i * imageScaledHeight, imageScaledWidth, imageScaledHeight);
+                        }
+                    }
 
                     $scope.slateSolution.result.forEach(part => {
                         var w = part.item.w;
