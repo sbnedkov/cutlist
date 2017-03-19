@@ -542,12 +542,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.strokeStyle = 'black';
 
-
                 var ratio = canvas.width / Math.max(...$scope.cutlist.arr.map(slate => slate.W));
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
                 ctx.fillText(`повърхност: ${$scope.waste.area}, употреба: ${$scope.waste.usage}`, textWidth, textHeight);
-                ctx.strokeRect(0, textYOffset, $scope.slateSolution.W, $scope.slateSolution.L);
 
                 var imageObj = new Image();
                 imageObj.onload = function() {
@@ -558,6 +556,14 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                             ctx.drawImage(imageObj, j * imageScaledWidth, textYOffset + i * imageScaledHeight, imageScaledWidth, imageScaledHeight);
                         }
                     }
+
+                    // Cover the possible overflow with white
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect($scope.slateSolution.W, textYOffset, canvas.width / ratio - $scope.slateSolution.W, canvas.height / ratio);
+                    ctx.fillRect(0, textYOffset + $scope.slateSolution.L, canvas.width / ratio, canvas.height / ratio - $scope.slateSolution.L);
+                    ctx.fillStyle = 'black';
+
+                    ctx.strokeRect(0, textYOffset, $scope.slateSolution.W, $scope.slateSolution.L);
 
                     $scope.slateSolution.result.forEach(part => {
                         var w = part.item.w;
