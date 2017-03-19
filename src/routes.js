@@ -24,12 +24,13 @@ AccessDeniedError.prototype.constructor = AccessDeniedError;
 
 module.exports = {
     root: async (req, res) => {
+        console.log(req.session);
         res.render('index.jade', {
             userId: req.session.user
         });
     },
     lang: async (req, res) => {
-        res.cookie('cutlistlang', req.body.lang);
+//        res.cookie('cutlistlang', req.body.lang);
         res.status(200).end();
     },
     cutlist: async (req, res) => {

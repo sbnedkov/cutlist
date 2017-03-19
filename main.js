@@ -6,9 +6,10 @@ var path = require('path');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
+//var cookieParser = require('cookie-parser');
 var i18n = require('i18n-2');
 var mongoose = require('mongoose');
+var MongoStore = require('connect-mongo')(session);
 
 var middleware = require('./src/middleware');
 var routes = require('./src/routes');
@@ -37,7 +38,7 @@ if (!isDev) {
     });
 }
 
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use(session({
@@ -45,8 +46,12 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: null
-    }
+        maxAge: null,
+        httpOnly: false
+    },
+    store: new MongoStore({
+        url: MONGODB_URI
+    })
 }));
 
 app.use('/dist', express.static(`${__dirname}/dist`));
@@ -60,8 +65,8 @@ app.use('/img', express.static(`${__dirname}/img`));
 app.use('/js', express.static(`${__dirname}/js`));
 
 i18n.expressBind(app, {
-    locales: ['en', 'bg'],
-    cookieName: 'cutlistlang'
+    locales: ['en', 'bg']/*,
+    cookieName: 'cutlistlang'*/
 });
 
 app.set('views', `${__dirname}/views`);
