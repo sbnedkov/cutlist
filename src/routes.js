@@ -101,8 +101,9 @@ module.exports = {
     },
     patchPlan: async (req, res) => {
         var plan = await Plan.findOne({_id: req.params.id});
-        plan.patch(req.body);
-        res.json(plan);
+        plan.patch(req.body, function (doc) {
+            res.json(doc);
+        });
     },
     deletePlan: async (req, res) => {
         await Plan.remove({_id: req.params.id});
@@ -119,8 +120,9 @@ module.exports = {
     },
     patchResult: async (req, res) => {
         var result = await Result.findOne({_id: req.params.id});
-        result.patch(req.body);
-        res.json(result);
+        result.patch(req.body, function (doc) {
+            res.json(doc);
+        });
     },
     deleteResult: async (req, res) => {
         await Result.remove({_id: req.params.id});
