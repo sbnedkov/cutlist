@@ -197,6 +197,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     // END new design
 
     $scope.submit = () => {
+        $scope.processing = true;
+
         $http.post('/cutlist', {
             stocks: $scope.stocks,
             parts: $scope.details.filter(i => !i.disabled).map(item => {
@@ -210,7 +212,6 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             }),
             cutType: $scope.cutType
         }).then(({data: key}) => {
-            $scope.processing = true;
 
             checkFinished();
 
@@ -437,6 +438,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     }
 
     function handleError (err) {
+        $scope.processing = false;
         alert(JSON.stringify(err));
         console.log(err);
     }
