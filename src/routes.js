@@ -58,7 +58,7 @@ module.exports = {
 
         solve(stocks, itemsw, itemsh, canRotate, demands, type, (err, result) => {
             if (err) {
-                return cutlists[key] = {err};
+                return cutlists[key] = {err: err.message};
             }
 
             cutlists[key] = translate(result, names, type);
