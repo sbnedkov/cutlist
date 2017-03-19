@@ -89,7 +89,8 @@ module.exports = {
 
         req.session.user = user._id;
 
-        res.status(200).end();
+        res.status(200);
+        res.end();
     },
     getPlan: async (req, res) => {
         var plan = await Plan.findOne({_id: req.params.id});

@@ -41,19 +41,6 @@ if (!isDev) {
 //app.use(cookieParser());
 app.use(bodyParser.json());
 
-app.use(session({
-    secret: '35on0y46zgowc',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: null,
-        httpOnly: false
-    },
-    store: new MongoStore({
-        url: MONGODB_URI
-    })
-}));
-
 app.use('/dist', express.static(`${__dirname}/dist`));
 app.use('/views/partials', express.static(`${__dirname}/views/partials`));
 app.use('/views/dialogs', express.static(`${__dirname}/views/dialogs`));
@@ -63,6 +50,21 @@ app.use('/fonts', express.static(`${__dirname}/fonts`));
 app.use('/css', express.static(`${__dirname}/css`));
 app.use('/img', express.static(`${__dirname}/img`));
 app.use('/js', express.static(`${__dirname}/js`));
+
+app.set('trust proxy', 1); // To use secure cookies behind a reverse proxy
+app.use(session({
+    secret: '35on0y46zgowc',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: null,
+        httpOnly: false,
+        secure: 'auto'
+    },
+    store: new MongoStore({
+        url: MONGODB_URI
+    })
+}));
 
 i18n.expressBind(app, {
     locales: ['en', 'bg']/*,
