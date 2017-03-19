@@ -97,6 +97,7 @@ app.patch('/results/:id', wrap(routes.patchResult));
 app.delete('/results/:id', wrap(routes.deleteResult));
 app.get('/projects', wrap(routes.getProjects));
 app.post('/projects', wrap(routes.postProjects));
+app.patch('/projects/:id', wrap(routes.patchProjects));
 app.delete('/projects/:id', wrap(routes.deleteProject));
 app.get('/robots.txt', wrap(routes.robots));
 app.use(routes.error);

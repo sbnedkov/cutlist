@@ -139,6 +139,12 @@ module.exports = {
         var project = await new Project(req.body).save();
         res.json(project);
     },
+    patchProjects: async (req, res) => {
+        var project = await Project.findOne({_id: req.params.id});
+        project.patch(req.body, function (doc) {
+            res.json(doc);
+        });
+    },
     deleteProject: async (req, res) => {
         await Project.remove({_id: req.params.id});
         res.status(200);

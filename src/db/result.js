@@ -18,6 +18,10 @@ var resultSchema = new mongoose.Schema({
         W: Number,
         L: Number
     }],
+    wasteVsUsage: [{
+        usage: String,
+        area: String
+    }],
     creation_date: creationDate,
     modification_date: {
         type: Number,

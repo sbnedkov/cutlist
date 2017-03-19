@@ -284,15 +284,13 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 },
                 ({_id}, cb) => {
                     planId = _id;
-
                     if ($scope.cutlist) {
-                        $http.post('/results', {
-                            stocks: $scope.cutlist
-                        }).then(({data: result}) => {
-                            $scope.result = result;
-                            $scope.savedResult = cloneDeep(result);
-                            cb(null, result);
-                        }, cb);
+                        $http.post('/results', $scope.cutlist)
+                            .then(({data: result}) => {
+                                $scope.result = result;
+                                $scope.savedResult = cloneDeep(result);
+                                cb(null, result);
+                            }, cb);
                     } else {
                         cb(null, {_id: void 0});
                     }
@@ -311,6 +309,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
                 $scope.projects.push(project);
                 $scope.project = project;
+                $scope.savedProject = cloneDeep(project);
                 alert('Създаден');
             });
         });
@@ -346,6 +345,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             }
 
             $scope.project = project;
+            $scope.savedProject = cloneDeep(project);
             $scope.detailsOptions = $scope.plan.details.map(detail => detail.name);
 
             alert('Зареден');
@@ -359,7 +359,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
         window.async.waterfall([
             cb => {
-                var patch = window.JSON8Patch.diff($scope.savedPlan, $scope.plan);
+                var patch = createPatch($scope.savedPlan, $scope.plan);
                 $http.patch('/plans/' + $scope.project.planId, patch)
                     .then(({data: plan}) => {
                         $scope.savedPlan = cloneDeep(plan);
@@ -367,15 +367,31 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     }, cb);
             },
             cb => {
-                var patch = window.JSON8Patch.diff($scope.savedResult, $scope.cutlist);
                 if ($scope.project.resultId) {
+                    var patch = createPatch($scope.savedResult, $scope.cutlist);
                     $http.patch('/results/' + $scope.project.resultId, patch)
                         .then(({data: result}) => {
                             $scope.savedResult = cloneDeep(result);
                             cb();
                         }, cb);
                 } else {
-                    cb();
+                    if ($scope.cutlist) {
+                        $http.post('/results', $scope.cutlist)
+                            .then(({data: result}) => {
+                                $scope.result = result;
+                                $scope.savedResult = cloneDeep(result);
+
+                                $scope.project.resultId = result._id;
+                                var patch = createPatch($scope.savedProject, $scope.project);
+                                $http.patch('/projects/' + $scope.project._id, patch)
+                                    .then(({data: project}) => {
+                                        $scope.savedProject = cloneDeep(project);
+                                        cb();
+                                    }, cb);
+                            }, cb);
+                    } else {
+                        cb();
+                    }
                 }
             }
         ], err => {
@@ -434,7 +450,13 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     };
 
     function cloneDeep (obj) {
-        return JSON.parse(JSON.stringify(obj));
+        return window._.cloneDeep(obj);
+    }
+
+    function createPatch (savedObj, obj) {
+        obj._id = savedObj._id;
+        obj.creation_date = savedObj.creation_date;
+        return window.JSON8Patch.diff(savedObj, obj);
     }
 
     function handleError (err) {
@@ -539,7 +561,6 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     return;
                 }
-
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.strokeStyle = 'black';
