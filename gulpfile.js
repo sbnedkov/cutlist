@@ -1,12 +1,13 @@
 var fork = require('child_process').fork;
 
 var gulp = require('gulp');
+var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var nodemon = require('gulp-nodemon');
 var babelify = require('babelify');
 //var babel = require('gulp-babel');
-//var sourcemaps = require('gulp-sourcemaps');
+var sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('browserify', function () {
     return browserify({
@@ -20,6 +21,9 @@ gulp.task('browserify', function () {
     }).transform(babelify)
         .bundle()
         .pipe(source('./public/cutlist.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('dist/'));
 });
 

@@ -36,6 +36,7 @@
     "mongoose": "^4.9.0",
     "mongoose-json-patch": "^1.1.1",
     "source-map-support": "^0.4.14",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "winston": "^2.3.1"
   },
