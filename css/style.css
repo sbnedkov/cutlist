@@ -736,3 +736,7 @@ span.Check {
 .link-row-icon {
   float: right;
 }
+
+.small-font {
+  font-size: 0.8em;
+}
