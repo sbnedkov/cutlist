@@ -42,6 +42,10 @@ module.exports = {
         var names = [];
         var canRotate = [];
 
+        if (type === 'o') {
+            throw new Error('Optimal cut type not implemented yet');
+        }
+
         parts.forEach(item => {
             if (item.ref && item.q) {
                 itemsw.push(item.w);
