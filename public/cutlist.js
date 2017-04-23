@@ -449,6 +449,22 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         }
     };
 
+    $scope.openCuttingPlanDialog = function () {
+        var modalInstance = $uibModal.open({
+            templateUrl: '/views/dialogs/cutting-plan-config.html',
+            controller: 'CuttingPlanConfigCtrl',
+            resolve: {
+                cutType: function () {
+                    return $scope.cutType;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (config) {
+            $scope.cutType = config.cutType;
+        });
+    };
+
     function cloneDeep (obj) {
         return window._.cloneDeep(obj);
     }
@@ -634,5 +650,15 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         ev.preventDefault();
 
         $uibModalInstance.close($scope.name);
+    };
+}]).controller('CuttingPlanConfigCtrl', ['$scope', '$uibModalInstance', 'cutType', function ($scope, $uibModalInstance, cutType) {
+    $scope.config = {
+        cutType: cutType
+    };
+
+    $scope.submit = function (ev) {
+        ev.preventDefault();
+
+        $uibModalInstance.close($scope.config);
     };
 }]);
