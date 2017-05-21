@@ -570,7 +570,7 @@ span.Check {
 .left-col-container {
 /*  height: 315px; */
   height: 88%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .middle-col-container {
 /*  height: 280px; */
@@ -735,8 +735,26 @@ span.Check {
 
 .link-row-icon {
   float: right;
+  cursor: pointer;
 }
 
 .small-font {
   font-size: 0.8em;
+}
+
+.project {
+  color: black;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.project:active, .project:hover {
+  outline: none;
+  border: none;
+  text-decoration: none;
+}
+
+.selected-project {
+  background-color: #ff7e00;
 }

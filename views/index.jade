@@ -94,15 +94,16 @@ html(ng-app="cutlist")
                 .first-title
                   | проекти
                 .left-col-container.result-outlook-container
-                  div(ng-repeat="project in projects track by project.creation_date")
-                      a(href ng-click="loadProject(project)") {{project.name}}
-                      a.link-row-icon(href ng-click="deleteProject(project)")
-                        i.fa.fa-trash
+                  div.row(ng-repeat="p in projects track by p.creation_date")
+                      .col-sm-12.project
+                        div(href ng-class="{'selected-project': project === p}" ng-click="loadProject(p)") {{p.name}}
                 .bottom-col-buttons
                   button.btn.right-col-title.zoom(ng-click="newProject()")
                     | създай
                   button.btn.right-col-title.zoom(ng-click="saveProject()")
                     | запази
+                  button.btn.right-col-title.zoom(ng-click="deleteProject()")
+                    | изтрий
 
           // /Left Column
           // Middle Column

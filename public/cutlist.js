@@ -262,6 +262,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     }
 
     $scope.newProject = function () {
+        $scope.processing = true;
+
         var modalInstance = $uibModal.open({
             templateUrl: '/views/dialogs/create-project.html',
             controller: 'CreateProjectCtrl'
@@ -303,6 +305,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                     }).then(({data: project}) => cb(null, project), cb);
                 }
             ], (err, project) => {
+                $scope.processing = false;
                 if (err) {
                     return handleError(err);
                 }
@@ -310,12 +313,13 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 $scope.projects.push(project);
                 $scope.project = project;
                 $scope.savedProject = cloneDeep(project);
-                alert('Създаден');
             });
         });
     };
 
     $scope.loadProject = function (project) {
+        $scope.processing = true;
+
         window.async.waterfall([
             cb => {
                 $http.get('/plans/' + project.planId)
@@ -340,6 +344,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 }
             }
         ], err => {
+            $scope.processing = false;
+
             if (err) {
                 return handleError(err);
             }
@@ -348,7 +354,6 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             $scope.savedProject = cloneDeep(project);
             $scope.detailsOptions = $scope.plan.details.map(detail => detail.name);
 
-            alert('Зареден');
         });
     };
 
@@ -357,6 +362,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             return alert('Първо създайте или заредете проект');
         }
 
+        $scope.processing = true;
         window.async.waterfall([
             cb => {
                 var patch = createPatch($scope.savedPlan, $scope.plan);
@@ -395,39 +401,42 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 }
             }
         ], err => {
+            $scope.processing = false;
+
             if (err) {
                 return handleError(err);
             }
-
-            alert('Запазен');
         });
     };
 
-    $scope.deleteProject = function (project) {
+    $scope.deleteProject = function () {
         if (confirm('Моля потвърдете')) {
+            $scope.processing = true;
             window.async.waterfall([
                 cb => {
-                    $http.delete('/plans/' + project.planId)
+                    $http.delete('/plans/' + $scope.project.planId)
                         .then(() => cb(), cb);
                 },
                 cb => {
-                    if (project.resultId) {
-                        $http.delete('/results/' + project.resultId)
+                    if ($scope.project.resultId) {
+                        $http.delete('/results/' + $scope.project.resultId)
                             .then(() => cb(), cb);
                     } else {
                         cb();
                     }
                 },
                 cb => {
-                    $http.delete('/projects/' + project._id)
+                    $http.delete('/projects/' + $scope.project._id)
                         .then(() => cb(), cb);
                 }
             ], err => {
+                $scope.processing = false;
+
                 if (err) {
                     return handleError(err);
                 }
 
-                $scope.projects.splice($scope.projects.find(p => p === project), 1);
+                $scope.projects.splice($scope.projects.find(p => p === $scope.project), 1);
 
                 delete $scope.project;
                 delete $scope.plan;
@@ -438,7 +447,6 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 delete $scope.savedResult;
 
                 logInAndLoadProjects();
-                alert('Изтрит');
             });
         }
     };
