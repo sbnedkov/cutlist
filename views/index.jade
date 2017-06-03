@@ -47,7 +47,7 @@ html(ng-app="cutlist")
             | {{selectedStock.width}}x{{selectedStock.height}}
             i.fa.fa-angle-down(ng-show="selectedStock", aria-hidden="true")
           ul.dropdown-menu(aria-labelledby="dropdownMenu1")
-            li(ng-repeat="stock in stocks")
+            li(ng-repeat="stock in stocks track by $index")
               a(href, ng-click="changeSelectedStock(stock)") - {{stock.width}}x{{stock.height}}
         #exampleInputEmail1.col-md-1.col-sm-1.sub3(type="text", placeholder="брой")
           input.form-control(placeholder="брой", type="number", ng-model="addedStockNumber")
@@ -127,7 +127,7 @@ html(ng-app="cutlist")
                   .divTableCell.ninth-col &nbsp;
             .table-body
               .divTableBody
-                .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="{{value.width > value.height ? 'bottom': 'left'}}", ng-repeat="value in details")
+                .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="{{value.width > value.height ? 'bottom': 'left'}}", ng-repeat="value in details track by $index")
                   .divTableCell.first-col(tabindex="0", ng-show="!value.disabled") {{$index + 1}}.
                   .divTableCell.first-col(tabindex="0", ng-show="value.disabled")
                     i.fa.fa-times.fa-2x.red-cross

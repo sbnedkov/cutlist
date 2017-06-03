@@ -318,43 +318,53 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     };
 
     $scope.loadProject = function (project) {
-        $scope.processing = true;
+        if (hasChanges()) {
+            if (askToContinue()) {
+                cont();
+            }
+        } else {
+            cont();
+        }
 
-        window.async.waterfall([
-            cb => {
-                $http.get('/plans/' + project.planId)
-                    .then(({data: plan}) => {
-                        $scope.plan = plan;
-                        $scope.savedPlan = cloneDeep(plan);
-                        $scope.details = plan.details;
-                        $scope.stocks = plan.stocks;
-                        cb();
-                    }, cb);
-            },
-            cb => {
-                if (project.resultId) {
-                    $http.get('/results/' + project.resultId)
-                        .then(({data: result}) => {
-                            $scope.cutlist = result;
-                            $scope.savedResult = cloneDeep(result);
+        function cont () {
+            $scope.processing = true;
+
+            window.async.waterfall([
+                cb => {
+                    $http.get('/plans/' + project.planId)
+                        .then(({data: plan}) => {
+                            $scope.plan = plan;
+                            $scope.savedPlan = cloneDeep(plan);
+                            $scope.details = plan.details;
+                            $scope.stocks = plan.stocks;
                             cb();
                         }, cb);
-                } else {
-                    cb();
+                },
+                cb => {
+                    if (project.resultId) {
+                        $http.get('/results/' + project.resultId)
+                            .then(({data: result}) => {
+                                $scope.cutlist = result;
+                                $scope.savedResult = cloneDeep(result);
+                                cb();
+                            }, cb);
+                    } else {
+                        cb();
+                    }
                 }
-            }
-        ], err => {
-            $scope.processing = false;
+            ], err => {
+                $scope.processing = false;
 
-            if (err) {
-                return handleError(err);
-            }
+                if (err) {
+                    return handleError(err);
+                }
 
-            $scope.project = project;
-            $scope.savedProject = cloneDeep(project);
-            $scope.detailsOptions = $scope.plan.details.map(detail => detail.name);
+                $scope.project = project;
+                $scope.savedProject = cloneDeep(project);
+                $scope.detailsOptions = $scope.plan.details.map(detail => detail.name);
 
-        });
+            });
+        }
     };
 
     $scope.saveProject = function () {
@@ -496,6 +506,34 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     }
 
     window.document.body.style.visibility = 'visible';
+
+    window.addEventListener('beforeunload', function (event) {
+        if (hasChanges() && askToContinue()) {
+            event.preventDefault();
+        }
+    });
+
+    function hasChanged (savedObj, obj) {
+//        console.log(window.JSON8Patch.diff(savedObj, obj), window.JSON8Patch.diff(savedObj, obj).length);
+        var diff = savedObj && window.JSON8Patch.diff(savedObj, obj);
+        if (!diff || !diff.length) {
+            return false;
+        }
+
+        return diff.length !== 1 || diff[0].path === ''; // XXX: investigate why this patches appear: op:"add", path:"", value:null
+    }
+
+    function hasChanges () {
+        var planChanged = hasChanged($scope.savedPlan, $scope.plan);
+        var resultChanged = hasChanged($scope.savedResult, $scope.cutlist);
+//        console.log('Plan changed: ', planChanged, 'result changed: ', resultChanged);
+
+        return planChanged || resultChanged;
+    }
+
+    function askToContinue() {
+        return confirm('Имате направени промени, наистина ли искате да продължите без да запазите проекта?');
+    }
 }]).directive('rzResultContainer', [function () {
     return {
         restrict: 'E',
