@@ -496,7 +496,7 @@ span.Check {
 }
 
 .footer-row {
-  position: absolute;
+  position: fixed;
 	background-color: #ebbe70;
 	margin-top: 10px;
   bottom: 0;
