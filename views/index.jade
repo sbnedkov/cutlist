@@ -162,10 +162,14 @@ html(ng-app="cutlist")
                         a(ng-click="deleteRow($index)") - изтрий
             // Offset Sum
             .Sum-row
-              .container
-                .row
+              .row
+                .col-sm-6.go-button-container
+                  span.Check.btn.btn-small.rz-button-primary(ng-click="submit()") създай разкрой
+                .col-sm-6.go-button-container
                   button.col-sm-2.col-md-2.Summ.rz-button-small(ng-click="addRow()") добави редове...
             // /Offset Sum
+            // Checkout Orange
+            // Checkout Orange
           // /Middle Column
           // Right Column
           .col-md-2.col-sm-2.right-col
@@ -177,12 +181,6 @@ html(ng-app="cutlist")
               | покажи
             button.btn.right-col-title.print(ng-click="createPdf()")
               | печат
-            // Checkout Orange
-            .row-Check
-              .row
-                .col-sm-12.go-button-container
-                  span.Check.btn.btn-small.rz-button-primary(ng-click="submit()") създай разкрой
-            // Checkout Orange
           // Right Column
     // Main Body Area
     // Footer area

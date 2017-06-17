@@ -468,8 +468,6 @@ span.no-4 {
 
 .Summ {
 	border: 1px solid;
-/*  margin-left: 25px; */
-  width: 297px;
   text-align: center;
   font-weight: bold;
   z-index: 100;
@@ -477,8 +475,7 @@ span.no-4 {
 
 .Sum-row {
   position: relative;
-  top: 0;
-	height: 4%;
+  top: 5px;
   width: 100%;
 }
 
@@ -492,9 +489,6 @@ span.no-4 {
 }
 
 .row-Check {
-  position: absolute;
-  top: 105%;
-  right: 0;
 }
 
 span.Check {
