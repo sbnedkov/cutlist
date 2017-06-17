@@ -36,39 +36,38 @@ html(ng-app="cutlist")
               button.btn2.rz-button-small(type="button", ng-click="login(username, password)") вход
     // /Master Header
     // Sub Header
-    .container.sub-header-row
-      .row.sub-header-cont
-        #exampleInputEmail1.col-md-1.col-sm-1.col-md-offset-1.col-sm-offset-1.sub1(type="text", placeholder="въведи размер плоча")
-          input.form-control(placeholder="дължина", type="number", ng-model="selectedStockToAdd.width")
-        #exampleInputEmail1.col-md-1.col-sm-1.sub1(type="text", placeholder="въведи размер плоча")
-          input.form-control(placeholder="ширина", type="number", ng-model="selectedStockToAdd.height")
-        .col-md-1.col-sm-1.sub2.small-font
-          button(ng-show="selectedStock", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true", ng-init="selectedStock = stocks[0]")
-            | {{selectedStock.width}}x{{selectedStock.height}}
-            i.fa.fa-angle-down(ng-show="selectedStock", aria-hidden="true")
-          ul.dropdown-menu(aria-labelledby="dropdownMenu1")
-            li(ng-repeat="stock in stocks track by $index")
-              a(href, ng-click="changeSelectedStock(stock)") - {{stock.width}}x{{stock.height}}
-        #exampleInputEmail1.col-md-1.col-sm-1.sub3(type="text", placeholder="брой")
-          input.form-control(placeholder="брой", type="number", ng-model="addedStockNumber")
-        .col-md-2.col-sm-2.sub4
-          span.x-1 1780
-          span.x-2 2800
-        .col-md-2.col-sm-2.sub5
-          .btn(ng-click="addSelectedStock()")
-            p.rz-button-primary
-              | добави към наличност плочи
-        .col-md-1.col-sm-1.sub6.small-font
-          button(data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
-            | настройки
-            i.fa.fa-angle-down(aria-hidden="true")
-          ul.dropdown-menu(aria-labelledby="dropdownMenu1")
-            li
-              a(href="#" ng-click="openCuttingPlanDialog()") - разкрой
-            li
-              a(href="#") - дебелина на ножа
-            li
-              a(href="#") - обрезки
+    .row.sub-header-cont
+      #exampleInputEmail1.col-md-1.col-sm-1.col-md-offset-1.col-sm-offset-1.sub1(type="text", placeholder="въведи размер плоча")
+        input.form-control(placeholder="дължина", type="number", ng-model="selectedStockToAdd.width")
+      #exampleInputEmail1.col-md-1.col-sm-1.sub1(type="text", placeholder="въведи размер плоча")
+        input.form-control(placeholder="ширина", type="number", ng-model="selectedStockToAdd.height")
+      .col-md-1.col-sm-1.sub2.small-font
+        button(ng-show="selectedStock", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true", ng-init="selectedStock = stocks[0]")
+          | {{selectedStock.width}}x{{selectedStock.height}}
+          i.fa.fa-angle-down(ng-show="selectedStock", aria-hidden="true")
+        ul.dropdown-menu(aria-labelledby="dropdownMenu1")
+          li(ng-repeat="stock in stocks track by $index")
+            a(href, ng-click="changeSelectedStock(stock)") - {{stock.width}}x{{stock.height}}
+      #exampleInputEmail1.col-md-1.col-sm-1.sub3(type="text", placeholder="брой")
+        input.form-control(placeholder="брой", type="number", ng-model="addedStockNumber")
+      .col-md-2.col-sm-2.sub4
+        span.x-1 1780
+        span.x-2 2800
+      .col-md-2.col-sm-2.sub5
+        .btn(ng-click="addSelectedStock()")
+          p.rz-button-primary
+            | добави към наличност плочи
+      .col-md-1.col-sm-1.sub6.small-font
+        button(data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
+          | настройки
+          i.fa.fa-angle-down(aria-hidden="true")
+        ul.dropdown-menu(aria-labelledby="dropdownMenu1")
+          li
+            a(href="#" ng-click="openCuttingPlanDialog()") - разкрой
+          li
+            a(href="#") - дебелина на ножа
+          li
+            a(href="#") - обрезки
     // /Sub Header
     // Main Body Area
     .master-body-row(ng-hide="showResult")
@@ -76,23 +75,21 @@ html(ng-app="cutlist")
         .row
           // Left Column
           .col-sm-2.col-md-2.left-col
+            .first-title
+              | {{leftColLabel}}
             uib-tabset
-              uib-tab
+              uib-tab(select="labelTo('наличности')")
                 uib-tab-heading
                   span.tab-heading наличности
-                .first-title
-                  | наличности
                 .left-col-container.result-outlook-container
                   .form-group(ng-repeat="stock in stocks")
                     .fourth-empty
                       | {{stock.width}}x{{stock.height}}
                     button.fourth-title.rz-button-small(ng-click="subtractStock($index)")
                       | {{stock.number}} бр. намали
-              uib-tab(ng-show="loggedIn")
+              uib-tab(ng-show="loggedIn", select="labelTo('проекти')")
                 uib-tab-heading
                   span.tab-heading проекти
-                .first-title
-                  | проекти
                 .left-col-container.result-outlook-container
                   div.row(ng-repeat="p in projects track by p.creation_date")
                       .col-sm-12.project
@@ -177,10 +174,11 @@ html(ng-app="cutlist")
               | разкрой
             .right-col-container.result-outlook-container
               rz-result-stocks(cutlist="cutlist")
-            button.btn.right-col-title.zoom(ng-click="showResult = true")
-              | покажи
-            button.btn.right-col-title.print(ng-click="createPdf()")
-              | печат
+            .bottom-col-buttons
+              button.btn.right-col-title.zoom(ng-click="showResult = true")
+                | покажи
+              button.btn.right-col-title.print(ng-click="createPdf()")
+                | печат
           // Right Column
     // Main Body Area
     // Footer area

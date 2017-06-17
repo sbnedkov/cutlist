@@ -88,6 +88,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         number: 2
     }];
 
+    $scope.labelTo = function (label) {
+        $scope.leftColLabel = label;
+    };
+
     $scope.addRow = () => {
         $scope.details.push({
             name: $scope.detailsOptions[0],
