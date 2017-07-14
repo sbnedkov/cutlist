@@ -77,7 +77,7 @@ app.set('view engine', 'jade');
 var wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 // Certbot
-app.get('/.well-known/acme-challenge/:id', wrap(async (req, res) => {
+app.get('/.well-known/acme-challenge/:id', wrap((req, res) => {
     res.write(req.params.id + '.TUnHNwa3rWgjWtaik-RTE82R5yXjE0N3Gc8iC7sD4vE');
     res.end();
 }));
