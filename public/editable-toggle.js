@@ -18,6 +18,7 @@ angular.module('cutlist')
 
             $scope.click = function () {
                 $scope.index = ($scope.index + 1) % $scope.values.length;
+                console.log($scope.index);
             };
 
             $scope.$watch('index', function (index) {
