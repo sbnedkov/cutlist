@@ -10,15 +10,17 @@ angular.module('cutlist')
             callback: '=',
             rowidx: '='
         },
-        link: ($scope, el) => {
-            $scope.index = $scope.values.indexOf($scope.value);
-            if (!($scope.index >= 0)) {
-                $scope.index = 0;
-            }
+        controller: ['$scope', function ($scope) {
+
+            $scope.$watch('value', function () {
+                $scope.index = $scope.values.indexOf($scope.value);
+                if (!($scope.index >= 0)) {
+                    $scope.index = 0;
+                }
+            });
 
             $scope.click = function () {
                 $scope.index = ($scope.index + 1) % $scope.values.length;
-                console.log($scope.index);
             };
 
             $scope.$watch('index', function (index) {
@@ -26,6 +28,8 @@ angular.module('cutlist')
                 $scope.callback($scope.rowidx);
             });
 
+        }],
+        link: ($scope, el) => {
             el.on('keypress', function (ev) {
                 if (ev.keyCode === 13) {
                     $scope.$apply(function () {
