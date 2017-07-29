@@ -492,6 +492,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     }
 
     function createPatch (savedObj, obj) {
+        if (!obj) {
+            return {};
+        }
+
         obj._id = savedObj._id;
         obj.creation_date = savedObj.creation_date;
         return window.JSON8Patch.diff(savedObj, obj);
