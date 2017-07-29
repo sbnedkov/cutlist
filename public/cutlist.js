@@ -548,7 +548,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             delete obj._id;
         }
 
-        Object.values(obj).forEach(prop => stripIds(prop));
+        Object.values(obj).forEach(prop => Object.prototype.hasOwnProperty.call(obj, prop) && stripIds(prop));
 
         return obj;
     }
