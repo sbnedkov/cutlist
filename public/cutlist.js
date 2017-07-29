@@ -267,14 +267,14 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     }
 
     $scope.newProject = function () {
-        $scope.processing = true;
-
         var modalInstance = $uibModal.open({
             templateUrl: '/views/dialogs/create-project.html',
             controller: 'CreateProjectCtrl'
         });
 
         modalInstance.result.then(function (name) {
+            $scope.processing = true;
+
             var planId;
             window.async.waterfall([
                 (cb) => {
