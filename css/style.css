@@ -706,11 +706,6 @@ span.Check {
   padding-bottom: inherit;
 }
 
-.master-body-row .cutting-plan-result {
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
 .tab-heading {
   font-size: 0.7em;
 }
@@ -751,4 +746,20 @@ span.Check {
 
 .selected-project {
   background-color: #ff7e00;
+}
+
+.master-body-row {
+}
+
+.master-body-row .cutting-plan-result {
+}
+
+.master-body-row .cutting-plan-result > .row {
+  height: 500px; /* this is arbitrary but without it it seems to not work */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.master-body-row .cutting-plan-result > .row .cutting-plan-result-inner {
+  height: auto;
 }
