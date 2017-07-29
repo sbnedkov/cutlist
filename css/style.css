@@ -706,8 +706,7 @@ span.Check {
   padding-bottom: inherit;
 }
 
-.cutting-plan-result {
-  height: 100%;
+.master-body-row .cutting-plan-result {
   overflow-y: auto;
   overflow-x: hidden;
 }
