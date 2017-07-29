@@ -492,7 +492,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     }
 
     function createPatch (savedObj, obj) {
-        if (!obj) {
+        if (!savedObj || !obj) {
             return {};
         }
 
