@@ -291,7 +291,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 ({_id}, cb) => {
                     planId = _id;
                     if ($scope.cutlist) {
-                        $http.post('/results', $scope.cutlist)
+                        $http.post('/results', stripIds(cloneDeep($scope.cutlist)))
                             .then(({data: result}) => {
                                 $scope.result = result;
                                 $scope.savedResult = cloneDeep(result);
@@ -537,6 +537,20 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
     function askToContinue() {
         return confirm('Имате направени промени, наистина ли искате да продължите без да запазите проекта?');
+    }
+
+    function stripIds (obj) {
+        if (!obj) {
+            return null;
+        }
+
+        if (obj._id) {
+            delete obj._id;
+        }
+
+        Object.values(obj).forEach(prop => stripIds(prop));
+
+        return obj;
     }
 }]).directive('rzResultContainer', [function () {
     return {
