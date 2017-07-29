@@ -433,6 +433,8 @@ span.no-1 {
 p.no-2 {
   transform-origin: 50% 50%;
   vertical-align: middle;
+  width: 45px;
+  height: 1px;
 }
 
 span.no-3 {
