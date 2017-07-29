@@ -112,6 +112,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
     $scope.tooltipContents = [];
 
+    $scope.recompileAllTooltips = () => {
+        ($scope.details || []).forEach((ign, idx) => $scope.recompileTooltip(idx));
+    };
+
     $scope.recompileTooltip = idx => {
         var value = $scope.details[idx];
 
@@ -368,6 +372,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                 $scope.savedProject = cloneDeep(project);
                 $scope.detailsOptions = $scope.plan.details.map(detail => detail.name);
 
+                $scope.recompileAllTooltips();
             });
         }
     };
