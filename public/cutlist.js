@@ -1,5 +1,11 @@
 var app = angular.module('cutlist', ['picardy.fontawesome', 'ui.bootstrap']);
 
+app.config(['$uibTooltipProvider', function ($uibTooltipProvider) {
+    $uibTooltipProvider.options({
+        appendToBody: false
+    });
+}]);
+
 app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$sce','$uibModal', ($scope, $http, $timeout, $interpolate, $sce, $uibModal) => {
     // For new design, more work on that needed
     const VISUALIZATION_DIMENTION_FACTOR = 3;
