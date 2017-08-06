@@ -60,6 +60,6 @@
   "homepage": "https://github.com/sbnedkov/cutlist",
   "private": true,
   "engines": {
-      "node": "8.2.1"
+    "node": "8.2.1"
   }
 }
