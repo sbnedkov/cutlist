@@ -43,6 +43,10 @@ angular.module('cutlist')
                     $scope.isOpen = false;
                 }
             };
+
+            el.find('input').on('blur', () => {
+                $scope.hasFocus = false;
+            });
         },
         templateUrl: '/views/partials/editable-select.html'
     };
