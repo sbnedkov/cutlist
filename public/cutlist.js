@@ -107,6 +107,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
             rotate: false
         });
     };
+
     $scope.deleteRow = index => {
         $scope.details.splice(index, 1);
         $scope.details.forEach((ign, idx) => idx >= index && $scope.recompileTooltip(idx));
@@ -534,7 +535,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     });
 
     function hasChanged (savedObj, obj) {
-//        console.log(window.JSON8Patch.diff(savedObj, obj), window.JSON8Patch.diff(savedObj, obj).length);
+        console.log(window.JSON8Patch.diff(savedObj, obj), window.JSON8Patch.diff(savedObj, obj).length);
         var diff = savedObj && window.JSON8Patch.diff(savedObj, obj);
         if (!diff || !diff.length) {
             return false;
@@ -546,7 +547,7 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     function hasChanges () {
         var planChanged = hasChanged($scope.savedPlan, $scope.plan);
         var resultChanged = hasChanged($scope.savedResult, $scope.cutlist);
-//        console.log('Plan changed: ', planChanged, 'result changed: ', resultChanged);
+        console.log('Plan changed: ', planChanged, 'result changed: ', resultChanged);
 
         return planChanged || resultChanged;
     }

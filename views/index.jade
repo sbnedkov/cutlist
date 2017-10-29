@@ -111,8 +111,8 @@ html(ng-app="cutlist")
                   .divTableCell.first-col №
                   .divTableCell.second-col име на детайл
                   .divTableCell.third-col бр.
-                  .divTableCell.fourth-col(title="Размер по фладера") &par;
-                  .divTableCell.fifth-col(title="Размер перпендикулярно на фладера") &bot;
+                  .divTableCell.fourth-col(title="Размер перпендикулярно на фладера") &bot;
+                  .divTableCell.fifth-col(title="Размер по фладера") &par;
                   .divTableCell.special-title.sixth-col(title="0-без кант 1-тънък кант 2-дебел кант")
                     .row кантиране
                     .row
@@ -133,9 +133,9 @@ html(ng-app="cutlist")
                   .divTableCell.third-col
                     rz-editable-input(tabindex="0", value="value.number", callback="editableChanged", rowidx="$index")
                   .divTableCell.fourth-col
-                    rz-editable-input(tabindex="0", value="value.height", callback="editableChanged", rowidx="$index")
-                  .divTableCell.fifth-col
                     rz-editable-input(tabindex="0", value="value.width", callback="editableChanged", rowidx="$index")
+                  .divTableCell.fifth-col
+                    rz-editable-input(tabindex="0", value="value.height", callback="editableChanged", rowidx="$index")
                   .divTableCell.sixth-col
                     .divTableCell.special
                         rz-editable-toggle(tabindex="0", value="value.edgefl", values="toggleValues", visual-values="toggleValues", callback="editableChanged", rowidx="$index")
