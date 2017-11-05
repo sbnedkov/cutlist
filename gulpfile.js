@@ -15,7 +15,9 @@ gulp.task('browserify', function () {
             './public/cutlist.js',
             './public/editable-select.js',
             './public/editable-input.js',
-            './public/editable-toggle.js'
+            './public/editable-toggle.js',
+            './public/projects.js',
+            './public/project.js'
         ],
         debug: true
     }).transform(babelify)

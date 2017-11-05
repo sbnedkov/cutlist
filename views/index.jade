@@ -91,9 +91,9 @@ html(ng-app="cutlist")
                 uib-tab-heading
                   span.tab-heading проекти
                 .left-col-container.result-outlook-container
-                  div.row(ng-repeat="p in projects track by p.creation_date")
+                  div.row(ng-repeat="p in projects track by p.obj._id | orderBy:'obj.creation_date'")
                       .col-sm-12.project
-                        div(href ng-class="{'selected-project': project === p}" ng-click="loadProject(p)") {{p.name}}
+                        div(href ng-class="{'selected-project': project === p}" ng-click="loadProject(p)") {{p.obj.name}}
                 .bottom-col-buttons
                   button.btn.right-col-title.zoom(ng-click="newProject()")
                     | създай
@@ -173,7 +173,7 @@ html(ng-app="cutlist")
             .first-title
               | разкрой
             .right-col-container.result-outlook-container
-              rz-result-stocks(cutlist="cutlist")
+              rz-result-stocks(cutlist="result")
             .bottom-col-buttons
               button.btn.right-col-title.zoom(ng-click="showResult = true")
                 | покажи
