@@ -6,7 +6,25 @@ app.config(['$uibTooltipProvider', function ($uibTooltipProvider) {
     });
 }]);
 
-app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$sce','$uibModal', ($scope, $http, $timeout, $interpolate, $sce, $uibModal) => {
+app.controller('CutListCtrl', [
+    '$scope',
+    '$http',
+    '$timeout',
+    '$interpolate',
+    '$sce',
+    '$uibModal',
+    'Projects',
+    'Project',
+        (
+            $scope,
+            $http,
+            $timeout,
+            $interpolate,
+            $sce,
+            $uibModal,
+            Projects,
+            Project
+        ) => {
     // For new design, more work on that needed
     const VISUALIZATION_DIMENTION_FACTOR = 3;
     $scope.detailsOptions = [
@@ -241,7 +259,10 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
                                     return alert(JSON.stringify(res.err));
                                 }
 
-                                $scope.cutlist = res;
+                                $scope.result = res;
+                                if ($scope.project) {
+                                    $scope.project.setResult(res);
+                                }
                             } else {
                                 checkFinished();
                             }
@@ -271,10 +292,13 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
     function logInAndLoadProjects () {
         $scope.loggedIn = true;
-        $http.get('/projects')
-            .then(function ({data: projects}) {
-                $scope.projects = projects;
-            }, handleError);
+        Project.loadAll((err, projects) => {
+            if (err) {
+                return handleError(err);
+            }
+
+            $scope.projects = projects;
+        });
     }
 
     $scope.newProject = function () {
@@ -286,56 +310,29 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         modalInstance.result.then(function (name) {
             $scope.processing = true;
 
-            var planId;
-            window.async.waterfall([
-                (cb) => {
-                    $http.post('/plans', {
-                        stocks: $scope.stocks,
-                        details: $scope.details
-                    }).then(({data: plan}) => {
-                        $scope.plan = plan;
-                        $scope.details = plan.details;
-                        $scope.stocks = plan.stocks;
-                        $scope.savedPlan = cloneDeep(plan);
-                        cb(null, plan);
-                    }, cb);
-                },
-                ({_id}, cb) => {
-                    planId = _id;
-                    if ($scope.cutlist) {
-                        $http.post('/results', stripIds(cloneDeep($scope.cutlist)))
-                            .then(({data: result}) => {
-                                $scope.result = result;
-                                $scope.savedResult = cloneDeep(result);
-                                cb(null, result);
-                            }, cb);
-                    } else {
-                        cb(null, {_id: void 0});
-                    }
-                },
-                ({_id}, cb) => {
-                    $http.post('/projects', {
-                        name: name,
-                        planId: planId,
-                        resultId: _id
-                    }).then(({data: project}) => cb(null, project), cb);
-                }
-            ], (err, project) => {
+            var obj = {name};
+
+            Projects.createNew(obj, $scope.stocks, $scope.details, $scope.result, (err, project) => {
                 $scope.processing = false;
+
                 if (err) {
                     return handleError(err);
                 }
 
-                $scope.projects.push(project);
                 $scope.project = project;
-                $scope.savedProject = cloneDeep(project);
+                $scope.stocks = project.plan.stocks;
+                $scope.details = project.plan.details;
+                $scope.result = project.result;
+
+                $scope.projects.push(project);
             });
         });
     };
 
     $scope.loadProject = function (project) {
-        if (hasChanges()) {
+        if ($scope.project.hasChanges()) {
             if (askToContinue()) {
+                $scope.project.resetChanges();
                 cont();
             }
         } else {
@@ -343,44 +340,12 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         }
 
         function cont () {
-            $scope.processing = true;
-
-            window.async.waterfall([
-                cb => {
-                    $http.get('/plans/' + project.planId)
-                        .then(({data: plan}) => {
-                            $scope.plan = plan;
-                            $scope.savedPlan = cloneDeep(plan);
-                            $scope.details = plan.details;
-                            $scope.stocks = plan.stocks;
-                            cb();
-                        }, cb);
-                },
-                cb => {
-                    if (project.resultId) {
-                        $http.get('/results/' + project.resultId)
-                            .then(({data: result}) => {
-                                $scope.cutlist = result;
-                                $scope.savedResult = cloneDeep(result);
-                                cb();
-                            }, cb);
-                    } else {
-                        cb();
-                    }
-                }
-            ], err => {
-                $scope.processing = false;
-
-                if (err) {
-                    return handleError(err);
-                }
-
-                $scope.project = project;
-                $scope.savedProject = cloneDeep(project);
-                $scope.detailsOptions = $scope.plan.details.map(detail => detail.name);
-
-                $scope.recompileAllTooltips();
-            });
+            $scope.project = project;
+            $scope.detailsOptions = project.plan.details.map(detail => detail.name);
+            $scope.stocks = project.plan.stocks;
+            $scope.details = project.plan.details;
+            $scope.result = project.plan.result;
+            $scope.recompileAllTooltips();
         }
     };
 
@@ -390,46 +355,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         }
 
         $scope.processing = true;
-        window.async.waterfall([
-            cb => {
-                var patch = createPatch($scope.savedPlan, $scope.plan);
-                $http.patch('/plans/' + $scope.project.planId, patch)
-                    .then(({data: plan}) => {
-                        $scope.savedPlan = cloneDeep(plan);
-                        cb();
-                    }, cb);
-            },
-            cb => {
-                if ($scope.project.resultId) {
-                    var patch = createPatch($scope.savedResult, $scope.cutlist);
-                    $http.patch('/results/' + $scope.project.resultId, patch)
-                        .then(({data: result}) => {
-                            $scope.savedResult = cloneDeep(result);
-                            cb();
-                        }, cb);
-                } else {
-                    if ($scope.cutlist) {
-                        $http.post('/results', $scope.cutlist)
-                            .then(({data: result}) => {
-                                $scope.result = result;
-                                $scope.savedResult = cloneDeep(result);
-
-                                $scope.project.resultId = result._id;
-                                var patch = createPatch($scope.savedProject, $scope.project);
-                                $http.patch('/projects/' + $scope.project._id, patch)
-                                    .then(({data: project}) => {
-                                        $scope.savedProject = cloneDeep(project);
-                                        cb();
-                                    }, cb);
-                            }, cb);
-                    } else {
-                        cb();
-                    }
-                }
-            }
-        ], err => {
+        $scope.project.save(err => {
             $scope.processing = false;
-
             if (err) {
                 return handleError(err);
             }
@@ -439,24 +366,8 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
     $scope.deleteProject = function () {
         if (confirm('Моля потвърдете')) {
             $scope.processing = true;
-            window.async.waterfall([
-                cb => {
-                    $http.delete('/plans/' + $scope.project.planId)
-                        .then(() => cb(), cb);
-                },
-                cb => {
-                    if ($scope.project.resultId) {
-                        $http.delete('/results/' + $scope.project.resultId)
-                            .then(() => cb(), cb);
-                    } else {
-                        cb();
-                    }
-                },
-                cb => {
-                    $http.delete('/projects/' + $scope.project._id)
-                        .then(() => cb(), cb);
-                }
-            ], err => {
+
+            $scope.project.delete(err => {
                 $scope.processing = false;
 
                 if (err) {
@@ -465,13 +376,9 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
                 $scope.projects.splice($scope.projects.find(p => p === $scope.project), 1);
 
-                delete $scope.project;
-                delete $scope.plan;
-                delete $scope.savedPlan;
-                $scope.details.splice(0, $scope.details.length);
-                $scope.stocks.splice(0, $scope.stocks.length);
-                delete $scope.cutlist;
-                delete $scope.savedResult;
+                delete $scope.stocks;
+                delete $scope.details;
+                delete $scope.result;
 
                 logInAndLoadProjects();
             });
@@ -500,20 +407,6 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         });
     };
 
-    function cloneDeep (obj) {
-        return window._.cloneDeep(obj);
-    }
-
-    function createPatch (savedObj, obj) {
-        if (!savedObj || !obj) {
-            return {};
-        }
-
-        obj._id = savedObj._id;
-        obj.creation_date = savedObj.creation_date;
-        return window.JSON8Patch.diff(savedObj, obj);
-    }
-
     function handleError (err) {
         $scope.processing = false;
         alert(JSON.stringify(err));
@@ -534,40 +427,12 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
         }
     });
 
-    function hasChanged (savedObj, obj) {
-        console.log(window.JSON8Patch.diff(savedObj, obj), window.JSON8Patch.diff(savedObj, obj).length);
-        var diff = savedObj && window.JSON8Patch.diff(savedObj, obj);
-        if (!diff || !diff.length) {
-            return false;
-        }
-
-        return diff.length !== 1 || diff[0].path === ''; // XXX: investigate why this patches appear: op:"add", path:"", value:null
-    }
-
     function hasChanges () {
-        var planChanged = hasChanged($scope.savedPlan, $scope.plan);
-        var resultChanged = hasChanged($scope.savedResult, $scope.cutlist);
-        console.log('Plan changed: ', planChanged, 'result changed: ', resultChanged);
-
-        return planChanged || resultChanged;
+        $scope.project.hasChanges();
     }
 
     function askToContinue() {
         return confirm('Имате направени промени, наистина ли искате да продължите без да запазите проекта?');
-    }
-
-    function stripIds (obj) {
-        if (!obj) {
-            return null;
-        }
-
-        if (obj._id) {
-            delete obj._id;
-        }
-
-        Object.values(obj).forEach(prop => Object.prototype.hasOwnProperty.call(obj, prop) && stripIds(prop));
-
-        return obj;
     }
 }]).directive('rzResultContainer', [function () {
     return {
@@ -742,4 +607,224 @@ app.controller('CutListCtrl', ['$scope', '$http', '$timeout', '$interpolate', '$
 
         $uibModalInstance.close($scope.config);
     };
+}]).factory('Project', ['$http', function ($http) {
+    var Project = function (project, plan, result) {
+        this.obj = project;
+        this.savedObj = cloneDeep(project);
+        this.plan = plan;
+        this.savedPlan = cloneDeep(plan);
+        this.result = result;
+        this.savedResult = result && cloneDeep(result);
+    };
+
+    Project.prototype.save = function (callback) {
+        window.async.waterfall([
+            cb => {
+                var patch = createPatch(this.savedPlan, this.plan);
+                $http.patch('/plans/' + this.plan._id, patch)
+                    .then(({data: plan}) => {
+                        this.plan = plan;
+                        this.savedPlan = cloneDeep(plan);
+                        cb();
+                    }, cb);
+            },
+            cb => {
+                if (this.savedResult) {
+                    var patch = createPatch(this.savedResult, this.result);
+                    $http.patch('/results/' + this.result._id, patch)
+                        .then(({data: result}) => {
+                            this.result = result;
+                            this.savedResult = cloneDeep(result);
+                            cb();
+                        }, cb);
+                } else {
+                    if (this.result) {
+                        $http.post('/results', this.cutlist)
+                            .then(({data: result}) => {
+                                this.result = result;
+                                this.savedResult = cloneDeep(result);
+
+                                var patch = createPatch(this.savedObj, this);
+                                $http.patch('/projects/' + this.obj._id, patch)
+                                    .then(({data: project}) => {
+                                        this.savedObj = cloneDeep(project);
+                                        cb();
+                                    }, cb);
+                                cb();
+                            }, cb);
+                    } else {
+                        cb();
+                    }
+                }
+            }
+        ], callback);
+    };
+
+    Project.prototype.delete = function (callback) {
+        window.async.waterfall([
+            cb => {
+                $http.delete('/plans/' + this.plan._id)
+                    .then(() => cb(), cb);
+            },
+            cb => {
+                if (this.result) {
+                    $http.delete('/results/' + this.result._id)
+                        .then(() => cb(), cb);
+                } else {
+                    cb();
+                }
+            },
+            cb => {
+                $http.delete('/projects/' + this.obj._id)
+                    .then(() => cb(), cb);
+            }
+        ], callback);
+    };
+
+    Project.prototype.resetChanges = function () {
+        this.plan = this.savedPlan;
+        this.result = this.savedResult;
+    };
+
+    Project.prototype.hasChanged = function () {
+        var planChanged = hasChanged(this.savedPlan, this.plan);
+        var resultChanged = hasChanged(this.savedResult, this.result);
+        console.log('Plan changed: ', planChanged, 'result changed: ', resultChanged);
+
+        return planChanged || resultChanged;
+    };
+
+    Project.prototype.setResult = function (result) {
+        this.result = result;
+    };
+
+    function createPatch (savedObj, obj) {
+        if (!savedObj || !obj) {
+            return {};
+        }
+
+        obj._id = savedObj._id;
+        obj.creation_date = savedObj.creation_date;
+        return window.JSON8Patch.diff(savedObj, obj);
+    }
+
+    function hasChanged (savedObj, obj) {
+        console.log(window.JSON8Patch.diff(savedObj, obj), window.JSON8Patch.diff(savedObj, obj).length);
+        var diff = savedObj && window.JSON8Patch.diff(savedObj, obj);
+        if (!diff || !diff.length) {
+            return false;
+        }
+
+        return diff.length !== 1 || diff[0].path === ''; // XXX: investigate why this patches appear: op:"add", path:"", value:null
+    }
+
+    function cloneDeep (obj) {
+        return window._.cloneDeep(obj);
+    }
+
+    return Project;
+}]).service('Projects', ['$http', 'Project', function ($http, Project) {
+    var Projects = function () {
+    };
+
+    Projects.prototype.createNew = function (obj, stocks, details, cutlist, callback) {
+        var plan;
+        var result;
+        var newProject;
+        window.async.waterfall([
+            (cb) => {
+                $http.post('/plans', {
+                    stocks: stocks,
+                    details: details
+                }).then(({data: plan}) => {
+                    cb(null, plan);
+                }, cb);
+            },
+            (newPlan, cb) => {
+                plan = newPlan;
+                if (cutlist) {
+                    $http.post('/results', stripIds(cloneDeep(cutlist)))
+                        .then(({data: result}) => {
+                            cb(null, result);
+                        }, cb);
+                } else {
+                    cb(null, {_id: void 0});
+                }
+            },
+            (newResult, cb) => {
+                result = newResult;
+                $http.post('/projects', {
+                    name: obj.name,
+                    planId: plan._id,
+                    resultId: result._id
+                }).then(({data: project}) => cb(null, project), cb);
+            }
+        ], (err, project) => {
+            newProject = new Project(project, plan, result);
+            callback(err, newProject);
+        });
+    };
+
+    Projects.prototype.loadAll = function (callback) {
+        $http.get('/projects')
+            .then(({data: projects}) => {
+                window.async.map(projects, (project, cb) => {
+                    this.load(project._id, cb);
+                }, projects => {
+                    callback(null, projects);
+                });
+            }, callback);
+    };
+
+    Projects.prototype.load = function (id, callback) {
+        var plan, result;
+        window.async.waterfall([
+            cb => {
+                $http.get('/plans/' + this.planId)
+                    .then(({data: newPlan}) => {
+                        plan = newPlan;
+                        cb();
+                    }, cb);
+            },
+            cb => {
+                if (this.resultId) {
+                    $http.get('/results/' + this.resultId)
+                        .then(({data: newResult}) => {
+                            result = newResult;
+                            cb();
+                        }, cb);
+                } else {
+                    cb();
+                }
+            }
+        ], err => {
+            if (err) {
+                return callback(err);
+            }
+
+            var project = new Project(project._id, name, plan, result);
+            callback(null, project);
+        });
+    };
+
+    // Dupe
+    function cloneDeep (obj) {
+        return window._.cloneDeep(obj);
+    }
+
+    function stripIds (obj) {
+        if (!obj) {
+            return null;
+        }
+
+        if (obj._id) {
+            delete obj._id;
+        }
+
+        Object.values(obj).forEach(prop => Object.prototype.hasOwnProperty.call(obj, prop) && stripIds(prop));
+
+        return obj;
+    }
+
+    return new Projects();
 }]);
