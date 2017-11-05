@@ -14,7 +14,6 @@ app.controller('CutListCtrl', [
     '$sce',
     '$uibModal',
     'Projects',
-    'Project',
         (
             $scope,
             $http,
@@ -22,8 +21,7 @@ app.controller('CutListCtrl', [
             $interpolate,
             $sce,
             $uibModal,
-            Projects,
-            Project
+            Projects
         ) => {
     // For new design, more work on that needed
     const VISUALIZATION_DIMENTION_FACTOR = 3;
@@ -292,7 +290,7 @@ app.controller('CutListCtrl', [
 
     function logInAndLoadProjects () {
         $scope.loggedIn = true;
-        Project.loadAll((err, projects) => {
+        Projects.loadAll((err, projects) => {
             if (err) {
                 return handleError(err);
             }
