@@ -6,14 +6,17 @@ angular.module('cutlist')
         scope: {
             value: '=',
             callback: '=',
+            askPreventEdit: '=',
             rowidx: '='
         },
         link: ($scope, el) => {
             $scope.click = () => {
-                $scope.hasFocus = true;
-                $timeout(() => {
-                    el.find('input')[0].focus(true);
-                }, 100);
+                if (!$scope.askPreventEdit()) {
+                    $scope.hasFocus = true;
+                    $timeout(() => {
+                        el.find('input')[0].focus(true);
+                    }, 100);
+                }
             };
 
             el.find('input').on('blur', () => {
@@ -22,9 +25,11 @@ angular.module('cutlist')
 
             el.on('keypress', function (ev) {
                 if (ev.keyCode === 13) {
-                    $scope.$apply(function () {
-                        $scope.hasFocus = !$scope.hasFocus;
-                    });
+                    if (!$scope.askPreventEdit()) {
+                        $scope.$apply(function () {
+                            $scope.hasFocus = !$scope.hasFocus;
+                        });
+                    }
                 }
             });
 

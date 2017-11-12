@@ -73,9 +73,8 @@ angular.module('cutlist').factory('Project', ['$http', function ($http) {
     };
 
     Project.prototype.resetChanges = function () {
-        this.obj = this.savedObj;
-        this.plan = this.savedPlan;
-        this.result = this.savedResult;
+        this.plan = cloneDeep(this.savedPlan);
+        this.result = cloneDeep(this.savedResult);
     };
 
     Project.prototype.hasChanged = function () {

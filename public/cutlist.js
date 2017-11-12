@@ -170,15 +170,39 @@ app.controller('CutListCtrl', [
             $scope.details.forEach((ign, idx) => $scope.recompileTooltip(idx));
         }, handleError);
 
-    $scope.editableChanged = (idx) => {
+    $scope.emptyResult = function () {
+        return {
+            arr: [],
+            waste: []
+        };
+    };
+
+    $scope.editableChanged = function (idx) {
         if ($scope.tooltipTemplate) {
             $timeout(() => {
                 $scope.recompileTooltip(idx);
             });
         }
-
-        $scope.result = null;
     };
+
+    $scope.askPreventEdit = function () {
+        if (hasResult()) {
+            if (askToResetCuttingPlan()) {
+                delete $scope.project.result;
+                $scope.result = $scope.emptyResult();
+
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    function hasResult () {
+        return $scope.result && !!$scope.result.arr.length;
+    }
 
     $scope.subtractStock = function (index) {
         if (!--$scope.stocks[index].number) {
@@ -322,7 +346,7 @@ app.controller('CutListCtrl', [
                 $scope.project = project;
                 $scope.stocks = project.plan.stocks;
                 $scope.details = project.plan.details;
-                $scope.result = project.result;
+                $scope.result = project.result || $scope.emptyResult();
 
                 $scope.projects.push(project);
             });
@@ -344,7 +368,7 @@ app.controller('CutListCtrl', [
             $scope.detailsOptions = project.plan.details.map(detail => detail.name);
             $scope.stocks = project.plan.stocks;
             $scope.details = project.plan.details;
-            $scope.result = project.plan.result;
+            $scope.result = project.plan.result || $scope.emptyResult();
             $scope.recompileAllTooltips();
         }
     };
@@ -431,8 +455,12 @@ app.controller('CutListCtrl', [
         return $scope.project && $scope.project.hasChanged();
     }
 
-    function askToContinue() {
+    function askToContinue () {
         return confirm('Имате направени промени, наистина ли искате да продължите без да запазите проекта?');
+    }
+
+    function askToResetCuttingPlan () {
+        return confirm('Това действие ще изтрие съществуващия разкрой, да се продължи?');
     }
 }]).directive('rzResultContainer', [function () {
     return {

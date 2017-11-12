@@ -7,14 +7,17 @@ angular.module('cutlist')
             value: '=',
             values: '=',
             callback: '=',
+            askPreventEdit: '=',
             rowidx: '='
         },
         link: ($scope, el) => {
             $scope.click = () => {
-                $scope.hasFocus = true;
-                $timeout(() => $scope.isOpen = true);
+                if (!$scope.askPreventEdit()) {
+                    $scope.hasFocus = true;
+                    $timeout(() => $scope.isOpen = true);
 
-                el.find('input')[0].focus(true);
+                    el.find('input')[0].focus(true);
+                }
             };
 
             $scope.change = (ev, option) => {

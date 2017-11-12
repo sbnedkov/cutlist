@@ -8,6 +8,7 @@ angular.module('cutlist')
             values: '=',
             visualValues: '=',
             callback: '=',
+            askPreventEdit: '=',
             rowidx: '='
         },
         controller: ['$scope', function ($scope) {
@@ -20,7 +21,9 @@ angular.module('cutlist')
             });
 
             $scope.click = function () {
-                $scope.index = ($scope.index + 1) % $scope.values.length;
+                if (!$scope.askPreventEdit()) {
+                    $scope.index = ($scope.index + 1) % $scope.values.length;
+                }
             };
 
             $scope.$watch('index', function (index) {
