@@ -290,7 +290,9 @@ app.controller('CutListCtrl', [
 
     function logInAndLoadProjects () {
         $scope.loggedIn = true;
+        $scope.processing = true;
         Projects.loadAll((err, projects) => {
+            $scope.processing = false;
             if (err) {
                 return handleError(err);
             }
