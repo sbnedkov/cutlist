@@ -105,7 +105,7 @@ module.exports = {
     },
     patchPlan: async (req, res) => {
         var plan = await Plan.findOne({_id: req.params.id});
-        plan.patch(req.body, function (doc) {
+        plan.patch(req.body, function (err, doc) {
             res.json(doc);
         });
     },
@@ -124,7 +124,7 @@ module.exports = {
     },
     patchResult: async (req, res) => {
         var result = await Result.findOne({_id: req.params.id});
-        result.patch(req.body, function (doc) {
+        result.patch(req.body, function (err, doc) {
             res.json(doc);
         });
     },
@@ -145,7 +145,7 @@ module.exports = {
     },
     patchProjects: async (req, res) => {
         var project = await Project.findOne({_id: req.params.id});
-        project.patch(req.body, function (doc) {
+        project.patch(req.body, function (err, doc) {
             res.json(doc);
         });
     },
