@@ -16,24 +16,25 @@ html(ng-app="cutlist")
             img(src="img/main-logo.png")
           h2 office@razkroi.com
         .col-sm-4.col-md-4.col-sm-offset-1.col-md-offset-1.header-right-info
-          .col-sm-12.col-md-12
-            .col-sm-6.col-md-6
-              label.inside-info
-                p.xtitle вход за регистрирани
-            .col-sm-6.col-md-6.username-input
-              input#exampleInputEmail1.form-control(ng-model="username", type="text", placeholder="потребител", tabindex="0", name="username", ng-keypress="maybeLogin($event, username, password)")
-          .col-sm-12.col-md-12
-            .col-sm-6.col-md-6
-              label.inside-info
-                button.xletters.rz-button-small(tabindex="-1") забравена парола
-            .col-sm-6.col-md-6
-              input#exampleInputEmail1.form-control(ng-model="password", type="password", placeholder="парола", tabindex="0", name="password", ng-keypress="maybeLogin($event, username, password)")
-          .col-sm-12.col-md-12
-            .col-sm-6.col-md-6
-              label.inside-info
-                button.xletters.rz-button-small нова регистрация
-            .col-sm-6.col-md-6
-              button.btn2.rz-button-small(type="button", ng-click="login(username, password)") вход
+          form
+            .col-sm-12.col-md-12
+              .col-sm-6.col-md-6
+                label.inside-info
+                  p.xtitle вход за регистрирани
+              .col-sm-6.col-md-6.username-input
+                input#exampleInputEmail1.form-control(ng-model="username", type="text", placeholder="потребител", tabindex="0", name="username", ng-keypress="maybeLogin($event, username, password)")
+            .col-sm-12.col-md-12
+              .col-sm-6.col-md-6
+                label.inside-info
+                  button.xletters.rz-button-small(tabindex="-1") забравена парола
+              .col-sm-6.col-md-6
+                input#exampleInputEmail1.form-control(ng-model="password", type="password", placeholder="парола", tabindex="0", name="password", ng-keypress="maybeLogin($event, username, password)")
+            .col-sm-12.col-md-12
+              .col-sm-6.col-md-6
+                label.inside-info
+                  button.xletters.rz-button-small нова регистрация
+              .col-sm-6.col-md-6
+                button.btn2.rz-button-small(type="button", ng-click="login(username, password)") вход
     // /Master Header
     // Sub Header
     .row.sub-header-cont
