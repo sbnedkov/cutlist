@@ -25,7 +25,8 @@ AccessDeniedError.prototype.constructor = AccessDeniedError;
 module.exports = {
     root: async (req, res) => {
         res.render('index.jade', {
-            userId: req.session.user
+            userId: req.session.user,
+            username: req.session.username
         });
     },
     lang: async (req, res) => {
@@ -91,6 +92,13 @@ module.exports = {
         }
 
         req.session.user = user._id;
+        req.session.username = username;
+
+        res.status(200);
+        res.end();
+    },
+    logout: async (req, res) => {
+        delete req.session.user;
 
         res.status(200);
         res.end();

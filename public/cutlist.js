@@ -308,13 +308,14 @@ app.controller('CutListCtrl', [
             username,
             password
         }).then(function () {
-            logInAndLoadProjects();
+            logInAndLoadProjects(username);
         }, handleError);
     };
 
-    function logInAndLoadProjects () {
+    function logInAndLoadProjects (username) {
         $scope.loggedIn = true;
         $scope.processing = true;
+        $scope.username = username;
         Projects.loadAll((err, projects) => {
             $scope.processing = false;
             if (err) {
@@ -323,6 +324,19 @@ app.controller('CutListCtrl', [
 
             $scope.projects = projects;
         });
+    }
+
+    $scope.logout = function () {
+        $http.post('/logout').then(function () {
+            logoutUserAndResetProjects();
+        }, handleError);
+    };
+
+    function logoutUserAndResetProjects () {
+        $scope.loggedIn = false;
+        delete $scope.username;
+        delete $scope.password;
+        $scope.projects = [];
     }
 
     $scope.newProject = function () {
@@ -404,7 +418,7 @@ app.controller('CutListCtrl', [
                 delete $scope.details;
                 delete $scope.result;
 
-                logInAndLoadProjects();
+                logInAndLoadProjects(window.USERNAME);
             });
         }
     };
@@ -440,7 +454,7 @@ app.controller('CutListCtrl', [
     $scope.cutType = 'h';
 
     if (window.USER_ID) {
-        logInAndLoadProjects();
+        logInAndLoadProjects(window.USERNAME);
     }
 
     window.document.body.style.visibility = 'visible';

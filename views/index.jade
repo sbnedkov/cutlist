@@ -22,19 +22,24 @@ html(ng-app="cutlist")
                 label.inside-info
                   p.xtitle вход за регистрирани
               .col-sm-6.col-md-6.username-input
-                input#exampleInputEmail1.form-control(ng-model="username", type="text", placeholder="потребител", tabindex="0", name="username", ng-keypress="maybeLogin($event, username, password)")
+                input#exampleInputEmail1.form-control(ng-show="!loggedIn", ng-model="username", type="text", placeholder="потребител", tabindex="0", name="username", ng-keypress="maybeLogin($event, username, password)")
+                #exampleInputEmail1.form-control(ng-show="loggedIn", tabindex="0", readonly, disabled)
+                  {{username}}
             .col-sm-12.col-md-12
               .col-sm-6.col-md-6
                 label.inside-info
                   button.xletters.rz-button-small(tabindex="-1") забравена парола
               .col-sm-6.col-md-6
-                input#exampleInputEmail1.form-control(ng-model="password", type="password", placeholder="парола", tabindex="0", name="password", ng-keypress="maybeLogin($event, username, password)")
+                input#exampleInputEmail1.form-control(ng-show="!loggedIn", ng-model="password", type="password", placeholder="парола", tabindex="0", name="password", ng-keypress="maybeLogin($event, username, password)")
+                #exampleInputEmail1.form-control(ng-show="loggedIn", tabindex="0", readonly, disabled)
+                  ********
             .col-sm-12.col-md-12
               .col-sm-6.col-md-6
                 label.inside-info
                   button.xletters.rz-button-small нова регистрация
               .col-sm-6.col-md-6
-                button.btn2.rz-button-small(type="button", ng-click="login(username, password)") вход
+                button.btn2.rz-button-small(ng-show="!loggedIn", type="button", ng-click="login(username, password)") вход
+                button.btn2.rz-button-small(ng-show="loggedIn", type="button", ng-click="logout()") изход
     // /Master Header
     // Sub Header
     .row.sub-header-cont
@@ -218,3 +223,4 @@ html(ng-app="cutlist")
       ga('send', 'pageview');
     script.
       var USER_ID = '#{userId}';
+      var USERNAME = '#{username}';

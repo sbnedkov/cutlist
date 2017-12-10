@@ -87,6 +87,7 @@ app.post('/lang', wrap(routes.lang));
 app.post('/cutlist', wrap(routes.cutlist));
 app.post('/check-finished/:key', wrap(routes.checkFinished));
 app.post('/login', wrap(routes.login));
+app.post('/logout', wrap(routes.logout));
 app.post('/plans', wrap(routes.postPlans));
 app.get('/plans/:id', wrap(routes.getPlan));
 app.patch('/plans/:id', wrap(routes.patchPlan));
