@@ -487,7 +487,7 @@ app.controller('CutListCtrl', [
                 var doc = new window.jsPDF();
                 canvasListeners.forEach((listener, idx) => {
                     var image = listener();
-                    doc.addImage(image, 'png', 0, 20, 192, 0);
+                    doc.addImage(image, 'png', 10, 20, 192, 0);
                     if (idx < canvasListeners.length - 1) {
                         doc.addPage();
                     }
