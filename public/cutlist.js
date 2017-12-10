@@ -495,6 +495,10 @@ app.controller('CutListCtrl', [
                 doc.save('Разкрой-' + new Date().toDateString() + '.pdf');
             });
 
+            $scope.resetCanvasListeners = () => {
+                canvasListeners = [];
+            };
+
             $scope.registerCanvasListener = (listener) => {
                 canvasListeners.push(listener);
             };
@@ -573,6 +577,8 @@ app.controller('CutListCtrl', [
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
                 ctx.fillText(`повърхност: ${$scope.waste.area}, употреба: ${$scope.waste.usage}`, textWidth, textHeight);
+
+                $scope.resetCanvasListeners();
 
                 var imageObj = new Image();
                 imageObj.onload = function() {
