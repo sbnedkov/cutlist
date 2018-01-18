@@ -11,7 +11,7 @@ Version: 1.0;
 */
 
 body {
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .master-row {
