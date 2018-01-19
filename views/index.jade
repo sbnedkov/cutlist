@@ -62,7 +62,7 @@ html(ng-app="cutlist")
       .col-md-2.col-sm-2.sub5
         .btn(ng-click="addSelectedStock()")
           p.rz-button-primary
-            | добави към наличност плочи
+            | добави към плочи
       .col-md-1.col-sm-1.sub6.small-font
         button(data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
           | настройки
@@ -84,9 +84,9 @@ html(ng-app="cutlist")
             .first-title
               | {{leftColLabel}}
             uib-tabset
-              uib-tab(select="labelTo('наличности')")
+              uib-tab(select="labelTo('плочи')")
                 uib-tab-heading
-                  span.tab-heading наличности
+                  span.tab-heading плочи
                 .left-col-container.result-outlook-container
                   .form-group(ng-repeat="stock in stocks")
                     .fourth-empty
