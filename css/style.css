@@ -702,6 +702,9 @@ span.Check {
 }
 
 .backbtn {
+  left: 20px;
+  top: 210px;
+  position: fixed;
   width: inherit;
   padding-bottom: inherit;
 }
@@ -762,6 +765,7 @@ span.Check {
 
 .master-body-row .cutting-plan-result > .row .cutting-plan-result-inner {
   height: auto;
+  padding-top: 10px;
 }
 
 .rz-tooltip-container {
