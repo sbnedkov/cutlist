@@ -11,7 +11,8 @@ Version: 1.0;
 */
 
 body {
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .master-row {
