@@ -702,12 +702,19 @@ span.Check {
   margin-top: 10px;
 }
 
-.backbtn {
+.resbtn {
   left: 20px;
-  top: 210px;
   position: fixed;
   width: inherit;
   padding-bottom: inherit;
+}
+
+.backbtn {
+  top: 210px;
+}
+
+.printbtn {
+  top: 240px;
 }
 
 .tab-heading {
