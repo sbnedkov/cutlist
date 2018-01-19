@@ -122,10 +122,10 @@ html(ng-app="cutlist")
                   .divTableCell.special-title.sixth-col(title="0-без кант 1-тънък кант 2-дебел кант")
                     .row кантиране
                     .row
-                        .divTableCell.special(title="първа дълга") Iд
-                        .divTableCell.special(title="първа къса") Iк
-                        .divTableCell.special(title="втора дълга") IIд
-                        .divTableCell.special(title="втора къса") IIк
+                        .divTableCell.special.rz-toggle(title="първа дълга", ng-click="toggleAllEdges('edgefl')") Iд
+                        .divTableCell.special.rz-toggle(title="първа къса", ng-click="toggleAllEdges('edgefs')") Iк
+                        .divTableCell.special.rz-toggle(title="втора дълга", ng-click="toggleAllEdges('edgesl')") IIд
+                        .divTableCell.special.rz-toggle(title="втора къса", ng-click="toggleAllEdges('edgess')") IIк
                   .divTableCell.eighth-col върти
                   .divTableCell.ninth-col &nbsp;
             .table-body

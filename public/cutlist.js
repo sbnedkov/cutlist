@@ -445,6 +445,19 @@ app.controller('CutListCtrl', [
         });
     };
 
+    $scope.toggleAllEdges = function (edge) {
+        var modalInstance = $uibModal.open({
+            templateUrl: '/views/dialogs/change-all-edges.html',
+            controller: 'ToggleAllEdgesCtrl'
+        });
+
+        modalInstance.result.then(function (val) {
+            $scope.details.forEach(detail => {
+                detail[edge] = val;
+            });
+        });
+    };
+
     function handleError (err) {
         $scope.processing = false;
         alert(JSON.stringify(err));
@@ -654,5 +667,13 @@ app.controller('CutListCtrl', [
         ev.preventDefault();
 
         $uibModalInstance.close($scope.config);
+    };
+}]).controller('ToggleAllEdgesCtrl', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+    $scope.val = 0;
+
+    $scope.submit = function (ev) {
+        ev.preventDefault();
+
+        $uibModalInstance.close(parseInt($scope.val));
     };
 }]);
