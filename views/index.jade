@@ -198,10 +198,10 @@ html(ng-app="cutlist")
     .master-body-row(ng-show="showResult")
       .container.master-body-cont.cutting-plan-result
         .row
-          button.btn.right-col-title.resbtn.backbtn.col-sm-offset-2.col-sm-2(ng-click="showResult = false")
-            | назад
-          button.btn.right-col-title.resbtn.printbtn.col-sm-offset-2.col-sm-2(ng-click="createPdf()")
+          button.btn.right-col-title.resbtn.backbtn.col-sm-offset-2.col-sm-2(ng-click="createPdf()")
             | печат
+          button.btn.right-col-title.resbtn.printbtn.col-sm-offset-2.col-sm-2(ng-click="showResult = false")
+            | назад
           rz-result-container(register-pdf-listener="registerPdfListener")
     x-loading-overlay(processing="processing")
 
