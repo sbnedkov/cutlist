@@ -29,16 +29,14 @@ gulp.task('browserify', function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('dev', ['browserify'], function () {
+gulp.task('dev', gulp.series('browserify', function () {
     return nodemon({exec: '/usr/bin/node main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'dev'}/*, verbose: true*/}).on('restart', function () {
         console.log('restart');
         gulp.run('browserify');
     });
-});
+}));
 
-gulp.task('prod', ['node']);
-
-gulp.task('node', ['browserify'], function () {
+gulp.task('node', gulp.series('browserify', function () {
     var server = fork('./main.js', {
         env: {
             NODE_ENV: 'production',
@@ -56,4 +54,6 @@ gulp.task('node', ['browserify'], function () {
     });
 
     return server;
-});
+}));
+
+gulp.task('prod', gulp.series('node'));
