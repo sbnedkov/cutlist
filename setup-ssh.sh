@@ -18,7 +18,7 @@ if [ "$GIT_SSH_KEY" != "" ]; then
 
   # Setup the ssh config file.
   # Switch out the hostname for different hosts.
-  echo -e "Host github.com\n"\
+  echo -e "Host bitbucket.com\n"\
           " IdentityFile ~/.ssh/deploy_key\n"\
           " IdentitiesOnly yes\n"\
           " UserKnownHostsFile=/dev/null\n"\
