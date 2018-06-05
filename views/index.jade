@@ -111,58 +111,58 @@ html(ng-app="cutlist")
           // /Left Column
           // Middle Column
           .col-sm-8.col-md-8.middle-col
-            // .table-header
-            //   .divTableBody
-            //     .divTableRow
-            //       .divTableCell.first-col №
-            //       .divTableCell.second-col име на детайл
-            //       .divTableCell.third-col бр.
-            //       .divTableCell.fourth-col(title="Размер перпендикулярно на фладера") &bot;
-            //       .divTableCell.fifth-col(title="Размер по фладера") &par;
-            //       .divTableCell.special-title.sixth-col(title="0-без кант 1-тънък кант 2-дебел кант")
-            //         .row кантиране
-            //         .row
-            //             .divTableCell.special.rz-toggle(title="първа дълга", ng-click="toggleAllEdges('edgefl')") Iд
-            //             .divTableCell.special.rz-toggle(title="първа къса", ng-click="toggleAllEdges('edgefs')") Iк
-            //             .divTableCell.special.rz-toggle(title="втора дълга", ng-click="toggleAllEdges('edgesl')") IIд
-            //             .divTableCell.special.rz-toggle(title="втора къса", ng-click="toggleAllEdges('edgess')") IIк
-            //       .divTableCell.eighth-col върти
-            //       .divTableCell.ninth-col &nbsp;
-            // .table-body
-            //   .divTableBody
-            //     .divTableRow(class="rz-tooltip-container", ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="{{value.width > value.height ? 'bottom': 'left'}}", popover-append-to-body="true", ng-repeat="value in details track by $index")
-            //       .divTableCell.first-col(tabindex="0", ng-show="!value.disabled") {{$index + 1}}.
-            //       .divTableCell.first-col(tabindex="0", ng-show="value.disabled")
-            //         i.fa.fa-times.fa-2x.red-cross
-            //       .divTableCell.second-col
-            //         rz-editable-select(tabindex="0", value="value.name", values="detailsOptions", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
-            //       .divTableCell.third-col
-            //         rz-editable-input(tabindex="0", value="value.number", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
-            //       .divTableCell.fourth-col
-            //         rz-editable-input(tabindex="0", value="value.width", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
-            //       .divTableCell.fifth-col
-            //         rz-editable-input(tabindex="0", value="value.height", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
-            //       .divTableCell.sixth-col
-            //         .divTableCell.special
-            //             rz-editable-toggle(tabindex="0", value="value.edgefl", values="toggleValues", visual-values="toggleValues", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
-            //         .divTableCell.special
-            //             rz-editable-toggle(tabindex="0", value="value.edgefs", values="toggleValues", visual-values="toggleValues", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
-            //         .divTableCell.special
-            //             rz-editable-toggle(tabindex="0", value="value.edgesl", values="toggleValues", visual-values="toggleValues", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
-            //         .divTableCell.special
-            //             rz-editable-toggle(tabindex="0", value="value.edgess", values="toggleValues", visual-values="toggleValues", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
-            //       .divTableCell.center-y-n.eighth-col
-            //         rz-editable-toggle(tabindex="0", value="value.rotate", values="toggleValues2", visual-values="toggleVisualValues2", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
-            //       .divTableCell.dropdown.ninth-col
-            //         button(tabindex="0", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
-            //             | опции 
-            //             i.fa.fa-angle-down(aria-hidden="true")
-            //         ul.dropdown-menu.pull-right(append-to="parent", aria-labelledby="dropdownMenu1")
-            //           li
-            //             a(ng-show="value.disabled", ng-click="deactivateRow($index)") - активирай
-            //             a(ng-show="!value.disabled", ng-click="deactivateRow($index)") - деактивирай
-            //           li
-            //             a(ng-click="deleteRow($index)") - изтрий
+            .table-header
+              .divTableBody
+                .divTableRow
+                  .divTableCell.first-col №
+                  .divTableCell.second-col име на детайл
+                  .divTableCell.third-col бр.
+                  .divTableCell.fourth-col(title="Размер перпендикулярно на фладера") &bot;
+                  .divTableCell.fifth-col(title="Размер по фладера") &par;
+                  .divTableCell.special-title.sixth-col(title="0-без кант 1-тънък кант 2-дебел кант")
+                    .row кантиране
+                    .row
+                        .divTableCell.special.rz-toggle(title="първа дълга", ng-click="toggleAllEdges('edgefl')") Iд
+                        .divTableCell.special.rz-toggle(title="първа къса", ng-click="toggleAllEdges('edgefs')") Iк
+                        .divTableCell.special.rz-toggle(title="втора дълга", ng-click="toggleAllEdges('edgesl')") IIд
+                        .divTableCell.special.rz-toggle(title="втора къса", ng-click="toggleAllEdges('edgess')") IIк
+                  .divTableCell.eighth-col върти
+                  .divTableCell.ninth-col &nbsp;
+            .table-body
+              .divTableBody
+                .divTableRow(class="rz-tooltip-container", ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="{{value.width > value.height ? 'bottom': 'left'}}", popover-append-to-body="true", ng-repeat="value in details track by $index")
+                  .divTableCell.first-col(tabindex="0", ng-show="!value.disabled") {{$index + 1}}.
+                  .divTableCell.first-col(tabindex="0", ng-show="value.disabled")
+                    i.fa.fa-times.fa-2x.red-cross
+                  .divTableCell.second-col
+                    rz-editable-select(tabindex="0", value="value.name", values="detailsOptions", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
+                  .divTableCell.third-col
+                    rz-editable-input(tabindex="0", value="value.number", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
+                  .divTableCell.fourth-col
+                    rz-editable-input(tabindex="0", value="value.width", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
+                  .divTableCell.fifth-col
+                    rz-editable-input(tabindex="0", value="value.height", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
+                  .divTableCell.sixth-col
+                    .divTableCell.special
+                        rz-editable-toggle(tabindex="0", value="value.edgefl", values="toggleValues", visual-values="toggleValues", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
+                    .divTableCell.special
+                        rz-editable-toggle(tabindex="0", value="value.edgefs", values="toggleValues", visual-values="toggleValues", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
+                    .divTableCell.special
+                        rz-editable-toggle(tabindex="0", value="value.edgesl", values="toggleValues", visual-values="toggleValues", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
+                    .divTableCell.special
+                        rz-editable-toggle(tabindex="0", value="value.edgess", values="toggleValues", visual-values="toggleValues", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
+                  .divTableCell.center-y-n.eighth-col
+                    rz-editable-toggle(tabindex="0", value="value.rotate", values="toggleValues2", visual-values="toggleVisualValues2", callback="editableChanged", ask-prevent-edit="askPreventEdit", rowidx="$index")
+                  .divTableCell.dropdown.ninth-col
+                    button(tabindex="0", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
+                        | опции 
+                        i.fa.fa-angle-down(aria-hidden="true")
+                    ul.dropdown-menu.pull-right(append-to="parent", aria-labelledby="dropdownMenu1")
+                      li
+                        a(ng-show="value.disabled", ng-click="deactivateRow($index)") - активирай
+                        a(ng-show="!value.disabled", ng-click="deactivateRow($index)") - деактивирай
+                      li
+                        a(ng-click="deleteRow($index)") - изтрий
             // Offset Sum
             .Sum-row
               .row
