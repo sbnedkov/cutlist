@@ -30,9 +30,8 @@ gulp.task('browserify', function () {
 });
 
 gulp.task('dev', gulp.series('browserify', function () {
-    return nodemon({exec: '/usr/bin/node main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'dev'}/*, verbose: true*/}).on('restart', function () {
+    return nodemon({exec: '/usr/bin/node main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'dev'}, verbose: true, tasks: 'browserify'}).on('restart', function () {
         console.log('restart');
-        gulp.run('browserify');
     });
 }));
 
