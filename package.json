@@ -27,6 +27,7 @@
     "gulp-nodemon": "^2.1.0",
     "gulp-sourcemap": "^1.0.1",
     "gulp-sourcemaps": "^2.4.1",
+    "handsontable": "^3.0.0",
     "i18n-2": "^0.6.3",
     "i18n-node": "^2.1.5",
     "jade": "^1.11.0",

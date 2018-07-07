@@ -1,10 +1,11 @@
-var app = angular.module('cutlist', ['picardy.fontawesome', 'ui.bootstrap']);
+var app = angular.module('cutlist', ['picardy.fontawesome', 'ui.bootstrap', 'ngHandsontable']);
 
 app.config(['$uibTooltipProvider', function ($uibTooltipProvider) {
     $uibTooltipProvider.options({
         appendToBody: false
     });
-}]);
+
+}])
 
 app.controller('CutListCtrl', [
     '$scope',
@@ -23,6 +24,25 @@ app.controller('CutListCtrl', [
             $uibModal,
             Projects
         ) => {
+
+    $scope.getPopover = function () {
+      var n = document.querySelector(':hover');
+      var nn = n;
+      while (n && nn.tagName !== 'TD') {
+          nn = n;
+          n = nn.querySelector(':hover');
+      }
+
+      if (nn) {
+        const el = $scope.hot.getCoords(nn)
+        if (el) {
+          return $scope.tooltipContents[el.row];
+        }
+      }
+
+      return '';
+    }
+
     // For new design, more work on that needed
     const VISUALIZATION_DIMENTION_FACTOR = 3;
     $scope.detailsOptions = [
@@ -32,6 +52,48 @@ app.controller('CutListCtrl', [
         'Дъно',
         'Рафт'
     ];
+    $scope.columnsDefinitions = [{
+      data: 'id',
+      title: '№',
+      type: 'numeric',
+      readOnly: true
+    }, {
+      data: 'name',
+      title: 'име на детайл',
+      type: 'autocomplete',
+      source: $scope.detailsOptions
+    }, {
+      data: 'number',
+      title: 'бр.'
+    }, {
+      data: 'width',
+      title: '⊥'
+    }, {
+      data: 'height',
+      title: '∥'
+    }, {
+      data: 'edgefl',
+      title: 'Iд',
+      type: 'numeric'
+    }, {
+      data: 'edgefs',
+      title: 'Iк',
+      type: 'numeric'
+    }, {
+      data: 'edgesl',
+      title: 'IIд',
+      type: 'numeric'
+    }, {
+      data: 'edgess',
+      title: 'IIк',
+      type: 'numeric'
+    }, {
+      data: 'rotate',
+      title: 'върти',
+      type: 'checkbox'
+    }, {
+      type: 'dropdown'
+    }];
     $scope.toggleValues = [0, 1, 2];
     $scope.toggleValues2 = [false, true];
     $scope.toggleVisualValues2 = ['не', 'да'];
@@ -456,6 +518,10 @@ app.controller('CutListCtrl', [
                 detail[edge] = val;
             });
         });
+    };
+
+    $scope.afterHOTInit = function () {
+      $scope.hot = this;
     };
 
     function handleError (err) {
