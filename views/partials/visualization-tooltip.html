@@ -1,13 +1,13 @@
 <div class="outer-custom-div-one">
-  <div class="custom-div-one" style="width: {{tooltip.innerPxWidth}}; height: {{tooltip.innerPxHeight}}; width: {{tooltip.pxWidth}}; height: {{tooltip.pxHeight}}; border-top: {{tooltip.borderTop}}; border-right: {{tooltip.borderRight}}; border-bottom: {{tooltip.borderBottom}}; border-left: {{tooltip.borderLeft}};">
+  <div class="custom-div-one" style="width: {{tooltipContents[row].innerPxWidth}}; height: {{tooltipContents[row].innerPxHeight}}; width: {{tooltipContents[row].pxWidth}}; height: {{tooltipContents[row].pxHeight}}; border-top: {{tooltipContents[row].borderTop}}; border-right: {{tooltipContents[row].borderRight}}; border-bottom: {{tooltipContents[row].borderBottom}}; border-left: {{tooltipContents[row].borderLeft}};">
     <div class="no">
-      <span class="no-1">{{tooltip.width}}</span>
+      <span class="no-1">{{tooltipContents[row].width}}</span>
     </div>
     <div class="no">
-      <p class="no-2" style="transform: rotate(-90deg) translate(-{{tooltip.halfHeight}}, 0);">{{tooltip.height}}</p>
+      <p class="no-2" style="transform: rotate(-90deg) translate(-{{tooltipContents[row].halfHeight}}, 0);">{{tooltipContents[row].height}}</p>
     </div>
     <div class="no">
-      <span class="no-3" style="line-height: {{tooltip.innerPxHeight}};">{{tooltip.label}}</span>
+      <span class="no-3" style="line-height: {{tooltipContents[row].innerPxHeight}};">{{tooltipContents[row].label}}</span>
     </div>
   </div>
 </div>

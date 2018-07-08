@@ -111,7 +111,7 @@ html(ng-app="cutlist")
 
           // /Left Column
           // Middle Column
-          .col-sm-8.col-md-8.middle-col(class="rz-tooltip-container", uib-popover-html="getPopover()", popover-trigger="'mousemove'", popover-placement="{{value.width > value.height ? 'bottom': 'left'}}", popover-append-to-body="true")
+          .col-sm-8.col-md-8.middle-col
             hot-table(settings="{colHeaders: colHeaders, contextMenu: ['row_above', 'row_below', 'remove_row'], afterInit: afterHOTInit}",
                 row-headers="false",
                 min-spare-rows="minSpareRows",
@@ -137,7 +137,7 @@ html(ng-app="cutlist")
             //       .divTableCell.ninth-col &nbsp;
             // .table-body
             //   .divTableBody
-            //     .divTableRow(class="rz-tooltip-container", ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="{{value.width > value.height ? 'bottom': 'left'}}", popover-append-to-body="true", ng-repeat="value in details track by $index")
+            //     .divTableRow(ng-class="{whitish: $index % 2, 'first-table-row': $index + 1 % 2, divTableCellDisabled: value.disabled}", uib-popover-html="tooltipContents[$index]", popover-trigger="'mouseenter'", popover-placement="{{value.width > value.height ? 'bottom': 'left'}}", popover-append-to-body="true", ng-repeat="value in details track by $index")
             //       .divTableCell.first-col(tabindex="0", ng-show="!value.disabled") {{$index + 1}}.
             //       .divTableCell.first-col(tabindex="0", ng-show="value.disabled")
             //         i.fa.fa-times.fa-2x.red-cross

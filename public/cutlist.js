@@ -4,14 +4,14 @@ app.config(['$uibTooltipProvider', function ($uibTooltipProvider) {
     $uibTooltipProvider.options({
         appendToBody: false
     });
-
-}])
+}]);
 
 app.controller('CutListCtrl', [
     '$scope',
     '$http',
     '$timeout',
     '$interpolate',
+    '$compile',
     '$sce',
     '$uibModal',
     'Projects',
@@ -20,29 +20,11 @@ app.controller('CutListCtrl', [
             $http,
             $timeout,
             $interpolate,
+            $compile,
             $sce,
             $uibModal,
             Projects
         ) => {
-
-    $scope.getPopover = function () {
-      var n = document.querySelector(':hover');
-      var nn = n;
-      while (n && nn.tagName !== 'TD') {
-          nn = n;
-          n = nn.querySelector(':hover');
-      }
-
-      if (nn) {
-        const el = $scope.hot.getCoords(nn)
-        if (el) {
-          return $scope.tooltipContents[el.row];
-        }
-      }
-
-      return '';
-    }
-
     // For new design, more work on that needed
     const VISUALIZATION_DIMENTION_FACTOR = 3;
     $scope.detailsOptions = [
@@ -52,48 +34,6 @@ app.controller('CutListCtrl', [
         'Дъно',
         'Рафт'
     ];
-    $scope.columnsDefinitions = [{
-      data: 'id',
-      title: '№',
-      type: 'numeric',
-      readOnly: true
-    }, {
-      data: 'name',
-      title: 'име на детайл',
-      type: 'autocomplete',
-      source: $scope.detailsOptions
-    }, {
-      data: 'number',
-      title: 'бр.'
-    }, {
-      data: 'width',
-      title: '⊥'
-    }, {
-      data: 'height',
-      title: '∥'
-    }, {
-      data: 'edgefl',
-      title: 'Iд',
-      type: 'numeric'
-    }, {
-      data: 'edgefs',
-      title: 'Iк',
-      type: 'numeric'
-    }, {
-      data: 'edgesl',
-      title: 'IIд',
-      type: 'numeric'
-    }, {
-      data: 'edgess',
-      title: 'IIк',
-      type: 'numeric'
-    }, {
-      data: 'rotate',
-      title: 'върти',
-      type: 'checkbox'
-    }, {
-      type: 'dropdown'
-    }];
     $scope.toggleValues = [0, 1, 2];
     $scope.toggleValues2 = [false, true];
     $scope.toggleVisualValues2 = ['не', 'да'];
@@ -207,30 +147,66 @@ app.controller('CutListCtrl', [
         var pixelWidth = Math.round(value.width / VISUALIZATION_DIMENTION_FACTOR);
         var pixelHeight = Math.round(value.height / VISUALIZATION_DIMENTION_FACTOR);
         var tooltip = {
-            tooltip: {
-                width: value.width,
-                height: value.height,
-                label: value.name.toLowerCase().substring(0, 3) + '.',
-                pxWidth: pixelWidth + 'px',
-                pxHeight: pixelHeight + 'px',
-                innerPxWidth: pixelWidth - 9 + 'px',
-                innerPxHeight: pixelHeight - 9 + 'px',
-                borderTop: getBorder(value.edgefl),
-                borderRight: getBorder(value.edgefs),
-                borderBottom: getBorder(value.edgesl),
-                borderLeft: getBorder(value.edgess),
-                halfWidth: pixelWidth / 2 - 9 + 'px',
-                halfHeight: pixelHeight / 2 - 9 + 'px'
-            }
+            width: value.width,
+            height: value.height,
+            label: value.name.toLowerCase().substring(0, 3) + '.',
+            pxWidth: pixelWidth + 'px',
+            pxHeight: pixelHeight + 'px',
+            innerPxWidth: pixelWidth - 9 + 'px',
+            innerPxHeight: pixelHeight - 9 + 'px',
+            borderTop: getBorder(value.edgefl),
+            borderRight: getBorder(value.edgefs),
+            borderBottom: getBorder(value.edgesl),
+            borderLeft: getBorder(value.edgess),
+            halfWidth: pixelWidth / 2 - 9 + 'px',
+            halfHeight: pixelHeight / 2 - 9 + 'px'
         };
-        $scope.tooltipContents[idx] = $sce.trustAsHtml($scope.tooltipTemplate(tooltip));
+        $scope.tooltipContents[idx] = tooltip;
     };
 
-    $http.get('/views/partials/visualization-tooltip.html')
-        .then(({data}) => {
-            $scope.tooltipTemplate = $interpolate(data);
-            $scope.details.forEach((ign, idx) => $scope.recompileTooltip(idx));
-        }, handleError);
+    $scope.columnsDefinitions = [{
+      data: 'id',
+      title: '№',
+      type: 'numeric',
+      readOnly: true,
+      renderer: hotRenderer
+    }, {
+      data: 'name',
+      title: 'име на детайл',
+      type: 'autocomplete',
+      source: $scope.detailsOptions
+    }, {
+      data: 'number',
+      title: 'бр.'
+    }, {
+      data: 'width',
+      title: '⊥'
+    }, {
+      data: 'height',
+      title: '∥'
+    }, {
+      data: 'edgefl',
+      title: 'Iд',
+      type: 'numeric'
+    }, {
+      data: 'edgefs',
+      title: 'Iк',
+      type: 'numeric'
+    }, {
+      data: 'edgesl',
+      title: 'IIд',
+      type: 'numeric'
+    }, {
+      data: 'edgess',
+      title: 'IIк',
+      type: 'numeric'
+    }, {
+      data: 'rotate',
+      title: 'върти',
+      type: 'checkbox'
+    }, {
+      type: 'dropdown'
+    }];
 
     $scope.emptyResult = function () {
         return {
@@ -544,6 +520,8 @@ app.controller('CutListCtrl', [
         }
     });
 
+    $scope.popoverTemplate = '/views/partials/visualization-tooltip.html';
+
     function hasChanges () {
         return $scope.project && $scope.project.hasChanged();
     }
@@ -554,6 +532,21 @@ app.controller('CutListCtrl', [
 
     function askToResetCuttingPlan () {
         return confirm('Това действие ще изтрие съществуващия разкрой, да се продължи?');
+    }
+
+    function hotRenderer (instance, td, row, _col, _prop, _value, _cellProperties) {
+        const tr = window.$(td).parent();
+
+        tr.attr('uib-popover-template', 'popoverTemplate');
+        tr.attr('popover-trigger', '\'mouseenter\'');
+        tr.attr('popover-placement', $scope.details[row].width > $scope.details[row].height ? 'bottom' : 'left');
+        tr.attr('popover-append-to-body', true);
+
+        $scope.recompileTooltip(row);
+
+        const $newScope = $scope.$new(false);
+        $newScope.row = row;
+        $compile(tr)($newScope);
     }
 }]).directive('rzResultContainer', [function () {
     return {

@@ -51,7 +51,8 @@
     "cover": "istanbul cover --dir reports/coverage . tests/*.js",
     "dev": "./node_modules/.bin/gulp dev",
     "heroku-prebuild": "bash setup-ssh.sh",
-    "heroku-postbuild": "bash cleanup-ssh.sh"
+    "heroku-postbuild": "bash cleanup-ssh.sh",
+    "eslint": "eslint"
   },
   "repository": {
     "type": "git",
