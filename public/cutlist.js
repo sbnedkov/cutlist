@@ -165,47 +165,48 @@ app.controller('CutListCtrl', [
     };
 
     $scope.columnsDefinitions = [{
-      data: 'id',
-      title: '№',
-      type: 'numeric',
-      readOnly: true,
-      renderer: hotRenderer
+        data: 'id',
+        title: '№',
+        type: 'numeric',
+        readOnly: true,
+        renderer: hotRenderer
     }, {
-      data: 'name',
-      title: 'име на детайл',
-      type: 'autocomplete',
-      source: $scope.detailsOptions
+        data: 'name',
+        title: 'име на детайл',
+        type: 'autocomplete',
+        source: $scope.detailsOptions
     }, {
-      data: 'number',
-      title: 'бр.'
+        data: 'number',
+        title: 'бр.'
     }, {
-      data: 'width',
-      title: '⊥'
+        data: 'width',
+        title: '⊥'
     }, {
-      data: 'height',
-      title: '∥'
+        data: 'height',
+        title: '∥'
     }, {
-      data: 'edgefl',
-      title: 'Iд',
-      type: 'numeric'
+        data: 'edgefl',
+        title: 'Iд',
+        type: 'numeric'
     }, {
-      data: 'edgefs',
-      title: 'Iк',
-      type: 'numeric'
+        data: 'edgefs',
+        title: 'Iк',
+        type: 'numeric'
     }, {
-      data: 'edgesl',
-      title: 'IIд',
-      type: 'numeric'
+        data: 'edgesl',
+        title: 'IIд',
+        type: 'numeric'
     }, {
-      data: 'edgess',
-      title: 'IIк',
-      type: 'numeric'
+        data: 'edgess',
+        title: 'IIк',
+        type: 'numeric'
     }, {
-      data: 'rotate',
-      title: 'върти',
-      type: 'checkbox'
+        data: 'rotate',
+        title: 'върти',
+        type: 'checkbox'
     }, {
-      type: 'dropdown'
+        editor: 'select',
+        selectOptions: ['деактивирай', 'изтрий']
     }];
 
     $scope.emptyResult = function () {
@@ -549,11 +550,23 @@ app.controller('CutListCtrl', [
 
             $scope.recompileTooltip(row);
 
+            tr.addClass('divTableRow rz-tooltip-container');
+
+            if (row % 2) {
+                tr.addClass('whitish');
+            } else {
+                tr.addClass('first-table-row');
+            }
+
+            if ($scope.details[row].disabled) {
+                tr.addClass('divTableCellDisabled');
+            }
+
             const $newScope = $scope.$new(false);
             $newScope.row = row;
             $compile(tr)($newScope);
 
-            td.innerHTML = row + 1;
+            td.innerHTML = `${row + 1}.`;
         }
     }
 }]).directive('rzResultContainer', [function () {
