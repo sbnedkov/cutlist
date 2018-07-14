@@ -534,19 +534,27 @@ app.controller('CutListCtrl', [
         return confirm('Това действие ще изтрие съществуващия разкрой, да се продължи?');
     }
 
-    function hotRenderer (instance, td, row, _col, _prop, _value, _cellProperties) {
-        const tr = window.$(td).parent();
+    function hotRenderer (instance, td, row, col, _prop, _value, _cellProperties) {
+        if (col === 0) {
+            const tr = window.$(td).parent();
 
-        tr.attr('uib-popover-template', 'popoverTemplate');
-        tr.attr('popover-trigger', '\'mouseenter\'');
-        tr.attr('popover-placement', $scope.details[row].width > $scope.details[row].height ? 'bottom' : 'left');
-        tr.attr('popover-append-to-body', true);
+            tr.off('mouseenter');
+            tr.off('mouseout');
+            tr.off('keypress');
 
-        $scope.recompileTooltip(row);
+            tr.attr('uib-popover-template', 'popoverTemplate');
+            tr.attr('popover-trigger', '\'mouseenter\'');
+            tr.attr('popover-placement', $scope.details[row].width > $scope.details[row].height ? 'bottom' : 'left');
+            tr.attr('popover-append-to-body', true);
 
-        const $newScope = $scope.$new(false);
-        $newScope.row = row;
-        $compile(tr)($newScope);
+            $scope.recompileTooltip(row);
+
+            const $newScope = $scope.$new(false);
+            $newScope.row = row;
+            $compile(tr)($newScope);
+
+            td.innerHTML = row + 1;
+        }
     }
 }]).directive('rzResultContainer', [function () {
     return {
