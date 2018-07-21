@@ -695,7 +695,7 @@ span.Check {
 }
 /* END Directives */
 
-.divTableCell .red-cross {
+.red-cross {
   margin: 0;
   padding: 0;
   color: firebrick;
@@ -788,4 +788,13 @@ span.Check {
 
 .rz-tooltip-container {
 /*  overflow: hidden; */
+}
+
+.action-icon {
+  display: inline;
+  cursor: pointer;
+}
+
+.action-icon-wrapper {
+  text-align: center;
 }

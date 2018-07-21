@@ -31,6 +31,9 @@ app.controller('CutListCtrl', [
     const EDGE_FS_COL = 6;
     const EDGE_SL_COL = 7;
     const EDGE_SS_COL = 8;
+    const DISABLE_COL = 10;
+    const DELETE_COL = 11;
+
     $scope.detailsOptions = [
         'Врата',
         'Страница',
@@ -82,28 +85,6 @@ app.controller('CutListCtrl', [
         edgesl: 2,
         edgess: 2,
         rotate: false
-    }, {
-        name: 'Врата'
-    }, {
-        name: 'Врата'
-    }, {
-        name: 'Врата'
-    }, {
-        name: 'Врата'
-    }, {
-        name: 'Врата'
-    }, {
-        name: 'Врата'
-    }, {
-        name: 'Врата'
-    }, {
-        name: 'Врата'
-    }, {
-        name: 'Врата'
-    }, {
-        name: 'Врата'
-    }, {
-        name: 'Врата'
     }];
 
     $scope.stocks = [{
@@ -126,16 +107,20 @@ app.controller('CutListCtrl', [
             number: 1,
             width: 0,
             height: 0,
-            rotate: false
+            rotate: false,
+            edgefl: 0,
+            edgefs: 0,
+            edgesl: 0,
+            edgess: 0
         });
     };
 
-    $scope.deleteRow = index => {
+    $scope.deleteRow = (index) => {
         $scope.details.splice(index, 1);
         $scope.details.forEach((ign, idx) => idx >= index && $scope.recompileTooltip(idx));
     };
 
-    $scope.deactivateRow = index => {
+    $scope.deactivateRow = (index) => {
         $scope.details[index].disabled = !$scope.details[index].disabled;
     };
 
@@ -173,7 +158,8 @@ app.controller('CutListCtrl', [
         title: '№',
         type: 'numeric',
         readOnly: true,
-        renderer: hotRenderer
+        renderer: hotRenderer,
+        className: 'htCenter'
     }, {
         data: 'name',
         title: 'име на детайл',
@@ -181,38 +167,51 @@ app.controller('CutListCtrl', [
         source: $scope.detailsOptions
     }, {
         data: 'number',
-        title: 'бр.'
+        title: 'бр.',
+        className: 'htCenter'
     }, {
         data: 'width',
-        title: '⊥'
+        title: '⊥',
+        className: 'htCenter'
     }, {
         data: 'height',
-        title: '∥'
+        title: '∥',
+        className: 'htCenter'
     }, {
         data: 'edgefl',
         title: 'Iд',
-        type: 'numeric'
+        type: 'numeric',
+        className: 'htCenter',
+        readOnly: true
     }, {
         data: 'edgefs',
         title: 'Iк',
-        type: 'numeric'
+        type: 'numeric',
+        className: 'htCenter',
+        readOnly: true
     }, {
         data: 'edgesl',
         title: 'IIд',
-        type: 'numeric'
+        type: 'numeric',
+        className: 'htCenter',
+        readOnly: true
     }, {
         data: 'edgess',
         title: 'IIк',
-        type: 'numeric'
+        type: 'numeric',
+        className: 'htCenter',
+        readOnly: true
     }, {
         data: 'rotate',
         title: 'върти',
-        type: 'checkbox'
+        type: 'checkbox',
+        className: 'htCenter'
     }, {
-        title: 'опции',
-        type: 'dropdown',
-        source: ['деактивирай', 'изтрий'],
-        width: 100
+        readOnly: true,
+        renderer: hotDisableRenderer
+    }, {
+        readOnly: true,
+        renderer: hotDeleteRenderer
     }];
 
     $scope.emptyResult = function () {
@@ -518,7 +517,7 @@ app.controller('CutListCtrl', [
     };
 
     function onAction (ev, row, col) {
-        if (EDGE_FL_COL <= col && col <= EDGE_SS_COL) {
+        if (EDGE_FL_COL <= col && col <= EDGE_SS_COL || col === DISABLE_COL || col === DELETE_COL) {
             ev.stopImmediatePropagation();
 
             $scope.$apply(function () {
@@ -538,6 +537,12 @@ app.controller('CutListCtrl', [
                     case EDGE_SS_COL:
                         $scope.details[row].edgess += 1;
                         $scope.details[row].edgess %= 3;
+                        break;
+                    case DISABLE_COL:
+                        $scope.deactivateRow(row);
+                        break;
+                    case DELETE_COL:
+                        $scope.deleteRow(row);
                         break;
                 }
             });
@@ -565,6 +570,8 @@ app.controller('CutListCtrl', [
     });
 
     $scope.popoverTemplate = '/views/partials/visualization-tooltip.html';
+    $scope.disableTemplate = '/views/partials/disable-button.html';
+    $scope.deleteTemplate = '/views/partials/delete-button.html';
 
     function hasChanges () {
         return $scope.project && $scope.project.hasChanged();
@@ -603,14 +610,33 @@ app.controller('CutListCtrl', [
 
             if ($scope.details[row].disabled) {
                 tr.addClass('divTableCellDisabled');
+
+                td.innerHTML = '<i class="fa fa-times fa-2x red-cross"></i>';
+            } else {
+                const $newScope = $scope.$new(false);
+                $newScope.row = row;
+                $compile(tr)($newScope);
+
+                td.innerHTML = `${row + 1}.`;
             }
-
-            const $newScope = $scope.$new(false);
-            $newScope.row = row;
-            $compile(tr)($newScope);
-
-            td.innerHTML = `${row + 1}.`;
         }
+    }
+
+    function hotDisableRenderer (instance, td, row) {
+        renderCell(td, row, $scope.disableTemplate);
+    }
+
+    function hotDeleteRenderer (instance, td, row) {
+        renderCell(td, row, $scope.deleteTemplate);
+    }
+
+    function renderCell (td, row, template) {
+        td.innerHTML = `<div class="action-icon-wrapper" ng-include="'${template}'"/>`;
+
+        const $newScope = $scope.$new(false);
+        $newScope.row = row;
+
+        $compile(td)($newScope);
     }
 }]).directive('rzResultContainer', [function () {
     return {
