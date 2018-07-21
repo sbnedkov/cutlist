@@ -112,7 +112,7 @@ html(ng-app="cutlist")
           // /Left Column
           // Middle Column
           .col-sm-8.col-md-8.middle-col
-            hot-table(settings="{colHeaders: colHeaders, contextMenu: ['row_above', 'row_below', 'remove_row'], afterInit: afterHOTInit, stretchH: 'all'}",
+            hot-table(settings="{colHeaders: colHeaders, contextMenu: ['row_above', 'row_below', 'remove_row'], afterInit: afterHOTInit, stretchH: 'all',  onBeforeKeyDown: onBeforeKeyDown}",
                 row-headers="false",
                 min-spare-rows="minSpareRows",
                 datarows="details",

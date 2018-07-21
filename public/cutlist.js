@@ -27,6 +27,10 @@ app.controller('CutListCtrl', [
         ) => {
     // For new design, more work on that needed
     const VISUALIZATION_DIMENTION_FACTOR = 3;
+    const EDGE_FL_COL = 5;
+    const EDGE_FS_COL = 6;
+    const EDGE_SL_COL = 7;
+    const EDGE_SS_COL = 8;
     $scope.detailsOptions = [
         'Врата',
         'Страница',
@@ -205,8 +209,10 @@ app.controller('CutListCtrl', [
         title: 'върти',
         type: 'checkbox'
     }, {
-        editor: 'select',
-        selectOptions: ['деактивирай', 'изтрий']
+        title: 'опции',
+        type: 'dropdown',
+        source: ['деактивирай', 'изтрий'],
+        width: 100
     }];
 
     $scope.emptyResult = function () {
@@ -498,8 +504,45 @@ app.controller('CutListCtrl', [
     };
 
     $scope.afterHOTInit = function () {
-      $scope.hot = this;
+        $scope.hot = this;
     };
+
+    $scope.onBeforeKeyDown = function (ev) {
+        if (ev.keyCode === 13) { // Enter
+            const coords = $scope.hot.getSelected()[0];
+            const row = coords[0];
+            const col = coords[1];
+
+            onAction(ev, row, col);
+        }
+    };
+
+    function onAction (ev, row, col) {
+        if (EDGE_FL_COL <= col && col <= EDGE_SS_COL) {
+            ev.stopImmediatePropagation();
+
+            $scope.$apply(function () {
+                switch (col) {
+                    case EDGE_FL_COL:
+                        $scope.details[row].edgefl += 1;
+                        $scope.details[row].edgefl %= 3;
+                        break;
+                    case EDGE_FS_COL:
+                        $scope.details[row].edgefs += 1;
+                        $scope.details[row].edgefs %= 3;
+                        break;
+                    case EDGE_SL_COL:
+                        $scope.details[row].edgesl += 1;
+                        $scope.details[row].edgesl %= 3;
+                        break;
+                    case EDGE_SS_COL:
+                        $scope.details[row].edgess += 1;
+                        $scope.details[row].edgess %= 3;
+                        break;
+                }
+            });
+        }
+    }
 
     function handleError (err) {
         $scope.processing = false;

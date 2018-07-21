@@ -369,6 +369,7 @@ ul.dropdown-menu {
 
 table tr.first-table-row,
 table tr.first-table-row td,
+table.htCore tr th,
 .third-table-row,
 .fourth-table-row {
 	background-color: #f3d9ac;
@@ -407,7 +408,8 @@ span.rotate-letters .p2 {
 
 
 table tr.whitish,
-table tr.whitish td {
+table tr.whitish td,
+table.htCore tr th {
 	background-color: #ffffed;
   border: 0.5px solid black;
 }
