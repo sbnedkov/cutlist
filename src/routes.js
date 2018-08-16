@@ -61,9 +61,10 @@ module.exports = {
 
         res.send(key).end();
 
-        solve(stocks, itemsw, itemsh, canRotate, demands, type)
-            .then(result => cutlists[key] = translate(result, names, type))
-            .catch(err => cutlists[key] = {err: err.message});
+        setTimeout(() =>
+            solve(stocks, itemsw, itemsh, canRotate, demands, type)
+                .then(result => cutlists[key] = translate(result, names, type))
+                .catch(err => cutlists[key] = {err: err.message}), 100);
     },
     checkFinished: async (req, res) => {
         var result = cutlists[req.params.key];
