@@ -61,13 +61,9 @@ module.exports = {
 
         res.send(key).end();
 
-        solve(stocks, itemsw, itemsh, canRotate, demands, type, (err, result) => {
-            if (err) {
-                return cutlists[key] = {err: err.message};
-            }
-
-            cutlists[key] = translate(result, names, type);
-        });
+        solve(stocks, itemsw, itemsh, canRotate, demands, type)
+            .then(result => cutlists[key] = translate(result, names, type))
+            .catch(err => cutlists[key] = {err: err.message});
     },
     checkFinished: async (req, res) => {
         var result = cutlists[req.params.key];
