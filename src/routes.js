@@ -1,7 +1,8 @@
 var fs = require('fs');
 
 var logger = require('winston');
-var solve = require('guillotine-solver');
+var guillotineSolver = require('guillotine-solver');
+var solve = guillotineSolver.default;
 
 var translate = require('./adapter');
 var utils = require('./utils');
@@ -61,10 +62,34 @@ module.exports = {
 
         res.send(key).end();
 
-        setTimeout(() =>
-            solve(stocks, itemsw, itemsh, canRotate, demands, type)
-                .then(result => cutlists[key] = translate(result, names, type))
-                .catch(err => cutlists[key] = {err: err.message}), 100);
+        var interrimResult= {
+            activities: [],
+            losses: []
+        };
+
+        trySolve();
+
+        function trySolve () {
+            setTimeout(() =>
+                solve(stocks, itemsw, itemsh, canRotate, demands, type)
+                    .then(result => cutlists[key] = translate(merge(interrimResult, result), names))
+                    .catch(err => {
+                        if (err.name === 'UnsatisfiedError') {
+                            interrimResult = merge(interrimResult, guillotineSolver.getLastResult());
+                            return trySolve();
+                        }
+
+                        throw err;
+                    })
+                    .catch(err => cutlists[key] = {err: err.message}), 100);
+        }
+
+        function merge (dst, src) {
+            return {
+                activities: dst.activities.concat(src.activities),
+                losses: dst.losses.concat(src.losses)
+            };
+        }
     },
     checkFinished: async (req, res) => {
         var result = cutlists[req.params.key];
