@@ -1,5 +1,5 @@
 FROM node:latest
-ENV MONGODB_URI=mongodb://mongo/
+ENV MONGODB_URI=mongodb://mongo/razkroi
 WORKDIR /app
 
 RUN npm install -g gulp@4
