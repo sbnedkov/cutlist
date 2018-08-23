@@ -4,8 +4,8 @@ WORKDIR /app
 
 RUN npm install -g gulp
 
-RUN setup-ssh.sh
+RUN /app/setup-ssh.sh
 RUN npm install
-RUN cleanup-ssh.sh
+RUN /app/cleanup-ssh.sh
 
 CMD gulp prod
