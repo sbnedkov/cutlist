@@ -1,6 +1,6 @@
 FROM node:latest
 ENV MONGO_URI=mongo://mongo/
-WORKDIR /root
+WORKDIR /app
 
 RUN npm install -g gulp
 
