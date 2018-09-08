@@ -167,38 +167,41 @@ app.controller('CutListCtrl', [
         source: $scope.detailsOptions
     }, {
         data: 'number',
+        type: 'numeric',
         title: 'бр.',
         className: 'htCenter'
     }, {
         data: 'width',
+        type: 'numeric',
         title: '⊥',
         className: 'htCenter'
     }, {
         data: 'height',
+        type: 'numeric',
         title: '∥',
         className: 'htCenter'
     }, {
         data: 'edgefl',
-        title: 'Iд',
         type: 'numeric',
+        title: 'Iд',
         className: 'htCenter',
         readOnly: true
     }, {
         data: 'edgefs',
-        title: 'Iк',
         type: 'numeric',
+        title: 'Iк',
         className: 'htCenter',
         readOnly: true
     }, {
         data: 'edgesl',
-        title: 'IIд',
         type: 'numeric',
+        title: 'IIд',
         className: 'htCenter',
         readOnly: true
     }, {
         data: 'edgess',
-        title: 'IIк',
         type: 'numeric',
+        title: 'IIк',
         className: 'htCenter',
         readOnly: true
     }, {
