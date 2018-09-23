@@ -508,6 +508,14 @@ app.controller('CutListCtrl', [
     $scope.afterHOTInit = function () {
         $scope.hot = this;
     };
+            
+    $scope.afterOnCellMouseDown = function (ev) {
+            const coords = $scope.hot.getSelected()[0];
+            const row = coords[0];
+            const col = coords[1];
+
+            onAction(ev, row, col);
+    };
 
     $scope.onBeforeKeyDown = function (ev) {
         if (ev.keyCode === 13) { // Enter
