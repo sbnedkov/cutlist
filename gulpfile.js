@@ -29,13 +29,13 @@ gulp.task('browserify', function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('dev', gulp.series('browserify', function () {
+gulp.task('dev', ['browserify'], function () {
     return nodemon({exec: '/usr/bin/node main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'dev'}, verbose: true, tasks: 'browserify'}).on('restart', function () {
         console.log('restart');
     });
-}));
+});
 
-gulp.task('node', gulp.series('browserify', function () {
+gulp.task('node', ['browserify'], function () {
     var server = fork('./main.js', {
         env: {
             NODE_ENV: 'production',
@@ -53,6 +53,6 @@ gulp.task('node', gulp.series('browserify', function () {
     });
 
     return server;
-}));
+});
 
-gulp.task('prod', gulp.series('node'));
+gulp.task('prod', ['node']);
