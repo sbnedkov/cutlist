@@ -70,18 +70,12 @@ module.exports = {
         trySolve();
 
         function trySolve () {
-            setTimeout(() =>
-                solve(stocks, itemsw, itemsh, canRotate, demands, type)
-                    .then(result => cutlists[key] = translate(merge(interrimResult, result), names))
-                    .catch(err => {
-                        if (err.name === 'UnsatisfiedError') {
-                            interrimResult = merge(interrimResult, guillotineSolver.getLastResult());
-                            return trySolve();
-                        }
-
-                        throw err;
-                    })
-                    .catch(err => cutlists[key] = {err: err.message}), 100);
+            try {
+                const solution = solve(stocks, itemsw, itemsh, canRotate, demands, type);
+                cutlists[key] = translate(merge(interrimResult, solution), names);
+            } catch (err) {
+                cutlists[key] = {err: err.message};
+            }
         }
 
         function merge (dst, src) {
