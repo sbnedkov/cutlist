@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var patcher = require('mongoose-json-patch');
+var patcher = require('mongoose-json-patch-upd');
 
 var creationDate = require('./creation-date');
 

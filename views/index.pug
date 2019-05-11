@@ -25,7 +25,7 @@ html(ng-app="cutlist")
               .col-sm-6.col-md-6.username-input
                 input#exampleInputEmail1.form-control(ng-show="!loggedIn", ng-model="username", type="text", placeholder="потребител", tabindex="0", name="username", ng-keypress="maybeLogin($event, username, password)")
                 #exampleInputEmail1.form-control(ng-show="loggedIn", tabindex="0", readonly, disabled)
-                  {{username}}
+                  #{username}
             .col-sm-12.col-md-12
               .col-sm-6.col-md-6
                 label.inside-info
@@ -50,11 +50,11 @@ html(ng-app="cutlist")
         input.form-control(placeholder="ширина", type="number", ng-model="selectedStockToAdd.height")
       .col-md-1.col-sm-1.sub2.small-font
         button(ng-show="selectedStock", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true", ng-init="selectedStock = stocks[0]")
-          | {{selectedStock.width}}x{{selectedStock.height}}
+          | #{selectedStock.width}x#{selectedStock.height}
           i.fa.fa-angle-down(ng-show="selectedStock", aria-hidden="true")
         ul.dropdown-menu(aria-labelledby="dropdownMenu1")
           li(ng-repeat="stock in stocks track by $index")
-            a(href, ng-click="changeSelectedStock(stock)") - {{stock.width}}x{{stock.height}}
+            a(href, ng-click="changeSelectedStock(stock)") - #{stock.width}x#{stock.height}
       #exampleInputEmail1.col-md-1.col-sm-1.sub3(type="text", placeholder="брой")
         input.form-control(placeholder="брой", type="number", ng-model="addedStockNumber")
       .col-md-2.col-sm-2.sub4
@@ -83,7 +83,7 @@ html(ng-app="cutlist")
           // Left Column
           .col-sm-2.col-md-2.left-col
             .first-title
-              | {{leftColLabel}}
+              | #{leftColLabel}
             uib-tabset
               uib-tab(select="labelTo('плочи')")
                 uib-tab-heading
@@ -91,16 +91,16 @@ html(ng-app="cutlist")
                 .left-col-container.result-outlook-container
                   .form-group(ng-repeat="stock in stocks")
                     .fourth-empty
-                      | {{stock.width}}x{{stock.height}}
+                      | #{stock.width}x#{stock.height}
                     button.fourth-title.rz-button-small(ng-click="subtractStock($index)")
-                      | {{stock.number}} бр. намали
+                      | #{stock.number} бр. намали
               uib-tab(ng-show="loggedIn", select="labelTo('проекти')")
                 uib-tab-heading
                   span.tab-heading проекти
                 .left-col-container.result-outlook-container
                   div.row(ng-repeat="p in projects track by p.obj._id | orderBy:'obj.creation_date'")
                       .col-sm-12.project
-                        div(href ng-class="{'selected-project': project === p}" ng-click="loadProject(p)") {{p.obj.name}}
+                        div(href ng-class="{'selected-project': project === p}" ng-click="loadProject(p)") #{p.obj.name}
                 .bottom-col-buttons
                   button.btn.right-col-title.zoom(ng-click="newProject()")
                     | създай

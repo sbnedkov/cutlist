@@ -9,7 +9,7 @@ var babelify = require('babelify');
 //var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
 
-gulp.task('browserify', function () {
+gulp.task('browserify', gulp.series(function () {
     return browserify({
         entries: [
             './public/cutlist.js',
@@ -27,15 +27,15 @@ gulp.task('browserify', function () {
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('dist/'));
-});
+}));
 
-gulp.task('dev', ['browserify'], function () {
+gulp.task('dev', gulp.series(['browserify'], function () {
     return nodemon({exec: '/usr/bin/node main.js', ext: 'js json', ignore: ['*.swp', '*~', '.git/', 'dist/', 'node_modules/', 'tmp-test/'], env: {'NODE_ENV': 'dev'}, verbose: true, tasks: 'browserify'}).on('restart', function () {
         console.log('restart');
     });
-});
+}));
 
-gulp.task('node', ['browserify'], function () {
+gulp.task('node', gulp.series(['browserify'], function () {
     var server = fork('./main.js', {
         env: {
             NODE_ENV: 'production',
@@ -53,6 +53,6 @@ gulp.task('node', ['browserify'], function () {
     });
 
     return server;
-});
+}));
 
-gulp.task('prod', ['node']);
+gulp.task('prod', gulp.series(['node']));

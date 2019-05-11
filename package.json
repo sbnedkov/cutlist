@@ -36,6 +36,7 @@
     "mongoose": "^4.9.0",
     "mongoose-json-patch-upd": "^1.0.3",
     "ng-handsontable": "^0.13.0",
+    "pug": "^2.0.3",
     "source-map-support": "^0.4.14",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",

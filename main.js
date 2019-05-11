@@ -72,7 +72,7 @@ i18n.expressBind(app, {
 });
 
 app.set('views', `${__dirname}/views`);
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 var wrap = fn => (...args) => fn(...args).catch(args[2]);
 

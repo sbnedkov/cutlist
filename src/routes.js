@@ -1,4 +1,5 @@
 var fs = require('fs');
+var pug = require('pug');
 
 var logger = require('winston');
 var guillotineSolver = require('guillotine-solver');
@@ -25,10 +26,10 @@ AccessDeniedError.prototype.constructor = AccessDeniedError;
 
 module.exports = {
     root: async (req, res) => {
-        res.render('index.jade', {
+        res.write(pug.renderFile('./views/index.pug', {
             userId: req.session.user,
             username: req.session.username
-        });
+        })).end();
     },
     lang: async (req, res) => {
 //        res.cookie('cutlistlang', req.body.lang);
