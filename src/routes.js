@@ -26,10 +26,10 @@ AccessDeniedError.prototype.constructor = AccessDeniedError;
 
 module.exports = {
     root: async (req, res) => {
-        res.write(pug.renderFile('./views/index.pug', {
+        res.render('index.pug', {
             userId: req.session.user,
             username: req.session.username
-        })).end();
+        });
     },
     lang: async (req, res) => {
 //        res.cookie('cutlistlang', req.body.lang);
