@@ -30,7 +30,6 @@
     "handsontable": "^3.0.0",
     "i18n-2": "^0.6.3",
     "i18n-node": "^2.1.5",
-    "jade": "^1.11.0",
     "jquery": "^3.1.0",
     "json8-patch": "^0.4.0",
     "jspdf": "^1.3.3",
@@ -44,7 +43,7 @@
     "winston": "^2.3.1"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "vinyl-fs": "^3.0.3"
   },
   "scripts": {
