@@ -15,7 +15,9 @@ var middleware = require('./src/middleware');
 var routes = require('./src/routes');
 
 const MONGODB_URI = process.env.MONGODB_URI;
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, {
+    useMongoClient: true
+});
 
 var app = express();
 
