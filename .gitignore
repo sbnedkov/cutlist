@@ -4,3 +4,4 @@ tmp-test/
 coverage/
 npm-debug.log
 *.swp
+package-lock.json
