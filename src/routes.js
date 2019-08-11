@@ -3,7 +3,7 @@ var pug = require('pug');
 
 var logger = require('winston');
 var guillotineSolver = require('guillotine-solver');
-var solve = guillotineSolver.default;
+var solve = guillotineSolver;
 
 var translate = require('./adapter');
 var utils = require('./utils');
