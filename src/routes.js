@@ -3,7 +3,7 @@ var pug = require('pug');
 
 var logger = require('winston');
 var guillotineSolver = require('guillotine-solver');
-var solve = guillotineSolver;
+var solve = guillotineSolver.default;
 
 var translate = require('./adapter');
 var utils = require('./utils');
@@ -71,13 +71,12 @@ module.exports = {
         trySolve();
 
         function trySolve () {
-            solve(stocks, itemsw, itemsh, canRotate, demands, type, (err, solution) => {
-                if (err) {
-                    cutlists[key] = {err: err.message};
-                    return;
-                }
+            try {
+                const solution = solve(stocks, itemsw, itemsh, canRotate, demands, type);
                 cutlists[key] = translate(merge(interrimResult, solution), names);
-            });
+            } catch (err) {
+                cutlists[key] = {err: err.message};
+            }
         }
 
         function merge (dst, src) {
