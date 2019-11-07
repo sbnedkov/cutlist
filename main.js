@@ -38,12 +38,6 @@ if (!isDev) {
     });
 }
 
-app.use((req, res, next) => {
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    next();
-});
-
-
 //app.use(cookieParser());
 app.use(bodyParser.json());
 
