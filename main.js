@@ -15,9 +15,7 @@ var middleware = require('./src/middleware');
 var routes = require('./src/routes');
 
 const MONGODB_URI = process.env.MONGODB_URI;
-mongoose.connect(MONGODB_URI, {
-    useMongoClient: true
-});
+mongoose.connect(MONGODB_URI, {});
 
 var app = express();
 
@@ -32,7 +30,6 @@ const server = isDev ? https.createServer(cert, app) : http.createServer(app);
 if (!isDev) {
     app.use((req, res, next) => {
         res.setHeader('Strict-Transport-Security', 'max-age=8640000; includeSubDomains');
-        res.setHeader('X-Content-Type-Options', 'nosniff');
         if (req.headers['x-forwarded-proto'] !== 'https') {
             return res.redirect(301, `https://${req.headers.host}/`);
         }
@@ -40,6 +37,11 @@ if (!isDev) {
         next();
     });
 }
+
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    next();
+});
 
 
 //app.use(cookieParser());
