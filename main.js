@@ -32,6 +32,7 @@ const server = isDev ? https.createServer(cert, app) : http.createServer(app);
 if (!isDev) {
     app.use((req, res, next) => {
         res.setHeader('Strict-Transport-Security', 'max-age=8640000; includeSubDomains');
+        res.setHeader('X-Content-Type-Options', 'nosniff');
         if (req.headers['x-forwarded-proto'] !== 'https') {
             return res.redirect(301, `https://${req.headers.host}/`);
         }
@@ -39,6 +40,7 @@ if (!isDev) {
         next();
     });
 }
+
 
 //app.use(cookieParser());
 app.use(bodyParser.json());
