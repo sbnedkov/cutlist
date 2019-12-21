@@ -52,7 +52,8 @@
     "dev": "./node_modules/.bin/gulp dev",
     "heroku-prebuild": "bash setup-ssh.sh",
     "heroku-postbuild": "bash cleanup-ssh.sh",
-    "eslint": "eslint"
+    "eslint": "eslint",
+    "gulp": "gulp"
   },
   "repository": {
     "type": "git",
