@@ -13,7 +13,6 @@ module.exports = function translate (solution, names) {
         var allStocksRes = [];
         var res = [];
 
-        console.log(JSON.stringify(allActivities, null, '\t'));
         allActivities.forEach(activities => {
             activities.forEach(activity => {
                 activity.locations.forEach((loc, conidx) => {
