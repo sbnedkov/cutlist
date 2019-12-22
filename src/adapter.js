@@ -13,14 +13,15 @@ module.exports = function translate (solution, names) {
         var allStocksRes = [];
         var res = [];
 
+        console.log(JSON.stringify(allActivities, null, '\t'));
         allActivities.forEach(activities => {
             activities.forEach(activity => {
-                activity.constituentsx.forEach((consx, conidx) => {
-                    consx.forEach((n, idx) => {
-                        if (n) {
-                            let l = activity.locations[conidx][idx];
-                            let m = activity.constituentsy[conidx][idx];
-                            res = res.concat(constructPart(n, m, l, activity.patternIsRotated[conidx], names[idx]));
+                activity.locations.forEach((loc, conidx) => {
+                    loc.forEach(l => {
+                        if (l) {
+                            let n = activity.constituentsx[conidx][l.idx];
+                            let m = activity.constituentsy[conidx][l.idx];
+                            res = res.concat(constructPart(n, m, l, activity.patternIsRotated[conidx], names[l.idx]));
                         }
                     });
                 });
