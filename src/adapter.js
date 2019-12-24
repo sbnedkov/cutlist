@@ -16,11 +16,11 @@ module.exports = function translate (solution, names) {
         allActivities.forEach(activities => {
             activities.forEach(activity => {
                 activity.locations.forEach((loc, conidx) => {
-                    loc.forEach(l => {
+                    loc.forEach((l, idx) => {
                         if (l) {
-                            let n = activity.constituentsx[conidx][l.idx];
-                            let m = activity.constituentsy[conidx][l.idx];
-                            res = res.concat(constructPart(n, m, l, activity.patternIsRotated[conidx], names[l.idx]));
+                            let n = activity.constituentsx[conidx][l.idx || idx];
+                            let m = activity.constituentsy[conidx][l.idx || idx];
+                            res = res.concat(constructPart(n, m, l, activity.patternIsRotated[conidx], names[l.idx || idx]));
                         }
                     });
                 });
