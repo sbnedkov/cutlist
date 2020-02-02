@@ -709,7 +709,7 @@ span.Check {
   float: left;
 }
 .result-stock-size {
-  margin-top: 10px;
+  margin: 10px 0 0 30px;
 }
 
 .resbtn {

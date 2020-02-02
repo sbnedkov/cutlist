@@ -654,7 +654,10 @@ app.controller('CutListCtrl', [
         restrict: 'E',
         replace: true,
         scope: true,
-        link: function ($scope) {
+        link: function ($scope, el, attr) {
+            $scope.scale = Number(attr.scale);
+            $scope.isPreview = attr.isPreview === 'true';
+
             var canvasListeners = [];
             $scope.registerPdfListener(() => {
                 var doc = new window.jsPDF();
@@ -678,50 +681,23 @@ app.controller('CutListCtrl', [
         },
         templateUrl: '/views/partials/result-container.html'
     };
-}]).directive('rzResultStocks', [function () {
-    const MAX_WIDTH = 120;
-
-    return {
-        restrict: 'E',
-        replace: true,
-        scope: {
-            cutlist: '='
-        },
-        link: function ($scope) {
-            $scope.$watch('cutlist', function (cutlist) {
-                if (!cutlist) {
-                    return;
-                }
-
-                var maxWidth = cutlist.arr.reduce((acc, stock) => {
-                    return Math.max(acc, stock.W);
-                }, 0);
-
-                var factor = maxWidth / MAX_WIDTH;
-                $scope.stockSizes = cutlist.arr.map(stock => {
-                    return {
-                        W: stock.W,
-                        L: stock.L,
-                        displayW: Math.floor(stock.W / factor) + 'px',
-                        displayL: Math.floor(stock.L / factor) + 'px'
-                    };
-                });
-
-            });
-        },
-        templateUrl: '/views/partials/result-stocks.html'
-    };
 }]).directive('rzResult', [function () {
     return {
         restrict: 'E',
         replace: true,
         scope: true,
         link: function ($scope, element, attributes) {
+            if (!$scope.isPreview) {
+                $scope.canvasClass = 'col-sm-offset-2 col-sm-8';
+            }
+
             $scope.idx = parseInt(attributes.idx);
             $scope.waste = JSON.parse(attributes.waste);
 
             var canvas = element.find('canvas')[0];
             $scope.$watch('result', function (cutlist) {
+                const scale = $scope.scale ? Number($scope.scale) : 1;
+
                 var ctx = canvas.getContext('2d');
 
                 var slateW = $scope.slateSolution.W;
@@ -731,8 +707,8 @@ app.controller('CutListCtrl', [
                 var textHeight = 50;
                 var textYOffset = textHeight + 30;
 
-                canvas.width = window.innerWidth * 0.66666667;
-                canvas.height = (canvas.width / slateW) * (slateL + textYOffset) + 1;
+                canvas.width = (window.innerWidth * 0.66666667) * scale;
+                canvas.height = (((canvas.width / slateW) * (slateL + textYOffset) + 1));
 
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.textAlign = 'center';
@@ -746,27 +722,37 @@ app.controller('CutListCtrl', [
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.strokeStyle = 'black';
 
-                var ratio = canvas.width / Math.max(...cutlist.arr.map(slate => slate.W));
+                if ($scope.isPreview) {
+                    ctx.lineWidth = 10;
+                }
+
+                var ratio = (canvas.width / Math.max(...cutlist.arr.map(slate => slate.W)));
                 ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-                ctx.fillText(`повърхност: ${$scope.waste.area}, употреба: ${$scope.waste.usage}`, textWidth, textHeight);
+                if (!$scope.isPreview) {
+                    ctx.fillText(`повърхност: ${$scope.waste.area}, употреба: ${$scope.waste.usage}`, textWidth, textHeight);
+                }
 
                 $scope.resetCanvasListeners();
 
                 var imageObj = new Image();
                 imageObj.onload = function() {
-                    var imageScaledHeight = imageObj.height / ratio;
-                    var imageScaledWidth = imageObj.width / ratio;
-                    for (var i = 0; i < $scope.slateSolution.L / imageScaledHeight; i++) {
-                        for (var j = 0; j < $scope.slateSolution.W / imageScaledWidth; j++) {
-                            ctx.drawImage(imageObj, j * imageScaledWidth, textYOffset + i * imageScaledHeight, imageScaledWidth, imageScaledHeight);
+                    if (!$scope.isPreview) {
+                        var imageScaledHeight = imageObj.height / ratio;
+                        var imageScaledWidth = imageObj.width / ratio;
+                        for (var i = 0; i < $scope.slateSolution.L / imageScaledHeight; i++) {
+                            for (var j = 0; j < $scope.slateSolution.W / imageScaledWidth; j++) {
+                                ctx.drawImage(imageObj, j * imageScaledWidth, textYOffset + i * imageScaledHeight, imageScaledWidth, imageScaledHeight);
+                            }
                         }
                     }
 
                     // Cover the possible overflow with white
-                    ctx.fillStyle = 'white';
-                    ctx.fillRect($scope.slateSolution.W, textYOffset, canvas.width / ratio - $scope.slateSolution.W, canvas.height / ratio);
-                    ctx.fillRect(0, textYOffset + $scope.slateSolution.L, canvas.width / ratio, canvas.height / ratio - $scope.slateSolution.L);
+                    if (!$scope.isPreview) {
+                        ctx.fillStyle = 'white';
+                        ctx.fillRect($scope.slateSolution.W, textYOffset, canvas.width / ratio - $scope.slateSolution.W, canvas.height / ratio);
+                        ctx.fillRect(0, textYOffset + $scope.slateSolution.L, canvas.width / ratio, canvas.height / ratio - $scope.slateSolution.L);
+                    }
                     ctx.fillStyle = 'black';
 
                     ctx.strokeRect(0, textYOffset, $scope.slateSolution.W, $scope.slateSolution.L);
@@ -778,7 +764,9 @@ app.controller('CutListCtrl', [
                         var y = part.y + textYOffset;
 
                         ctx.strokeRect(x, y, w, h);
-                        ctx.fillText(part.ref, x + w / 2, y + h / 2);
+                        if (!$scope.isPreview) {
+                            ctx.fillText(part.ref, x + w / 2, y + h / 2);
+                        }
                     });
 
                     $scope.registerCanvasListener(() => {

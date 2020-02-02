@@ -1,5 +1,11 @@
-<div class="container">
-  <div class="row">
-    <canvas class="col-sm-offset-2 col-sm-8"></canvas>
+<div ng-class="{'container': !isPreview}">
+  <div ng-class="{'row': !isPreview}">
+    <div ng-show="isPreview">
+      <span class="result-stock-number">{{$index + 1}}</span>
+      <div class="result-stock-size">
+        {{slateSolution.W}}x{{slateSolution.L}}
+      </div>
+    </div>
+    <canvas class="{{canvasClass}}"></canvas>
   </div>
 </div>
