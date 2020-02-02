@@ -562,10 +562,15 @@ span.Check {
 
 /* Added by me */
 .go-button-container {
-  float: right;
   line-height: 35px;
 	height: 35px;
 }
+
+.float-right {
+  float: right;
+}
+
+/* Added by me */
 .result-outlook-container {
   overflow-y: scroll;
   margin: 0 -15px;
