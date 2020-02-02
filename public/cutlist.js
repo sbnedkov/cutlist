@@ -510,11 +510,15 @@ app.controller('CutListCtrl', [
     };
             
     $scope.afterOnCellMouseDown = function (ev) {
-            const coords = $scope.hot.getSelected()[0];
-            const row = coords[0];
-            const col = coords[1];
+        if (/th/i.test(ev.target.nodeName)) {
+            return;
+        }
 
-            onAction(ev, row, col);
+        const coords = $scope.hot.getSelected()[0];
+        const row = coords[0];
+        const col = coords[1];
+
+        onAction(ev, row, col);
     };
 
     $scope.onBeforeKeyDown = function (ev) {
