@@ -24,7 +24,7 @@
     "growl": "^1.10.5",
     "guillotine-solver": "bitbucket:/%2Fsnedkov%2Fguillotine-solver",
     "gulp-mocha": "^6.0.0",
-    "gulp-nodemon": "^2.4.1",
+    "gulp-nodemon": "^2.5.0",
     "gulp-sourcemap": "^1.0.1",
     "gulp-sourcemaps": "^2.6.4",
     "handsontable": "^3.0.0",
