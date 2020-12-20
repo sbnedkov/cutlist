@@ -22,7 +22,7 @@
     "express-session": "^1.15.6",
     "font-awesome": "^4.7.0",
     "growl": "^1.10.5",
-    "guillotine-solver": "bitbucket:/%2Fsnedkov%2Fguillotine-solver",
+    "guillotine-solver": "0.0.1",
     "gulp-mocha": "^6.0.0",
     "gulp-nodemon": "^2.5.0",
     "gulp-sourcemap": "^1.0.1",
