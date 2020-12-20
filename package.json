@@ -60,7 +60,7 @@
     "url": "https://github.com/sbnedkov/cutlist.git"
   },
   "author": "Svetoslav Nedkov <sveto.n@gmail.com> (https://github.com/sbnedkov)",
-  "license": "GPL2",
+  "license": "GPL-2.0-only",
   "bugs": {
     "url": "https://github.com/sbnedkov/cutlist/issues"
   },
