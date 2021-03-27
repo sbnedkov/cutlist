@@ -1,0 +1,4 @@
+cd cutlist
+rm -fr node_modules/guillotine-solver
+npm i guillotine-solver
+sudo docker restart razkroi-web

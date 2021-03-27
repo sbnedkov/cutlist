@@ -1,0 +1,32 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.71])
+AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
+AC_CONFIG_SRCDIR([cgl1.cpp])
+AC_CONFIG_HEADERS([config.h])
+
+# Checks for programs.
+AC_PROG_CXX
+
+# Checks for libraries.
+# FIXME: Replace 'main' with a function in '-lCgl':
+AC_CHECK_LIB([Cgl], [main])
+# FIXME: Replace 'main' with a function in '-lClp':
+AC_CHECK_LIB([Clp], [main])
+# FIXME: Replace 'main' with a function in '-lCoinUtils':
+AC_CHECK_LIB([CoinUtils], [main])
+# FIXME: Replace 'main' with a function in '-lOsi':
+AC_CHECK_LIB([Osi], [main])
+# FIXME: Replace 'main' with a function in '-lOsiClp':
+AC_CHECK_LIB([OsiClp], [main])
+
+# Checks for header files.
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_CHECK_HEADER_STDBOOL
+
+# Checks for library functions.
+
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
