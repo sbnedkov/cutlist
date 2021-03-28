@@ -33,11 +33,27 @@
 #include <cassert>
 
 #include "CglGomory.hpp"
-#include "CglKnapsackCover.hpp"
-#include "CglSimpleRounding.hpp"
-#include "CglMixedIntegerRounding.hpp"
 #include "CglRedSplit.hpp"
+#include "CglKnapsackCover.hpp"
+#include "CglMixedIntegerRounding.hpp"
 #include "CglProbing.hpp"
+// #include "CglBKClique.hpp"
+#include "CglClique.hpp"
+#include "CglOddHole.hpp"
+// #include "CglOddWheel.hpp"
+#include "CglZeroHalf.hpp"
+#include "CglFlowCover.hpp"
+#include "CglGMI.hpp"
+#include "CglRedSplit2.hpp"
+#include "CglLiftAndProject.hpp"
+#include "CglLandP.hpp"
+#include "CglMixedIntegerRounding2.hpp"
+#include "CglTwomir.hpp"
+#include "CglResidualCapacity.hpp"
+// #include "CglCliqueStrengthening.hpp"
+#include "CglDuplicateRow.hpp"
+// #include "CglPreprocess.hpp"
+#include "CglSimpleRounding.hpp"
 
 using std::cerr;
 using std::cout;
@@ -102,6 +118,9 @@ int main(int argc, const char *argv[])
     // Solve continuous problem
     si.initialSolve();
 
+    // Added 28.03.2021
+    si.crossover(0, 0);
+
     // Original number of rows (so we can take off inactive cuts)
     int numberRows = si.getNumRows();
     
@@ -113,12 +132,30 @@ int main(int argc, const char *argv[])
     int totalNumberApplied = 0;
     
     // Instantiate cut generators
-    // CglKnapsackCover cg1;
-    // CglSimpleRounding cg2;
-    CglGomory cg1;
-    CglMixedIntegerRounding cg2;
-    CglProbing cg3;
-    // CglRedSplit cg3;
+    CglGomory cg0;
+    CglKnapsackCover cg1;
+    CglRedSplit cg1_1;
+    CglSimpleRounding cg2;
+    CglMixedIntegerRounding cg3;
+    CglProbing cg4;
+    CglClique cg5;
+    CglOddHole cg6;
+    CglZeroHalf cg7;
+    CglFlowCover cg8;
+    CglGMI cg9;
+    CglRedSplit2 cg10;
+    CglLiftAndProject cg11;
+    CglLandP cg12;
+    CglMixedIntegerRounding2 cg13;
+    CglTwomir cg14;
+    CglResidualCapacity cg15;
+//    CglCliqueStrengthening cg16;
+    CglDuplicateRow cg17;
+//    CglPreprocess cg18;
+    CglSimpleRounding cg19;
+
+    cg12.parameter().timeLimit = 10.;
+    cg12.parameter().pivotLimit = 2;
     
     //---------------------------------------------------
     // Keep applying cuts until 
@@ -137,10 +174,27 @@ int main(int argc, const char *argv[])
       
       // Generate and apply cuts
       OsiCuts cuts;
+//      cg0.generateCuts(si,cuts);
       cg1.generateCuts(si,cuts);
-      cg2.generateCuts(si,cuts);
-      cg3.generateCuts(si,cuts);
-      // cg3.generateCuts(si,cuts);
+//      cg1_1.generateCuts(si,cuts);
+//      cg2.generateCuts(si,cuts);
+//      cg3.generateCuts(si,cuts);
+//      cg4.generateCuts(si,cuts);
+//      cg5.generateCuts(si,cuts);
+//      cg6.generateCuts(si,cuts);
+//      cg7.generateCuts(si,cuts);
+//      cg8.generateCuts(si,cuts);
+//      cg9.generateCuts(si,cuts);
+//      cg10.generateCuts(si,cuts);
+//      cg11.generateCuts(si,cuts);
+////      cg12.generateCuts(si,cuts);
+//      cg13.generateCuts(si,cuts);
+//      cg14.generateCuts(si,cuts);
+//      cg15.generateCuts(si,cuts);
+////      cg16.generateCuts(si,cuts);
+//      cg17.generateCuts(si,cuts);
+////      cg18.generateCuts(si,cuts);
+      cg19.generateCuts(si,cuts);
       acRc = si.applyCuts(cuts,0.0);
       
       // Print applyCuts return code
