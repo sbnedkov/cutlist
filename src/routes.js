@@ -1,11 +1,11 @@
-var fs = require('fs');
-var pug = require('pug');
+const fs = require('fs');
+const spawn = require('child_process').spawn;
+const path = require('path');
+const os = require('os');
 
 var logger = require('winston');
-var guillotineSolver = require('guillotine-solver');
-var solve = guillotineSolver;
 
-var translate = require('./adapter');
+// var translate = require('./adapter');
 var utils = require('./utils');
 
 var User = require('./db/user');
@@ -36,56 +36,35 @@ module.exports = {
         res.status(200).end();
     },
     cutlist: async (req, res) => {
-        var stocks = req.body.stocks;
-        var parts = req.body.parts;
-        var type = req.body.cutType;
-        var itemsw = [];
-        var itemsh = [];
-        var demands = [];
-        var names = [];
-        var canRotate = [];
-
-        if (type === 'o') {
-            throw new Error('Optimal cut type not implemented yet');
-        }
-
-        parts.forEach(item => {
-            if (item.ref && item.q) {
-                itemsw.push(item.w);
-                itemsh.push(item.h);
-                demands.push(item.q);
-                names.push(item.ref);
-                canRotate.push(item.canRotate);
+        fs.mkdtemp(path.join(os.tmpdir(), 'cutlist-'), (err, dir) => {
+            if (err) {
+                throw err;
             }
-        });
 
-        var key = (Math.random() * 1e18).toString(36);
+            const filename = String(Date.now(), 36);
+            const filepath = path.join(dir, filename);
 
-        res.send(key).end();
+            fs.writeFile(req.body);
+            const optimalon = spawn(path.resolve('./bin/Debug/net5.0/optimalon'), [filepath]);
 
-        var interrimResult= {
-            activities: [],
-            losses: []
-        };
-
-        trySolve();
-
-        function trySolve () {
-            solve(stocks, itemsw, itemsh, canRotate, demands, type, (err, solution) => {
-                if (err) {
-                    cutlists[key] = {err: err.message};
-                    return;
-                }
-                cutlists[key] = translate(merge(interrimResult, solution), names);
+            optimalon.stdout.on('data', (data) => {
+              console.log(`stdout: ${data}`);
+//              cutlists[key] = translate(data, _names);
+              cutlists[key] = data;
             });
-        }
 
-        function merge (dst, src) {
-            return {
-                activities: dst.activities.concat(src.activities),
-                losses: dst.losses.concat(src.losses)
-            };
-        }
+            optimalon.stderr.on('data', (data) => {
+              console.error(`stderr: ${data}`);
+            });
+
+            optimalon.on('close', (code) => {
+              console.log(`child process exited with code ${code}`);
+            });
+
+            var key = (Math.random() * 1e18).toString(36);
+
+            res.send(key).end();
+        });
     },
     checkFinished: async (req, res) => {
         var result = cutlists[req.params.key];

@@ -309,7 +309,7 @@ app.controller('CutListCtrl', [
                     w: item.width,
                     h: item.height,
                     q: item.number,
-                    ref: item.name,
+                    name: item.name,
                     canRotate: item.rotate
                 };
             }),
