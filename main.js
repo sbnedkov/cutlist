@@ -9,7 +9,7 @@ var bodyParser = require('body-parser');
 //var cookieParser = require('cookie-parser');
 var i18n = require('i18n-2');
 var mongoose = require('mongoose');
-var MongoStore = require('connect-mongo')(session);
+var MongoStore = require('connect-mongo');
 
 var middleware = require('./src/middleware');
 var routes = require('./src/routes');
@@ -61,8 +61,8 @@ app.use(session({
         httpOnly: false,
         secure: 'auto'
     },
-    store: new MongoStore({
-        url: MONGODB_URI
+    store: MongoStore.create({
+        mongoUrl: MONGODB_URI
     })
 }));
 
