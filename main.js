@@ -20,12 +20,14 @@ mongoose.connect(MONGODB_URI, {});
 var app = express();
 
 const isDev = process.env.NODE_ENV === 'dev';
+const crt = process.env.CUTLIST_CRT;
+const key = process.env.CUTLIST_KEY;
 
 const cert = isDev && {
-    cert: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.crt')),
-    key: fs.readFileSync(path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.key'))
+    cert: fs.readFileSync(crt || path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.crt')),
+    key: fs.readFileSync(key || path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.key'))
 };
-const server = isDev ? https.createServer(cert, app) : http.createServer(app);
+const server = isDev || (crt && key) ? https.createServer(cert, app) : http.createServer(app);
 
 if (!isDev) {
     app.use((req, res, next) => {
