@@ -40,6 +40,8 @@ gulp.task('node', gulp.series(['browserify'], function () {
         env: {
             NODE_ENV: 'production',
             MONGODB_URI: process.env.MONGODB_URI,
+            CUTLIST_CRT: process.env.CUTLIST_CRT,
+            CUTLIST_KEY: process.env.CUTLIST_KEY,
             PORT: process.env.PORT
         }
     });

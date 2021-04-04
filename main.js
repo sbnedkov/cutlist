@@ -23,22 +23,11 @@ const isDev = process.env.NODE_ENV === 'dev';
 const crt = process.env.CUTLIST_CRT;
 const key = process.env.CUTLIST_KEY;
 
-const cert = isDev && {
+const cert = {
     cert: fs.readFileSync(crt || path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.crt')),
     key: fs.readFileSync(key || path.join(__dirname, 'crt', process.env.NODE_ENV, 'server.key'))
 };
 const server = isDev || (crt && key) ? https.createServer(cert, app) : http.createServer(app);
-
-if (!isDev) {
-    app.use((req, res, next) => {
-        res.setHeader('Strict-Transport-Security', 'max-age=8640000; includeSubDomains');
-        if (req.headers['x-forwarded-proto'] !== 'https') {
-            return res.redirect(301, `https://${req.headers.host}/`);
-        }
-
-        next();
-    });
-}
 
 //app.use(cookieParser());
 app.use(bodyParser.json());
