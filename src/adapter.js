@@ -23,8 +23,8 @@ module.exports = function translate (solution) {
         const partsResult = [];
         result.arr.push({
             result: partsResult,
-            W: W,
-            L: L
+            W: Number(W),
+            L: Number(L)
         });
         result.wasteVsUsage.push({
             area: 0,
@@ -38,11 +38,11 @@ module.exports = function translate (solution) {
             if (partMatch) {
                 partsResult.push({
                     ref: '???',
-                    x: partMatch[5],
-                    y: partMatch[6],
+                    x: Number(partMatch[5]),
+                    y: Number(partMatch[6]),
                     item: {
-                        w: partMatch[3],
-                        h: partMatch[4]
+                        w: Number(partMatch[3]),
+                        h: Number(partMatch[4])
                     }
                 });
             }
