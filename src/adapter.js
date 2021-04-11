@@ -48,8 +48,8 @@ module.exports = function translate (solution, names) {
                         h: isRotated ? w : h
                     }
                 });
+                i++;
             }
-            i++;
         } while (partMatch && i < solution.length);
     }
 
