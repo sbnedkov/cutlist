@@ -2,7 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using CutGLib.CutEngine;
+using CutGLib;
 
 namespace optimalon
 {
@@ -43,7 +43,7 @@ namespace optimalon
       }
 
       foreach (Part part in plan.parts) {
-        Calculator.AddPart(part.width, part.height, part.q, part.canRotate);
+        Calculator.AddPart(part.w, part.h, part.q, part.canRotate);
       }
 
       string result = Calculator.Execute();
