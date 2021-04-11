@@ -49,27 +49,22 @@ module.exports = {
             });
             const optimalon = spawn(path.resolve('./optimalon/bin/Debug/net5.0/optimalon'), [filepath]);
 
-            const lines = [];
-            const errors = [];
+            const lineBuffs = [];
+            const errorBuffs = [];
             optimalon.stdout.on('data', (data) => {
-              const str = data.toString('utf-8');
-              console.log(str);
-              lines.push(str);
-//              cutlists[key] = translate(data, _names);
+              lineBuffs.push(data);
             });
 
             optimalon.stderr.on('data', (data) => {
-              const str = data.toString('utf-8');
-              console.error(str);
-              errors.push(str);
+              errorBuffs.push(data);
             });
 
             optimalon.on('close', (code) => {
               console.log(`child process exited with code ${code}`);
               if (code === 0) {
-                cutlists[key] = translate(lines);
+                cutlists[key] = translate(Buffer.concat(lineBuffs).toString('utf-8'));
               } else {
-                cutlists[key] = errors.join(os.EOL);
+                cutlists[key] = Buffer.concat(errorBuffs).toString('utf-8');
               }
             });
 
