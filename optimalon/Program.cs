@@ -33,23 +33,27 @@ namespace optimalon
   {
     static void Main(string[] args)
     {
-      var jsonString = File.ReadAllText(args[0]);
-      CuttingPlan plan = JsonConvert.DeserializeObject<CuttingPlan>(jsonString);
+      try {
+        var jsonString = File.ReadAllText(args[0]);
+        CuttingPlan plan = JsonConvert.DeserializeObject<CuttingPlan>(jsonString);
 
-      CutEngine Calculator = new CutEngine();
+        CutEngine Calculator = new CutEngine();
 
-      foreach (Stock stock in plan.stocks) {
-        Calculator.AddStock(stock.width, stock.height, stock.number);
-      }
+        foreach (Stock stock in plan.stocks) {
+          Calculator.AddStock(stock.width, stock.height, stock.number);
+        }
 
-      foreach (Part part in plan.parts) {
-        Calculator.AddPart(part.w, part.h, part.q, part.canRotate);
-      }
+        foreach (Part part in plan.parts) {
+          Calculator.AddPart(part.w, part.h, part.q, part.canRotate);
+        }
 
-      string result = Calculator.Execute();
-      if (result != "") {
-        Console.Write("%S", result);
-        return;
+        string result = Calculator.Execute();
+        if (result != "") {
+          Console.Write("%S", result);
+          return;
+        }
+      } catch (Exception e) {
+        Console.WriteLine(e.ToString());
       }
     }
   }
