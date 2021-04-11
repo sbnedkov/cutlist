@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="JObject" Version="1.0.0" />
     <PackageReference Include="JSON.NET" Version="1.0.25" />
+    <PackageReference Include="CutGLib" Version="4.5.2" />
   </ItemGroup>
 
 </Project>

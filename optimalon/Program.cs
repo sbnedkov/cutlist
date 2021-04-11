@@ -2,6 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using CutGLib.CutEngine;
 
 namespace optimalon
 {
