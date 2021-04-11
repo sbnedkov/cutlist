@@ -15,7 +15,7 @@ module.exports = function translate (solution) {
 
     let i = 0;
     while (i < solution.length) {
-        const match = Number(solution[i].match(STOCK_REGEXP));
+        const match = solution[i].match(STOCK_REGEXP);
         // const stockN = match[1];
         const W = match[2];
         const L = match[3];
