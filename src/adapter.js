@@ -9,45 +9,45 @@ module.exports = function translate (solution) {
     solution.shift();
 
     const result = {
-      arr: [],
-      wasteVsUsage: []
+        arr: [],
+        wasteVsUsage: []
     };
 
     let i = 0;
     while (i < solution.length) {
-      const match = Number(solution[i].match(STOCK_REGEXP));
-      // const stockN = match[1];
-      const W = match[2];
-      const L = match[3];
-      
-      const partsResult = [];
-      result.arr.push({
-          result: partsResult,
-          W: W,
-          L: L
-      });
-      result.wasteVsUsage.push({
-          area: 0,
-          usage: 0
-      });
+        const match = Number(solution[i].match(STOCK_REGEXP));
+        // const stockN = match[1];
+        const W = match[2];
+        const L = match[3];
+        
+        const partsResult = [];
+        result.arr.push({
+            result: partsResult,
+            W: W,
+            L: L
+        });
+        result.wasteVsUsage.push({
+            area: 0,
+            usage: 0
+        });
 
-      let partMatch;
-      i++;
-      do {
-          partMatch = solution[i].match(PART_REGEXP);
-          if (partMatch) {
-              partMatch.push({
-                  ref: '???',
-                  x: partMatch[5],
-                  y: partMatch[6],
-                  item: {
-                      w: partMatch[3],
-                      h: partMatch[4]
-                  }
-              });
-          }
-          i++;
-      } while (partMatch && i < solution.length);
+        let partMatch;
+        i++;
+        do {
+            partMatch = solution[i].match(PART_REGEXP);
+            if (partMatch) {
+                partsResult.push({
+                    ref: '???',
+                    x: partMatch[5],
+                    y: partMatch[6],
+                    item: {
+                        w: partMatch[3],
+                        h: partMatch[4]
+                    }
+                });
+            }
+            i++;
+        } while (partMatch && i < solution.length);
     }
 
     return result;
