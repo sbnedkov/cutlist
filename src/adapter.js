@@ -4,9 +4,10 @@ const PART_REGEXP = /Part=(.*); stock=(.*); Width=(.*); Height=(.*); X=(.*); Y=(
 
 module.exports = function translate (solution, names) {
     // const stockN = Number(solution.shift().match(STOCKN_REGEXP)[1]);
-    // Skip two lines
+    // Skip two lines and pop last empty one
     solution.shift();
     solution.shift();
+    solution.pop();
 
     const result = {
         arr: [],
