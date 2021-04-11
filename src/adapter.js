@@ -36,13 +36,16 @@ module.exports = function translate (solution, names) {
         do {
             partMatch = solution[i].match(PART_REGEXP);
             if (partMatch) {
+                const isRotated = partMatch[7] === 'True';
+                const w = Number(partMatch[3]);
+                const h = Number(partMatch[4]);
                 partsResult.push({
                     ref: names[partMatch[1]],
                     x: Number(partMatch[5]),
                     y: Number(partMatch[6]),
                     item: {
-                        w: Number(partMatch[3]),
-                        h: Number(partMatch[4])
+                        w: isRotated ? h : w,
+                        h: isRotated ? w : h
                     }
                 });
             }
