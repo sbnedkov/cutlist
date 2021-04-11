@@ -97,7 +97,4 @@ app.use(routes.error);
 var port = process.env.PORT || 31314;
 
 console.log(`Server listening on ${port}.`);
-server.listen({
-  host: '0.0.0.0',
-  port: port
-});
+server.listen(port, '0.0.0.0');
