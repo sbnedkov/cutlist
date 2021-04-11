@@ -63,7 +63,7 @@ namespace optimalon
             // Output information about each stock, such as stock Length
             for (iStock = stockIndex; iStock < stockIndex + stockCount; iStock++) {
               Calculator.GetStockInfo(iStock, out width, out height, out stockActive);
-              Console.Write("Stock={0}:  Width={1}; Height={2}\n", iStock, width, height);
+              Console.Write("Stock={0}: Width={1}; Height={2}\n", iStock, width, height);
               // Output the information about parts cut from this stock
               // First we get quantity of parts cut from the stock
               partCount = Calculator.GetPartCountOnStock(iStock);
@@ -76,7 +76,7 @@ namespace optimalon
                 // W,H – widht and height of the part partIndex
                 // X,Y – coordinates of the top left corner of the part on the stock iStock
                 // If rotated is true then the part has been roated by 90°
-                Console.Write("Part={0}; stock={1}; Width={2}; Height={3}; X={4}; Y={5}\n", partIndex, iStock, W, H, X, Y);
+                Console.Write("Part={0}; stock={1}; Width={2}; Height={3}; X={4}; Y={5}; R={6}\n", partIndex, iStock, W, H, X, Y, rotated);
               }
             }
           }
