@@ -44,7 +44,7 @@ module.exports = {
             const filename = String(Date.now(), 36);
             const filepath = path.join(dir, filename);
 
-            fs.writeFileSync(filepath, req.body);
+            fs.writeFileSync(filepath, JSON.stringify(req.body, null, '\t'));
             const optimalon = spawn(path.resolve('./optimalon/bin/Debug/net5.0/optimalon'), [filepath]);
 
             optimalon.stdout.on('data', (data) => {
