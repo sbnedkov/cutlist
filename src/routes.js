@@ -62,7 +62,7 @@ module.exports = {
             optimalon.on('close', (code) => {
               console.log(`child process exited with code ${code}`);
               if (code === 0) {
-                cutlists[key] = translate(Buffer.concat(lineBuffs).toString('utf-8'));
+                cutlists[key] = translate(Buffer.concat(lineBuffs).toString('utf-8').split(os.EOL));
               } else {
                 cutlists[key] = Buffer.concat(errorBuffs).toString('utf-8');
               }
