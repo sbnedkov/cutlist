@@ -62,9 +62,13 @@ module.exports = {
             optimalon.on('close', (code) => {
               console.log(`child process exited with code ${code}`);
               if (code === 0) {
-                cutlists[key] = translate(Buffer.concat(lineBuffs).toString('utf-8').split(os.EOL));
+                const str = Buffer.concat(lineBuffs).toString('utf-8');
+                console.log(str);
+                cutlists[key] = translate(str.split(os.EOL));
               } else {
-                cutlists[key] = Buffer.concat(errorBuffs).toString('utf-8');
+                const str = Buffer.concat(errorBuffs).toString('utf-8');
+                console.error(str);
+                cutlists[key] = str;
               }
             });
 
