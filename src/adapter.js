@@ -31,18 +31,20 @@ module.exports = function translate (solution) {
           usage: 0
       });
 
-      let partMatch = solution[++i].match(PART_REGEXP);
+      let partMatch;
       do {
-        partMatch.push({
-          ref: '???',
-          x: partMatch[5],
-          y: partMatch[6],
-          item: {
-            w: partMatch[3],
-            h: partMatch[4]
+          partMatch = solution[++i].match(PART_REGEXP);
+          if (partMatch) {
+              partMatch.push({
+                  ref: '???',
+                  x: partMatch[5],
+                  y: partMatch[6],
+                  item: {
+                      w: partMatch[3],
+                      h: partMatch[4]
+                  }
+              });
           }
-        });
-        partMatch = solution[++i].match(PART_REGEXP);
       } while (partMatch && i < solution.length);
     }
 
