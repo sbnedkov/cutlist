@@ -5,7 +5,7 @@ const os = require('os');
 
 var logger = require('winston');
 
-// var translate = require('./adapter');
+var translate = require('./adapter');
 var utils = require('./utils');
 
 var User = require('./db/user');
@@ -44,21 +44,31 @@ module.exports = {
             const filename = String(Date.now(), 36);
             const filepath = path.join(dir, filename);
 
-            fs.writeFileSync(filepath, JSON.stringify(req.body, null, '\t'));
+            fs.writeFileSync(filepath, JSON.stringify(req.body, null, '\t'), {
+              encoding: 'utf-8'
+            });
             const optimalon = spawn(path.resolve('./optimalon/bin/Debug/net5.0/optimalon'), [filepath]);
 
+            const lines = [];
+            const errors = [];
             optimalon.stdout.on('data', (data) => {
-              console.log(`stdout: ${data}`);
+              console.log(data);
+              lines.push(data);
 //              cutlists[key] = translate(data, _names);
-              cutlists[key] = data;
             });
 
             optimalon.stderr.on('data', (data) => {
-              console.error(`stderr: ${data}`);
+              console.error(data);
+              errors.push(data);
             });
 
             optimalon.on('close', (code) => {
               console.log(`child process exited with code ${code}`);
+              if (code === 0) {
+                cutlists[key] = translate(lines);
+              } else {
+                cutlists[key] = errors.join(os.EOL);
+              }
             });
 
             var key = (Math.random() * 1e18).toString(36);

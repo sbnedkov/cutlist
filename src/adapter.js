@@ -1,91 +1,50 @@
-module.exports = function translate (solution, names) {
-    return {
-        arr: mapActivities(solution.activities),
-        wasteVsUsage: solution.losses.map(({area, usage}) => {
-            return {
-                area: toPercent(area),
-                usage: toPercent(usage)
-            };
-        })
+// const STOCKN_REGEXP = /Used (.*) stocks/;
+const STOCK_REGEXP = /Stock=(.*): Width=(.*); Height=(.*)/;
+const PART_REGEXP = /Part=(.*); stock=(.*); Width=(.*); Height=(.*); X=(.*); Y=(.*); R=(.*)/;
+
+module.exports = function translate (solution) {
+    // const stockN = Number(solution.shift().match(STOCKN_REGEXP)[1]);
+    // Skip two lines
+    solution.shift();
+    solution.shift();
+
+    const result = {
+      arr: [],
+      wasteVsUsage: []
     };
 
-    function mapActivities (allActivities) {
-        var allStocksRes = [];
-        var res = [];
+    let i = 0;
+    while (i < solution.length) {
+      const match = Number(solution[i].match(STOCK_REGEXP));
+      // const stockN = match[1];
+      const W = match[2];
+      const L = match[3];
+      
+      const partsResult = [];
+      result.arr.push({
+          result: partsResult,
+          W: W,
+          L: L
+      });
+      result.wasteVsUsage.push({
+          area: 0,
+          usage: 0
+      });
 
-        allActivities.forEach(activities => {
-            activities.forEach(activity => {
-                activity.locations.forEach((loc, conidx) => {
-                    loc.forEach((l, idx) => {
-                        if (l) {
-                            let n = activity.constituentsx[conidx][l.idx || idx];
-                            let m = activity.constituentsy[conidx][l.idx || idx];
-                            res = res.concat(constructPart(n, m, l, activity.patternIsRotated[conidx], names[l.idx || idx]));
-                        }
-                    });
-                });
-            });
-
-            allStocksRes.push({
-                result: res,
-                W: activities[0].W,
-                L: activities[0].L
-            });
-            res = [];
+      let partMatch = solution[++i].match(PART_REGEXP);
+      do {
+        partMatch.push({
+          ref: '???',
+          x: partMatch[5],
+          y: partMatch[6],
+          item: {
+            w: partMatch[3],
+            h: partMatch[4]
+          }
         });
-
-        return allStocksRes;
+        partMatch = solution[++i].match(PART_REGEXP);
+      } while (partMatch);
     }
 
-    function constructPart (n, m, location, rotated, name) {
-        var blockw = location.x2 - location.x1;
-        var blockh = location.y2 - location.y1;
-        var w = blockw / n;
-        var h = blockh / m;
-
-        var res = [];
-        // Right now either n or m will be 1, find out which one
-        if (m === 1) { // horizontal block
-            for (let i = 0; i < n; i++) {
-                res.push({
-                    ref: name,
-                    x: location.x1 + i * w,
-                    y: location.y1,
-                    item: {
-                        w,
-                        h
-                    },
-                    rotated
-                });
-            }
-        } else if (n === 1) { // vertical block
-            for (let i = 0; i < m; i++) {
-                res.push({
-                    ref: name,
-                    x: location.x1,
-                    y: location.y1 + i * h,
-                    item: {
-                        w,
-                        h
-                    },
-                    rotated
-                });
-            }
-        } else {
-            for (let i = 0; i < m; i++) {
-                let tmpLocation = {
-                    x1: location.x1,
-                    x2: location.x2,
-                    y1: location.y1 + i * h,
-                    y2: location.y2 + i * h - (m - 1) * h
-                };
-                res = res.concat(constructPart(n, 1, tmpLocation, rotated, name));
-            }
-        }
-        return res;
-    }
-
-    function toPercent (figure) {
-        return (figure * 100).toFixed(2) + '%';
-    }
+    return result;
 };
