@@ -64,7 +64,7 @@ module.exports = {
               if (code === 0) {
                 const str = Buffer.concat(lineBuffs).toString('utf-8');
                 console.log(str);
-                cutlists[key] = translate(str.split(os.EOL));
+                cutlists[key] = translate(str.split(os.EOL), req.body.parts.map(part => part.name));
               } else {
                 const str = Buffer.concat(errorBuffs).toString('utf-8');
                 console.error(str);

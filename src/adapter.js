@@ -2,7 +2,7 @@
 const STOCK_REGEXP = /Stock=(.*): Width=(.*); Height=(.*)/;
 const PART_REGEXP = /Part=(.*); stock=(.*); Width=(.*); Height=(.*); X=(.*); Y=(.*); R=(.*)/;
 
-module.exports = function translate (solution) {
+module.exports = function translate (solution, names) {
     // const stockN = Number(solution.shift().match(STOCKN_REGEXP)[1]);
     // Skip two lines
     solution.shift();
@@ -37,7 +37,7 @@ module.exports = function translate (solution) {
             partMatch = solution[i].match(PART_REGEXP);
             if (partMatch) {
                 partsResult.push({
-                    ref: '???',
+                    ref: names[partMatch[1]],
                     x: Number(partMatch[5]),
                     y: Number(partMatch[6]),
                     item: {
