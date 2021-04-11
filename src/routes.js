@@ -53,13 +53,13 @@ module.exports = {
             const errors = [];
             optimalon.stdout.on('data', (data) => {
               console.log(data);
-              lines.push(data);
+              lines.push(data.toString('utf-8'));
 //              cutlists[key] = translate(data, _names);
             });
 
             optimalon.stderr.on('data', (data) => {
               console.error(data);
-              errors.push(data);
+              errors.push(data.toString('utf-8'));
             });
 
             optimalon.on('close', (code) => {
