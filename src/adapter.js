@@ -32,8 +32,9 @@ module.exports = function translate (solution) {
       });
 
       let partMatch;
+      i++;
       do {
-          partMatch = solution[++i].match(PART_REGEXP);
+          partMatch = solution[i].match(PART_REGEXP);
           if (partMatch) {
               partMatch.push({
                   ref: '???',
@@ -45,6 +46,7 @@ module.exports = function translate (solution) {
                   }
               });
           }
+          i++;
       } while (partMatch && i < solution.length);
     }
 
