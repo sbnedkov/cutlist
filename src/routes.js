@@ -52,14 +52,16 @@ module.exports = {
             const lines = [];
             const errors = [];
             optimalon.stdout.on('data', (data) => {
-              console.log(data);
-              lines.push(data.toString('utf-8'));
+              const str = data.toString('utf-8');
+              console.log(str);
+              lines.push(str);
 //              cutlists[key] = translate(data, _names);
             });
 
             optimalon.stderr.on('data', (data) => {
-              console.error(data);
-              errors.push(data.toString('utf-8'));
+              const str = data.toString('utf-8');
+              console.error(str);
+              errors.push(str);
             });
 
             optimalon.on('close', (code) => {

@@ -43,7 +43,7 @@ module.exports = function translate (solution) {
           }
         });
         partMatch = solution[++i].match(PART_REGEXP);
-      } while (partMatch);
+      } while (partMatch && i < solution.length);
     }
 
     return result;
