@@ -27,7 +27,7 @@
     "gulp-nodemon": "^2.5.0",
     "gulp-sourcemap": "^1.0.1",
     "gulp-sourcemaps": "^2.6.4",
-    "handsontable": "^3.0.0",
+    "handsontable": "^10.0.0",
     "i18n-2": "^0.6.3",
     "jquery": "^3.5.0",
     "json8-patch": "0.4.1",
